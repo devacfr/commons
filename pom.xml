@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.cfr</groupId>
+        <artifactId>maven-config</artifactId>
+        <version>1-SNAPSHOT</version>
+    </parent>
+    <groupId>org.cfr.commons</groupId>
+    <artifactId>commons</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>Framework Commons</name>
+    <description>Framework Commons contains utility modules.</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <!-- Enable report aggregation -->
+        <aggregate>true</aggregate>
+        <CI.url></CI.url>
+    </properties>
+
+    <modules>
+        <module>commons-testing</module>
+        <module>commons-util</module>
+        <module>commons-event</module>
+    </modules>
+    <developers>
+        <developer>
+            <id>cfriedri</id>
+            <name>Christophe Friederich</name>
+            <email>christophefriederich@mac.com</email>
+            <timezone>Europe/Zurich</timezone>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:https://github.com/devacfr/commons.git</connection>
+        <developerConnection>scm:git:git@github.com/commons.git</developerConnection>
+        <url>https://github.com/devacfr/commons</url>
+    </scm>
+</project>

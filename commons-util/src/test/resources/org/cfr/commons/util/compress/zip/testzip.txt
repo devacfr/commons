@@ -1,0 +1,289 @@
+[INFO] 
+NOTE: Maven is executing in offline mode. Any artifacts not already in your local
+repository will be inaccessible.
+
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Core of Kbase project
+[INFO]    task-segment: [process-test-classes]
+[INFO] ------------------------------------------------------------------------
+[INFO] [modello:java {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-reader {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-writer {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:compile]
+[INFO] Compiling 5 source files to C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\classes
+[INFO] [resources:testResources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:testCompile]
+[INFO] Not compiling test sources
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 5 seconds
+[INFO] Finished at: Wed Mar 11 17:06:39 CET 2009
+[INFO] Final Memory: 14M/26M
+[INFO] ------------------------------------------------------------------------
+
+[INFO] 
+NOTE: Maven is executing in offline mode. Any artifacts not already in your local
+repository will be inaccessible.
+
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Core of Kbase project
+[INFO]    task-segment: [process-test-classes]
+[INFO] ------------------------------------------------------------------------
+[INFO] [modello:java {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-reader {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-writer {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:compile]
+[INFO] Compiling 5 source files to C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\classes
+[INFO] [resources:testResources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:testCompile]
+[INFO] Not compiling test sources
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 5 seconds
+[INFO] Finished at: Wed Mar 11 17:06:39 CET 2009
+[INFO] Final Memory: 14M/26M
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+NOTE: Maven is executing in offline mode. Any artifacts not already in your local
+repository will be inaccessible.
+
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Core of Kbase project
+[INFO]    task-segment: [process-test-classes]
+[INFO] ------------------------------------------------------------------------
+[INFO] [modello:java {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-reader {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-writer {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:compile]
+[INFO] Compiling 5 source files to C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\classes
+[INFO] [resources:testResources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:testCompile]
+[INFO] Not compiling test sources
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 5 seconds
+[INFO] Finished at: Wed Mar 11 17:06:39 CET 2009
+[INFO] Final Memory: 14M/26M
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+NOTE: Maven is executing in offline mode. Any artifacts not already in your local
+repository will be inaccessible.
+
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Core of Kbase project
+[INFO]    task-segment: [process-test-classes]
+[INFO] ------------------------------------------------------------------------
+[INFO] [modello:java {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-reader {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-writer {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:compile]
+[INFO] Compiling 5 source files to C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\classes
+[INFO] [resources:testResources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:testCompile]
+[INFO] Not compiling test sources
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 5 seconds
+[INFO] Finished at: Wed Mar 11 17:06:39 CET 2009
+[INFO] Final Memory: 14M/26M
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+NOTE: Maven is executing in offline mode. Any artifacts not already in your local
+repository will be inaccessible.
+
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Core of Kbase project
+[INFO]    task-segment: [process-test-classes]
+[INFO] ------------------------------------------------------------------------
+[INFO] [modello:java {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-reader {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-writer {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:compile]
+[INFO] Compiling 5 source files to C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\classes
+[INFO] [resources:testResources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:testCompile]
+[INFO] Not compiling test sources
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 5 seconds
+[INFO] Finished at: Wed Mar 11 17:06:39 CET 2009
+[INFO] Final Memory: 14M/26M
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+NOTE: Maven is executing in offline mode. Any artifacts not already in your local
+repository will be inaccessible.
+
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Core of Kbase project
+[INFO]    task-segment: [process-test-classes]
+[INFO] ------------------------------------------------------------------------
+[INFO] [modello:java {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-reader {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-writer {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:compile]
+[INFO] Compiling 5 source files to C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\classes
+[INFO] [resources:testResources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:testCompile]
+[INFO] Not compiling test sources
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 5 seconds
+[INFO] Finished at: Wed Mar 11 17:06:39 CET 2009
+[INFO] Final Memory: 14M/26M
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+NOTE: Maven is executing in offline mode. Any artifacts not already in your local
+repository will be inaccessible.
+
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Core of Kbase project
+[INFO]    task-segment: [process-test-classes]
+[INFO] ------------------------------------------------------------------------
+[INFO] [modello:java {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-reader {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-writer {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:compile]
+[INFO] Compiling 5 source files to C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\classes
+[INFO] [resources:testResources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:testCompile]
+[INFO] Not compiling test sources
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 5 seconds
+[INFO] Finished at: Wed Mar 11 17:06:39 CET 2009
+[INFO] Final Memory: 14M/26M
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+NOTE: Maven is executing in offline mode. Any artifacts not already in your local
+repository will be inaccessible.
+
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Core of Kbase project
+[INFO]    task-segment: [process-test-classes]
+[INFO] ------------------------------------------------------------------------
+[INFO] [modello:java {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-reader {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [modello:xpp3-writer {execution: mdo-global-configuration}]
+[INFO] outputDirectory: C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\generated-sources\modello
+[INFO] Working on model: src/main/mdo/mdo-global-configuration.xml
+[INFO] Generating current version: 1.0.0
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:compile]
+[INFO] Compiling 5 source files to C:\developement\projects\kbase\trunk\sources\kbase\app\kbase-core\target\classes
+[INFO] [resources:testResources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:testCompile]
+[INFO] Not compiling test sources
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 5 seconds
+[INFO] Finished at: Wed Mar 11 17:06:39 CET 2009
+[INFO] Final Memory: 14M/26M
+[INFO] ------------------------------------------------------------------------

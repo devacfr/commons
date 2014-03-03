@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>commons</artifactId>
+        <groupId>org.cfr.commons</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>commons-testing</artifactId>
+    <name>Commons Testing Framework</name>
+    <description>Contains Commons Testing class Utilities</description>
+    <packaging>jar</packaging>
+    <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+    </properties>
+    <dependencies>
+        <!--  Test Dependency -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit-addons</groupId>
+            <artifactId>junit-addons</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<artifactId>xercesImpl</artifactId>
+            		<groupId>xerces</groupId>
+            	</exclusion>
+            	<exclusion>
+            		<artifactId>xmlParserAPIs</artifactId>
+            		<groupId>xerces</groupId>
+            	</exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>

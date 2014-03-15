@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.cfr</groupId>
         <artifactId>maven-config</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>1</version>
     </parent>
     <groupId>org.cfr.commons</groupId>
     <artifactId>commons</artifactId>
@@ -12,6 +12,7 @@
     <name>Framework Commons</name>
     <description>Framework Commons contains utility modules.</description>
     <packaging>pom</packaging>
+
 
     <properties>
         <!-- Enable report aggregation -->

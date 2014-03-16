@@ -20,7 +20,6 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.NamedBean;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -31,7 +30,6 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import com.atlassian.event.api.EventListener;
 import com.atlassian.event.api.EventPublisher;
 import com.atlassian.event.config.EventThreadPoolConfiguration;
-import com.atlassian.event.inject.AtlassianEventModule;
 import com.atlassian.event.internal.AsynchronousAbleEventDispatcher;
 import com.atlassian.event.internal.DirectEventExecutorFactory;
 import com.atlassian.event.internal.EventPublisherImpl;
@@ -53,8 +51,7 @@ import com.google.common.collect.ImmutableList;
  * @author devacfr
  * @since 1.0
  */
-public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, NamedBean, InitializingBean,
-        BeanDefinitionRegistryPostProcessor {
+public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, InitializingBean, BeanDefinitionRegistryPostProcessor {
 
     /**
      * log instance.
@@ -118,14 +115,6 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, N
             eventPublisher = new EventPublisherImpl(eventDispatcher, listenerHandlers);
         }
 
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getBeanName() {
-        return AtlassianEventModule.EVENT_PUBLISHER;
     }
 
     /**
@@ -272,8 +261,7 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, N
          * {@inheritDoc}
          */
         @Override
-        public void postProcessMergedBeanDefinition(final RootBeanDefinition beanDefinition, final Class<?> beanType,
-                                                    final String beanName) {
+        public void postProcessMergedBeanDefinition(final RootBeanDefinition beanDefinition, final Class<?> beanType, final String beanName) {
             if (beanDefinition.isSingleton()) {
                 this.singletonNames.put(beanName, Boolean.TRUE);
             }
@@ -302,9 +290,7 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, N
                 } else if (flag == null) {
                     if (log.isWarnEnabled() && !beanFactory.containsBean(beanName)) {
                         // inner bean with other scope - can't reliably process events
-                        log.warn("Inner bean '"
-                                + beanName
-                                + "' implements ApplicationListener interface "
+                        log.warn("Inner bean '" + beanName + "' implements ApplicationListener interface "
                                 + "but is not reachable for event multicasting by its containing ApplicationContext "
                                 + "because it does not have singleton scope. Only top-level listener beans are allowed "
                                 + "to be of non-singleton scope.");
@@ -367,7 +353,7 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, N
         public Object postProcessBeforeInitialization(final Object bean, final String beanName) {
             AccessControlContext acc = null;
 
-            if (System.getSecurityManager() != null && (bean instanceof IEventPublisherAware)) {
+            if (System.getSecurityManager() != null && bean instanceof IEventPublisherAware) {
                 acc = this.beanFactory.getAccessControlContext();
             }
 

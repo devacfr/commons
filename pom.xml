@@ -18,7 +18,7 @@
         <!-- Enable report aggregation -->
         <aggregate>true</aggregate>
         <issue.url>https://github.com/devacfr/commons/issues</issue.url>
-        <CI.url></CI.url>
+        <CI.url>https://travis-ci.org/devacfr/commons</CI.url>
     </properties>
 
     <repositories>

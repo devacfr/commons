@@ -1,14 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.cfr</groupId>
         <artifactId>maven-config</artifactId>
-        <version>1</version>
+        <version>2</version>
     </parent>
     <groupId>org.cfr.commons</groupId>
     <artifactId>commons</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Framework Commons</name>
     <description>Framework Commons contains utility modules.</description>
     <packaging>pom</packaging>
@@ -17,8 +16,21 @@
     <properties>
         <!-- Enable report aggregation -->
         <aggregate>true</aggregate>
-        <CI.url></CI.url>
+        <issue.url>https://github.com/devacfr/commons/issues</issue.url>
+        <CI.url>https://travis-ci.org/devacfr/commons</CI.url>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>devacfr-mvn-repo</id>
+            <url>https://raw.github.com/devacfr/maven-config/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
 
     <modules>
         <module>commons-testing</module>
@@ -34,8 +46,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:https://github.com/devacfr/commons.git</connection>
-        <developerConnection>scm:git:git@github.com/commons.git</developerConnection>
+        <connection>scm:git:git@github.com:devacfr/commons.git</connection>
+        <developerConnection>scm:git:git@github.com:devacfr/commons.git</developerConnection>
         <url>https://github.com/devacfr/commons</url>
-    </scm>
+      <tag>v1.0.0</tag>
+  </scm>
 </project>

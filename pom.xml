@@ -47,8 +47,8 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:https://github.com/devacfr/commons.git</connection>
-        <developerConnection>scm:git:git@github.com/commons.git</developerConnection>
+        <connection>scm:git:git@github.com:devacfr/commons.git</connection>
+        <developerConnection>scm:git:git@github.com:devacfr/commons.git</developerConnection>
         <url>https://github.com/devacfr/commons</url>
     </scm>
 </project>

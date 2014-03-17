@@ -7,7 +7,7 @@
     </parent>
     <groupId>org.cfr.commons</groupId>
     <artifactId>commons</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
     <name>Framework Commons</name>
     <description>Framework Commons contains utility modules.</description>
     <packaging>pom</packaging>
@@ -38,7 +38,7 @@
         <connection>scm:git:git@github.com:devacfr/commons.git</connection>
         <developerConnection>scm:git:git@github.com:devacfr/commons.git</developerConnection>
         <url>https://github.com/devacfr/commons</url>
-      <tag>v1.0.1</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <repositories>

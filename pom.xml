@@ -8,10 +8,11 @@
     </parent>
     <groupId>org.cfr.commons</groupId>
     <artifactId>commons</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>Framework Commons</name>
     <description>Framework Commons contains utility modules.</description>
     <packaging>pom</packaging>
+
 
     <properties>
         <!-- Enable report aggregation -->
@@ -20,6 +21,18 @@
         <distribution.releaseRepositoryUrl>https://api.bintray.com/maven/devacfr/maven/commons</distribution.releaseRepositoryUrl>
         <CI.url>https://travis-ci.org/devacfr/commons</CI.url>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>devacfr-mvn-repo</id>
+            <url>https://raw.github.com/devacfr/maven-config/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
 
     <modules>
         <module>commons-testing</module>

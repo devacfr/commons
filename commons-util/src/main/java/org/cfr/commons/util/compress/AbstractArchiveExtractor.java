@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
-
 /**
  * Abstract ArchiveExtractor to implement org.apache.commons.compress archivers.
  *
@@ -93,7 +92,8 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
                 }
 
                 // Output file pattern check
-                if (StringUtils.isNotEmpty(outputFilePattern) && !matcher.match(outputFilePattern, new File(entryName).getName())) {
+                if (StringUtils.isNotEmpty(outputFilePattern)
+                        && !matcher.match(outputFilePattern, new File(entryName).getName())) {
                     continue;
                 }
 
@@ -105,8 +105,8 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
 
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Deflating" + archiveFile.getFilename());
+                    LOGGER.debug("Extracting file " + newFile.getAbsolutePath());
                 }
-                LOGGER.info("Extracting file " + newFile.getAbsolutePath());
 
                 // Make the directory structure
                 newFile.getParentFile().mkdirs();
@@ -141,7 +141,8 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
                 String entryName = entry.getName();
 
                 // Output file pattern check
-                if (StringUtils.isNotEmpty(outputFilePattern) && !matcher.match(outputFilePattern, new File(entryName).getName())) {
+                if (StringUtils.isNotEmpty(outputFilePattern)
+                        && !matcher.match(outputFilePattern, new File(entryName).getName())) {
                     continue;
                 }
                 return IOUtils.toBufferedInputStream(archiveInputStream);
@@ -166,7 +167,8 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
                 String entryName = entry.getName();
 
                 // Output file pattern check
-                if (StringUtils.isNotEmpty(outputFilePattern) && !matcher.match(outputFilePattern, new File(entryName).getName())) {
+                if (StringUtils.isNotEmpty(outputFilePattern)
+                        && !matcher.match(outputFilePattern, new File(entryName).getName())) {
                     continue;
                 }
 

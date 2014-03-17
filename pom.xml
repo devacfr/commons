@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.cfr</groupId>
         <artifactId>maven-config</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>3</version>
     </parent>
     <groupId>org.cfr.commons</groupId>
     <artifactId>commons</artifactId>
@@ -16,7 +16,9 @@
     <properties>
         <!-- Enable report aggregation -->
         <aggregate>true</aggregate>
-        <CI.url></CI.url>
+        <issue.url>https://github.com/devacfr/commons/issues</issue.url>
+        <distribution.releaseRepositoryUrl>https://api.bintray.com/maven/devacfr/maven/commons</distribution.releaseRepositoryUrl>
+        <CI.url>https://travis-ci.org/devacfr/commons</CI.url>
     </properties>
 
     <modules>
@@ -33,8 +35,29 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:https://github.com/devacfr/commons.git</connection>
-        <developerConnection>scm:git:git@github.com/commons.git</developerConnection>
+        <connection>scm:git:git@github.com:devacfr/commons.git</connection>
+        <developerConnection>scm:git:git@github.com:devacfr/commons.git</developerConnection>
         <url>https://github.com/devacfr/commons</url>
     </scm>
+
+    <repositories>
+        <repository>
+            <id>devacfr-mvn-repo</id>
+            <url>https://raw.github.com/devacfr/maven-config/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>bintray</id>
+            <url>http://dl.bintray.com/devacfr/maven</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

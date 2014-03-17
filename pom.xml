@@ -22,18 +22,6 @@
         <CI.url>https://travis-ci.org/devacfr/commons</CI.url>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>devacfr-mvn-repo</id>
-            <url>https://raw.github.com/devacfr/maven-config/mvn-repo/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
-
-
     <modules>
         <module>commons-testing</module>
         <module>commons-util</module>

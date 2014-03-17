@@ -43,14 +43,6 @@
 
     <repositories>
         <repository>
-            <id>devacfr-mvn-repo</id>
-            <url>https://raw.github.com/devacfr/maven-config/mvn-repo/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-        <repository>
             <id>bintray</id>
             <url>http://dl.bintray.com/devacfr/maven</url>
             <releases>

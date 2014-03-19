@@ -48,6 +48,7 @@ public abstract class EasyMockTestCase extends Assert {
     @Before
     public void setUp() throws Exception {
         if (this.resetBefore) {
+            LastControl.pullMatchers();
             reset();
             mocks.clear();
         }

@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.commons.testing;
 
 import java.lang.reflect.Method;
@@ -9,8 +24,8 @@ import org.easymock.EasyMock;
 import org.easymock.IArgumentMatcher;
 import org.easymock.IExpectationSetters;
 import org.easymock.IMockBuilder;
-import org.easymock.internal.ClassExtensionHelper;
 import org.easymock.internal.LastControl;
+import org.easymock.internal.MockBuilder;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.matchers.Captures;
 import org.junit.After;
@@ -18,11 +33,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
+import org.mockito.Mockito;
 
 /**
- * This class allow to migrate form JUnit 3.x syntax to JUnit 4.</p>
- * it is also Mock facility.
- * @author cfriedri
+ * This class allow to migrate form JUnit 3.x syntax to JUnit 4.</p> it is also Mock facility.
+ * 
+ * @author devacfr
  *
  */
 @RunWith(BlockJUnit4ClassRunner.class)
@@ -60,27 +76,25 @@ public abstract class EasyMockTestCase extends Assert {
     }
 
     /**
-     * Switches order checking of the given mock object (more exactly: the
-     * control of the mock object) the on and off. For details, see the EasyMock
-     * documentation.
+     * Switches order checking of the given mock object (more exactly: the control of the mock object) the on and off.
+     * For details, see the EasyMock documentation.
      * 
      * @param mock
      *            the mock object.
      * @param state
-     *            <code>true</code> switches order checking on,
-     *            <code>false</code> switches it off.
+     *            <code>true</code> switches order checking on, <code>false</code> switches it off.
      */
     public static void checkOrder(final Object mock, final boolean state) {
         getControl(mock).checkOrder(state);
     }
 
     private static MocksControl getControl(final Object mock) {
-        return ClassExtensionHelper.getControl(mock);
+        return MocksControl.getControl(mock);
     }
 
     /**
-     * Reports an argument matcher. This method is needed to define own argument
-     * matchers. For details, see the EasyMock documentation.
+     * Reports an argument matcher. This method is needed to define own argument matchers. For details, see the EasyMock
+     * documentation.
      * 
      * @param matcher
      */
@@ -101,17 +115,14 @@ public abstract class EasyMockTestCase extends Assert {
     }
 
     /**
-     * Expects any Object argument. For details, see the EasyMock documentation.
-     * This matcher (and {@link #anyObject(Class)}) can be used in these three
-     * ways:
+     * Expects any Object argument. For details, see the EasyMock documentation. This matcher (and
+     * {@link #anyObject(Class)}) can be used in these three ways:
      * <ul>
      * <li><code>(T)EasyMock.anyObject() // explicit cast</code></li>
      * <li>
-     * <code>EasyMock.&lt;T&gt; anyObject() // fixing the returned generic</code>
-     * </li>
+     * <code>EasyMock.&lt;T&gt; anyObject() // fixing the returned generic</code></li>
      * <li>
-     * <code>EasyMock.anyObject(T.class) // pass the returned type in parameter</code>
-     * </li>
+     * <code>EasyMock.anyObject(T.class) // pass the returned type in parameter</code></li>
      * </ul>
      * 
      * @param <T>
@@ -123,9 +134,8 @@ public abstract class EasyMockTestCase extends Assert {
     }
 
     /**
-     * Expects any Object argument. For details, see the EasyMock documentation.
-     * To work well with generics, this matcher can be used in three different
-     * ways. See {@link #anyObject()}.
+     * Expects any Object argument. For details, see the EasyMock documentation. To work well with generics, this
+     * matcher can be used in three different ways. See {@link #anyObject()}.
      * 
      * @param <T>
      *            type of the method argument to match
@@ -138,10 +148,10 @@ public abstract class EasyMockTestCase extends Assert {
     }
 
     /**
-     * Creates a strict mock object for the given class, adds it to the internal
-     * list of all mocks, and returns it.
+     * Creates a strict mock object for the given class, adds it to the internal list of all mocks, and returns it.
      *
-     * @param clazz Class to be mocked.
+     * @param clazz
+     *            Class to be mocked.
      * @return A mock instance of the given type.
      **/
     protected <T> T mock(Class<T> clazz) {
@@ -149,11 +159,13 @@ public abstract class EasyMockTestCase extends Assert {
     }
 
     /**
-     * Creates a strict or nice mock object for the given class, adds it to the internal
-     * list of all mocks, and returns it.
+     * Creates a strict or nice mock object for the given class, adds it to the internal list of all mocks, and returns
+     * it.
      *
-     * @param clazz Class to be mocked.
-     * @param strict whether or not to make a strict mock
+     * @param clazz
+     *            Class to be mocked.
+     * @param strict
+     *            whether or not to make a strict mock
      * @return A mock instance of the given type.
      **/
     protected <T> T mock(Class<T> clazz, boolean strict) {
@@ -163,10 +175,10 @@ public abstract class EasyMockTestCase extends Assert {
     }
 
     /**
-     * Creates a nice mock object for the given class, adds it to the internal
-     * list of all mocks, and returns it.
+     * Creates a nice mock object for the given class, adds it to the internal list of all mocks, and returns it.
      *
-     * @param clazz Class to be mocked.
+     * @param clazz
+     *            Class to be mocked.
      * @return A mock instance of the given type.
      **/
     protected <T> T mock(Class<T> clazz, Method... methods) {
@@ -174,10 +186,10 @@ public abstract class EasyMockTestCase extends Assert {
     }
 
     /**
-     * Creates a strict mock object for the given class, adds it to the internal
-     * list of all mocks, and returns it.
+     * Creates a strict mock object for the given class, adds it to the internal list of all mocks, and returns it.
      *
-     * @param clazz Class to be mocked.
+     * @param clazz
+     *            Class to be mocked.
      * @return A mock instance of the given type.
      **/
     protected <T> T mock(Class<T> clazz, Method[] methods, boolean strict) {
@@ -189,9 +201,8 @@ public abstract class EasyMockTestCase extends Assert {
     }
 
     /**
-    /**
-     * Sets each mock to replay mode in the order they were created. Call this after setting
-     * all of the mock expectations for a test.
+     * /** Sets each mock to replay mode in the order they were created. Call this after setting all of the mock
+     * expectations for a test.
      */
     protected void replay() {
         EasyMock.replay(mocks.toArray());
@@ -202,8 +213,8 @@ public abstract class EasyMockTestCase extends Assert {
     }
 
     /**
-     * Verifies each mock in the order they were created. Call this at the end of each test
-     * to verify the expectations were satisfied.
+     * Verifies each mock in the order they were created. Call this at the end of each test to verify the expectations
+     * were satisfied.
      */
     protected void verify() {
         EasyMock.verify(mocks.toArray());
@@ -238,90 +249,90 @@ public abstract class EasyMockTestCase extends Assert {
         return null;
     }
 
-    //TODO [devacfr] to remove
-    //    /**
-    //     * Expect any boolean but captures it for later use.
-    //     * 
-    //     * @param captured
-    //     *            Where the parameter is captured
-    //     * @return <code>false</code>
-    //     */
-    //    public static boolean capture(final Capture<Boolean> captured) {
-    //        reportMatcher(new Captures<Boolean>(captured));
-    //        return false;
-    //    }
+    // TODO [devacfr] to remove
+    // /**
+    // * Expect any boolean but captures it for later use.
+    // *
+    // * @param captured
+    // * Where the parameter is captured
+    // * @return <code>false</code>
+    // */
+    // public static boolean capture(final Capture<Boolean> captured) {
+    // reportMatcher(new Captures<Boolean>(captured));
+    // return false;
+    // }
     //
-    //    /**
-    //     * Expect any int but captures it for later use.
-    //     * 
-    //     * @param captured
-    //     *            Where the parameter is captured
-    //     * @return <code>0</code>
-    //     */
-    //    public static int capture(final Capture<Integer> captured) {
-    //        reportMatcher(new Captures<Integer>(captured));
-    //        return 0;
-    //    }
+    // /**
+    // * Expect any int but captures it for later use.
+    // *
+    // * @param captured
+    // * Where the parameter is captured
+    // * @return <code>0</code>
+    // */
+    // public static int capture(final Capture<Integer> captured) {
+    // reportMatcher(new Captures<Integer>(captured));
+    // return 0;
+    // }
     //
-    //    /**
-    //     * Expect any long but captures it for later use.
-    //     * 
-    //     * @param captured
-    //     *            Where the parameter is captured
-    //     * @return <code>0</code>
-    //     */
-    //    public static long capture(final Capture<Long> captured) {
-    //        reportMatcher(new Captures<Long>(captured));
-    //        return 0;
-    //    }
+    // /**
+    // * Expect any long but captures it for later use.
+    // *
+    // * @param captured
+    // * Where the parameter is captured
+    // * @return <code>0</code>
+    // */
+    // public static long capture(final Capture<Long> captured) {
+    // reportMatcher(new Captures<Long>(captured));
+    // return 0;
+    // }
     //
-    //    /**
-    //     * Expect any float but captures it for later use.
-    //     * 
-    //     * @param captured
-    //     *            Where the parameter is captured
-    //     * @return <code>0</code>
-    //     */
-    //    public static float capture(final Capture<Float> captured) {
-    //        reportMatcher(new Captures<Float>(captured));
-    //        return 0;
-    //    }
+    // /**
+    // * Expect any float but captures it for later use.
+    // *
+    // * @param captured
+    // * Where the parameter is captured
+    // * @return <code>0</code>
+    // */
+    // public static float capture(final Capture<Float> captured) {
+    // reportMatcher(new Captures<Float>(captured));
+    // return 0;
+    // }
     //
-    //    /**
-    //     * Expect any double but captures it for later use.
-    //     * 
-    //     * @param captured
-    //     *            Where the parameter is captured
-    //     * @return <code>0</code>
-    //     */
-    //    public static double capture(final Capture<Double> captured) {
-    //        reportMatcher(new Captures<Double>(captured));
-    //        return 0;
-    //    }
+    // /**
+    // * Expect any double but captures it for later use.
+    // *
+    // * @param captured
+    // * Where the parameter is captured
+    // * @return <code>0</code>
+    // */
+    // public static double capture(final Capture<Double> captured) {
+    // reportMatcher(new Captures<Double>(captured));
+    // return 0;
+    // }
     //
-    //    /**
-    //     * Expect any byte but captures it for later use.
-    //     * 
-    //     * @param captured
-    //     *            Where the parameter is captured
-    //     * @return <code>0</code>
-    //     */
-    //    public static byte capture(final Capture<Byte> captured) {
-    //        reportMatcher(new Captures<Byte>(captured));
-    //        return 0;
-    //    }
+    // /**
+    // * Expect any byte but captures it for later use.
+    // *
+    // * @param captured
+    // * Where the parameter is captured
+    // * @return <code>0</code>
+    // */
+    // public static byte capture(final Capture<Byte> captured) {
+    // reportMatcher(new Captures<Byte>(captured));
+    // return 0;
+    // }
     //
-    //    /**
-    //     * Expect any char but captures it for later use.
-    //     * 
-    //     * @param captured
-    //     *            Where the parameter is captured
-    //     * @return <code>0</code>
-    //     */
-    //    public static char capture(final Capture<Character> captured) {
-    //        reportMatcher(new Captures<Character>(captured));
-    //        return 0;
-    //    }
+    // /**
+    // * Expect any char but captures it for later use.
+    // *
+    // * @param captured
+    // * Where the parameter is captured
+    // * @return <code>0</code>
+    // */
+    // public static char capture(final Capture<Character> captured) {
+    // reportMatcher(new Captures<Character>(captured));
+    // return 0;
+    // }
 
     /**
      * Expects an Object that is equal to the given value.

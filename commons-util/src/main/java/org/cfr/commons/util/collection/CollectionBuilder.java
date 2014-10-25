@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.commons.util.collection;
 
 import static java.util.Collections.unmodifiableList;
@@ -25,39 +40,24 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
 /**
- * Convenience class for creating collections ({@link Set} and {@link List}) instances or
- * {@link EnclosedIterable enclosed iterables}.
+ * Convenience class for creating collections ({@link Set} and {@link List}) instances or {@link EnclosedIterable
+ * enclosed iterables}.
  * <p>
  * The default methods {@link #asList()} and {@link #asSet()} and {@link #asSortedSet()} create immutable collections.
  *
- * @param <T> contained in the created collections.
+ * @param <T>
+ *            contained in the created collections.
  */
 public final class CollectionBuilder<T> {
 
+    /**
+     * 
+     */
     private static final Ordering<?> NATURAL_ORDER = new NaturalOrdering();
 
-    public static <T> CollectionBuilder<T> newBuilder() {
-        return new CollectionBuilder<T>(Collections.<T> emptyList());
-    }
-
-    public static <T> CollectionBuilder<T> newBuilder(final T... elements) {
-        return new CollectionBuilder<T>(Arrays.asList(elements));
-    }
-
-    public static <T> CollectionBuilder<T> newBuilder(final List<T> elements) {
-        return new CollectionBuilder<T>(elements);
-    }
-
-    public static <T> List<T> list(final T... elements) {
-        return unmodifiableList(Arrays.asList(elements));
-    }
-
-    static <T> Comparator<T> natural() {
-        @SuppressWarnings("unchecked")
-        final Comparator<T> result = (Comparator<T>) NATURAL_ORDER;
-        return result;
-    }
-
+    /**
+     * 
+     */
     private final List<T> elements = Lists.<T> newLinkedList();
 
     CollectionBuilder(final Collection<? extends T> initialElements) {
@@ -67,6 +67,29 @@ public final class CollectionBuilder<T> {
     public CollectionBuilder<T> add(final T element) {
         elements.add(element);
         return this;
+    }
+
+    public static <T> CollectionBuilder<T> newBuilder() {
+        return new CollectionBuilder<T>(Collections.<T> emptyList());
+    }
+
+    @SafeVarargs
+    public static <T> CollectionBuilder<T> newBuilder(final T... elements) {
+        return new CollectionBuilder<T>(Arrays.asList(elements));
+    }
+
+    public static <T> CollectionBuilder<T> newBuilder(final List<T> elements) {
+        return new CollectionBuilder<T>(elements);
+    }
+
+    @SafeVarargs
+    public static <T> List<T> list(final T... elements) {
+        return unmodifiableList(Arrays.asList(elements));
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> Comparator<T> natural() {
+        return (Comparator<T>) NATURAL_ORDER;
     }
 
     public <E extends T> CollectionBuilder<T> addAll(final E... elements) {
@@ -133,11 +156,12 @@ public final class CollectionBuilder<T> {
     }
 
     /**
-     * Return a {@link SortedSet} of the elements of this builder in their natural order.
-     * Note, will throw an exception if the elements are not comparable.
+     * Return a {@link SortedSet} of the elements of this builder in their natural order. Note, will throw an exception
+     * if the elements are not comparable.
      *
      * @return an immutable sorted set.
-     * @throws ClassCastException if the elements do not implement {@link Comparable}.
+     * @throws ClassCastException
+     *             if the elements do not implement {@link Comparable}.
      */
     public SortedSet<T> asSortedSet() {
         return unmodifiableSortedSet(new TreeSet<T>(elements));
@@ -159,6 +183,11 @@ public final class CollectionBuilder<T> {
 
     static class NaturalOrdering extends Ordering<Comparable<Object>> implements Serializable {
 
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 0;
+
         @Override
         public int compare(final Comparable<Object> left, final Comparable<Object> right) {
             notNull(right, "right"); // left null is caught later
@@ -179,6 +208,5 @@ public final class CollectionBuilder<T> {
             return "Ordering.natural()";
         }
 
-        private static final long serialVersionUID = 0;
     }
 }

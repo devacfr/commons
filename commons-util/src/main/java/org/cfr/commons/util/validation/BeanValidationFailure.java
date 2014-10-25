@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.commons.util.validation;
 
 import java.util.Collection;
@@ -5,10 +20,9 @@ import java.util.Collection;
 import org.apache.commons.beanutils.PropertyUtils;
 
 /**
- * ValidationFailure implementation that described a failure of a single named property of
- * a Java Bean object.
+ * ValidationFailure implementation that described a failure of a single named property of a Java Bean object.
  * 
- * @since 1.1
+ * @since 1.0
  */
 public class BeanValidationFailure extends SimpleValidationFailure {
 
@@ -17,7 +31,23 @@ public class BeanValidationFailure extends SimpleValidationFailure {
      */
     private static final long serialVersionUID = 2500734679142455099L;
 
+    /**
+     * 
+     */
     protected String property;
+
+    /**
+     * Creates new BeanValidationFailure.
+     */
+    public BeanValidationFailure(Object source, String property, Object error) {
+        super(source, error);
+
+        if (source == null && property != null) {
+            throw new IllegalArgumentException("ValidationFailure cannot have 'property' when 'source' is null.");
+        }
+
+        this.property = property;
+    }
 
     private static String validationMessage(String attribute, String message) {
         StringBuilder buffer = new StringBuilder(message.length() + attribute.length() + 5);
@@ -26,8 +56,7 @@ public class BeanValidationFailure extends SimpleValidationFailure {
     }
 
     /**
-     * Returns a ValidationFailure if a collection attribute of an object is null or
-     * empty.
+     * Returns a ValidationFailure if a collection attribute of an object is null or empty.
      */
     public static ValidationFailure validateNotEmpty(Object bean, String attribute, Collection<?> value) {
 
@@ -62,7 +91,8 @@ public class BeanValidationFailure extends SimpleValidationFailure {
             Object result = PropertyUtils.getProperty(bean, attribute);
             return validateMandatory(bean, attribute, result);
         } catch (Exception ex) {
-            throw new RuntimeException("Error validationg bean property: " + bean.getClass().getName() + "." + attribute, ex);
+            throw new RuntimeException("Error validationg bean property: " + bean.getClass().getName() + "."
+                    + attribute, ex);
         }
     }
 
@@ -76,8 +106,8 @@ public class BeanValidationFailure extends SimpleValidationFailure {
     }
 
     /**
-     * A utility method that returns a ValidationFailure if a string is either null or has
-     * a length of zero; otherwise returns null.
+     * A utility method that returns a ValidationFailure if a string is either null or has a length of zero; otherwise
+     * returns null.
      */
     public static ValidationFailure validateNotEmpty(Object bean, String attribute, String value) {
 
@@ -88,11 +118,10 @@ public class BeanValidationFailure extends SimpleValidationFailure {
     }
 
     /**
-     * A utility method that checks that a given string is a valid Java full class name,
-     * returning a non-null ValidationFailure if this is not so. 
+     * A utility method that checks that a given string is a valid Java full class name, returning a non-null
+     * ValidationFailure if this is not so.
      * 
-     * Special case: primitive arrays like byte[] are also handled as a valid java 
-     * class name.
+     * Special case: primitive arrays like byte[] are also handled as a valid java class name.
      * 
      * @since 1.2
      */
@@ -105,7 +134,8 @@ public class BeanValidationFailure extends SimpleValidationFailure {
 
         char c = identifier.charAt(0);
         if (!Character.isJavaIdentifierStart(c)) {
-            return new BeanValidationFailure(bean, attribute, validationMessage(attribute, " starts with invalid character: " + c));
+            return new BeanValidationFailure(bean, attribute, validationMessage(attribute,
+                    " starts with invalid character: " + c));
         }
 
         // handle arrays
@@ -119,7 +149,8 @@ public class BeanValidationFailure extends SimpleValidationFailure {
 
             if (c == '.') {
                 if (wasDot || i + 1 == identifier.length()) {
-                    return new BeanValidationFailure(bean, attribute, validationMessage(attribute, " is not a valid Java Class Name: " + identifier));
+                    return new BeanValidationFailure(bean, attribute, validationMessage(attribute,
+                            " is not a valid Java Class Name: " + identifier));
                 }
 
                 wasDot = true;
@@ -127,26 +158,14 @@ public class BeanValidationFailure extends SimpleValidationFailure {
             }
 
             if (!Character.isJavaIdentifierPart(c)) {
-                return new BeanValidationFailure(bean, attribute, validationMessage(attribute, " contains invalid character: " + c));
+                return new BeanValidationFailure(bean, attribute, validationMessage(attribute,
+                        " contains invalid character: " + c));
             }
 
             wasDot = false;
         }
 
         return null;
-    }
-
-    /**
-     * Creates new BeanValidationFailure.
-     */
-    public BeanValidationFailure(Object source, String property, Object error) {
-        super(source, error);
-
-        if (source == null && property != null) {
-            throw new IllegalArgumentException("ValidationFailure cannot have 'property' when 'source' is null.");
-        }
-
-        this.property = property;
     }
 
     /**

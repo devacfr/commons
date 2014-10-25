@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.commons.app.user;
 
 import java.security.Principal;
@@ -5,18 +20,19 @@ import java.security.Principal;
 /**
  * Interface providing user based operations across various apps.
  *
- * @since 2.0
+ * @since 1.0
  */
 public interface IUserManager {
 
     /**
      * Gets user object belongs to username.
+     * 
      * @return Returns a {@link IUser} object, <b>null</b> otherwise.
      */
     IUser getUser(String username);
 
     /**
-     * Returns the username of the currently logged in user or null if no user can be found.  If possible, please use
+     * Returns the username of the currently logged in user or null if no user can be found. If possible, please use
      * {@link #getRemoteUsername(HttpServletRequest)}.
      *
      * @return The user name of the logged in user or null
@@ -26,7 +42,8 @@ public interface IUserManager {
     /**
      * Returns the username of the currently logged in user or null if no user can be found.
      *
-     * @param request The request to retrieve the username from
+     * @param request
+     *            The request to retrieve the username from
      * @return The user name of the logged in user or null
      */
     String getRemoteUsername(Object request);
@@ -34,8 +51,10 @@ public interface IUserManager {
     /**
      * Returns whether the user is in the specify group
      *
-     * @param username The username to check
-     * @param group    The group to check
+     * @param username
+     *            The username to check
+     * @param group
+     *            The group to check
      * @return {@code true} if the user is in the specified group
      */
     boolean isUserInGroup(String username, String group);
@@ -43,7 +62,8 @@ public interface IUserManager {
     /**
      * Returns {@code true} or {@code false} depending on whether a user has been granted the system admin permission.
      *
-     * @param username The username of the user to check
+     * @param username
+     *            The username of the user to check
      * @return {@code true} or {@code false} depending on whether a user has been granted the system admin permission.
      */
     boolean isSystemAdmin(String username);
@@ -51,17 +71,19 @@ public interface IUserManager {
     /**
      * Returns {@code true} or {@code false} depending on whether a user has been granted the admin permission
      * 
-     * @param username The username of the user to check
+     * @param username
+     *            The username of the user to check
      * @return {@code true} or {@code false} depending on whether the user has been granted the admin permission
      */
     boolean isAdmin(String username);
 
     /**
-     * Given a usernamen & password, this method checks whether or not the provided user can
-     * be authenticated
+     * Given a usernamen & password, this method checks whether or not the provided user can be authenticated
      *
-     * @param username Username of the user
-     * @param password Password of the user
+     * @param username
+     *            Username of the user
+     * @param password
+     *            Password of the user
      * @return {@code true} if the user can be authenticated, {@code false} otherwise
      */
     boolean authenticate(String username, String password);
@@ -69,10 +91,12 @@ public interface IUserManager {
     /**
      * Returns the user that made this request or {@code null} if this application does not have such a user.
      *
-     * @param username Username of the user a consumer is making a request on behalf of
+     * @param username
+     *            Username of the user a consumer is making a request on behalf of
      * @return {@code Principal} corresponding to the username, {@code null} if the user does not exist
-     * @throws UserResolutionException thrown if there is a problem resolving the user, such as a failure when accessing
-     *                                 an external user store
+     * @throws UserResolutionException
+     *             thrown if there is a problem resolving the user, such as a failure when accessing an external user
+     *             store
      */
     Principal resolve(String username) throws UserResolutionException;
 }

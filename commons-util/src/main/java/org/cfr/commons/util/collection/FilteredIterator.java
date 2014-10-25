@@ -1,31 +1,30 @@
-package org.cfr.commons.util.collection;
-
-/*
- *  Copyright 1999-2004,2006 The Apache Software Foundation
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+package org.cfr.commons.util.collection;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import com.google.common.base.Predicate;
 
-/** 
+/**
  * Decorates another {@link Iterator} using a predicate to filter elements.
  * <p>
- * This iterator decorates the underlying iterator, only allowing through
- * those elements that match the specified {@link Predicate Predicate}.
+ * This iterator decorates the underlying iterator, only allowing through those elements that match the specified
+ * {@link Predicate Predicate}.
  *
  * @since Commons Collections 1.0
  * @version $Revision: 366576 $ $Date: 2006-01-06 22:07:07 +0000 (Fri, 06 Jan 2006) $
@@ -49,27 +48,28 @@ class FilteredIterator<T> implements Iterator<T> {
     /** Whether the next object has been calculated yet */
     private boolean nextObjectSet = false;
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
 
     /**
-     * Constructs a new <code>FilterIterator</code> that will use the
-     * given iterator and predicate.
+     * Constructs a new <code>FilterIterator</code> that will use the given iterator and predicate.
      *
-     * @param iterator  the iterator to use
-     * @param predicate  the predicate to use
+     * @param iterator
+     *            the iterator to use
+     * @param predicate
+     *            the predicate to use
      */
     FilteredIterator(final Iterator<T> iterator, final Predicate<T> predicate) {
         this.iterator = iterator;
         this.predicate = predicate;
     }
 
-    //-----------------------------------------------------------------------
-    /** 
-     * Returns true if the underlying iterator contains an object that 
-     * matches the predicate.
+    // -----------------------------------------------------------------------
+    /**
+     * Returns true if the underlying iterator contains an object that matches the predicate.
      *
      * @return true if there is another object that matches the predicate
-     * @throws NullPointerException if either the iterator or predicate are null
+     * @throws NullPointerException
+     *             if either the iterator or predicate are null
      */
     @Override
     public boolean hasNext() {
@@ -80,13 +80,14 @@ class FilteredIterator<T> implements Iterator<T> {
         }
     }
 
-    /** 
+    /**
      * Returns the next object that matches the predicate.
      *
      * @return the next object which matches the given predicate
-     * @throws NullPointerException if either the iterator or predicate are null
-     * @throws NoSuchElementException if there are no more elements that
-     *  match the predicate 
+     * @throws NullPointerException
+     *             if either the iterator or predicate are null
+     * @throws NoSuchElementException
+     *             if there are no more elements that match the predicate
      */
     @Override
     public T next() {
@@ -100,15 +101,12 @@ class FilteredIterator<T> implements Iterator<T> {
     }
 
     /**
-     * Removes from the underlying collection of the base iterator the last
-     * element returned by this iterator.
-     * This method can only be called
-     * if <code>next()</code> was called, but not after
-     * <code>hasNext()</code>, because the <code>hasNext()</code> call
-     * changes the base iterator.
+     * Removes from the underlying collection of the base iterator the last element returned by this iterator. This
+     * method can only be called if <code>next()</code> was called, but not after <code>hasNext()</code>, because the
+     * <code>hasNext()</code> call changes the base iterator.
      *
-     * @throws IllegalStateException if <code>hasNext()</code> has already
-     *  been called.
+     * @throws IllegalStateException
+     *             if <code>hasNext()</code> has already been called.
      */
     @Override
     public void remove() {
@@ -118,11 +116,10 @@ class FilteredIterator<T> implements Iterator<T> {
         iterator.remove();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
 
     /**
-     * Set nextObject to the next object. If there are no more 
-     * objects then return false. Otherwise, return true.
+     * Set nextObject to the next object. If there are no more objects then return false. Otherwise, return true.
      */
     private boolean setNextObject() {
         while (iterator.hasNext()) {

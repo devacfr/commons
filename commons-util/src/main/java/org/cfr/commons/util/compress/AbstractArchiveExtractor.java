@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.commons.util.compress;
 
 import java.io.File;
@@ -23,6 +38,9 @@ import org.springframework.util.Assert;
  */
 public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> implements IArchiveExtractor {
 
+    /**
+     * 
+     */
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     /**
@@ -33,8 +51,10 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
     /**
      * Creates a new extractor for the given file.
      *
-     * @param archiveFile the archive file that will be extracted.
-     * @throws FileNotFoundException if the file does not exist.
+     * @param archiveFile
+     *            the archive file that will be extracted.
+     * @throws FileNotFoundException
+     *             if the file does not exist.
      */
     public AbstractArchiveExtractor(Resource archiveFile) throws FileNotFoundException {
         Assert.notNull(archiveFile);
@@ -80,7 +100,8 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
         try {
             archiveInputStream = createArchiveInputStream(archiveFile.getInputStream());
 
-            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry = archiveInputStream.getNextEntry()) {
+            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry = archiveInputStream
+                    .getNextEntry()) {
 
                 String entryName = entry.getName();
 
@@ -124,19 +145,20 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
     }
 
     /**
-     * Returns the first outputstream according to the <code>outputFilePattern</code> parameter. 
+     * Returns the first outputstream according to the <code>outputFilePattern</code> parameter.
+     * 
      * @param outputFilePattern
      * @return
      * @throws IOException
      */
-    @SuppressWarnings("resource")
     public InputStream deflate(String outputFilePattern) throws IOException {
         AntPathMatcher matcher = new AntPathMatcher();
         I archiveInputStream = null;
         try {
             archiveInputStream = createArchiveInputStream(archiveFile.getInputStream());
 
-            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry = archiveInputStream.getNextEntry()) {
+            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry = archiveInputStream
+                    .getNextEntry()) {
 
                 String entryName = entry.getName();
 
@@ -153,7 +175,6 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
         return null;
     }
 
-    @SuppressWarnings("resource")
     public boolean entryExist(String outputFilePattern) throws IOException {
         Assert.hasText(outputFilePattern);
         AntPathMatcher matcher = new AntPathMatcher();
@@ -162,7 +183,8 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
         try {
             archiveInputStream = createArchiveInputStream(archiveFile.getInputStream());
 
-            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry = archiveInputStream.getNextEntry()) {
+            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry = archiveInputStream
+                    .getNextEntry()) {
 
                 String entryName = entry.getName();
 

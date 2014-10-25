@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.commons.util.collection;
 
 import java.util.ArrayList;
@@ -21,8 +36,9 @@ public interface EnclosedIterable<T> extends Sized {
     void foreach(Consumer<T> sink);
 
     /**
-     * @return the likely size of the objects passed into the sink in {@link #foreach(Consumer)}. Be careful depending on this size
-     *         being exact, as in many cases its best efforts value or may be stable due to concurrent changes.
+     * @return the likely size of the objects passed into the sink in {@link #foreach(Consumer)}. Be careful depending
+     *         on this size being exact, as in many cases its best efforts value or may be stable due to concurrent
+     *         changes.
      */
     @Override
     int size();
@@ -34,8 +50,8 @@ public interface EnclosedIterable<T> extends Sized {
     boolean isEmpty();
 
     /**
-     * Utility class for transforming a {@link EnclosedIterable} into a {@link List}. Generally you only want to do
-     * this when the size of the iterable is small as it loads all the elements into memory.
+     * Utility class for transforming a {@link EnclosedIterable} into a {@link List}. Generally you only want to do this
+     * when the size of the iterable is small as it loads all the elements into memory.
      */
     public class ListResolver<T> implements Resolver<EnclosedIterable<T>, List<T>> {
 
@@ -61,11 +77,13 @@ public interface EnclosedIterable<T> extends Sized {
     public class Functions {
 
         /**
-         * Pass all the elements of the iterable to the supplied {@link Consumer}. Guarantees that the iterator used will be
-         * closed correctly
+         * Pass all the elements of the iterable to the supplied {@link Consumer}. Guarantees that the iterator used
+         * will be closed correctly
          *
-         * @param iterable containing elements of type T
-         * @param sink that will consume the elements
+         * @param iterable
+         *            containing elements of type T
+         * @param sink
+         *            that will consume the elements
          */
         public static <T> void apply(final EnclosedIterable<T> iterable, final Consumer<T> sink) {
             iterable.foreach(sink);
@@ -87,8 +105,8 @@ public interface EnclosedIterable<T> extends Sized {
         }
 
         /**
-         * Get an {@link ArrayList} of the contents of the supplied {@link EnclosedIterable}
-         * transformed by the supplied transform function into the new type O.
+         * Get an {@link ArrayList} of the contents of the supplied {@link EnclosedIterable} transformed by the supplied
+         * transform function into the new type O.
          * 
          * @return a mutable {@link ArrayList} containing all elements of the iterable.
          */

@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.commons.util.collection;
 
 import java.util.Collection;
@@ -38,26 +53,29 @@ public class CollectionReorderer<T> {
 
     /**
      * Move the 'toMove' to the position after the 'target'. To insert to the head of the list set afterThis to null
-     * @param objects list of objects to look up and order in
-     * @param toMove the object to move
-     * @param target the position to move to
+     * 
+     * @param objects
+     *            list of objects to look up and order in
+     * @param toMove
+     *            the object to move
+     * @param target
+     *            the position to move to
      */
     public void moveToPositionAfter(final List<T> objects, final T toMove, final T target) {
         assertContains(objects, toMove);
         final int initialPosition = objects.indexOf(toMove);
 
-        //if null move the object to the first position
+        // if null move the object to the first position
         int targetPosition;
         if (target == null) {
             targetPosition = -1;
-        } else
-        //move the object to where the target object is
-        {
+        } else {
+            // move the object to where the target object is
             assertContains(objects, target);
             targetPosition = objects.indexOf(target);
         }
 
-        //if target position is before the initial position, add 1 so that it is added after the target object
+        // if target position is before the initial position, add 1 so that it is added after the target object
         if (targetPosition < initialPosition) {
             targetPosition++;
         }
@@ -67,9 +85,10 @@ public class CollectionReorderer<T> {
     /**
      * Moves multiple objects in the objects list to given destination indexes
      *
-     * @param objects           the list of objects
-     * @param positionToObjects a naturally sorted map with destination indexes as keys
-     *                          and the objects to move as values
+     * @param objects
+     *            the list of objects
+     * @param positionToObjects
+     *            a naturally sorted map with destination indexes as keys and the objects to move as values
      */
     public void moveToPosition(final List<T> objects, final Map<Integer, T> positionToObjects) {
         for (final T o : positionToObjects.values()) {
@@ -87,9 +106,12 @@ public class CollectionReorderer<T> {
      * Moves an object at initialPosition index in the objects list to the targetPosition index
      * </p>
      *
-     * @param objects         the list of objects to modify
-     * @param initialPosition the current index of the object that should be moved in the objects list
-     * @param targetPosition  the destination index
+     * @param objects
+     *            the list of objects to modify
+     * @param initialPosition
+     *            the current index of the object that should be moved in the objects list
+     * @param targetPosition
+     *            the destination index
      */
     public void moveToPosition(final List<T> objects, final int initialPosition, final int targetPosition) {
         final int objectsSize = objects.size();

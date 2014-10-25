@@ -43,25 +43,26 @@ import com.google.common.collect.ImmutableList;
 /**
  * * {@link FactoryBean} that creates a named {@link EventPublisher} instance.
  *
- * <p>The event is annotated with the {@link com.atlassian.event.api.AsynchronousPreferred} annotation.</p>
+ * 
  * @see com.atlassian.event.spi.ListenerHandler
  * @see EventDispatcher
  * @see com.atlassian.event.api.AsynchronousPreferred
  * @see com.atlassian.event.api.EventListener
- * @author devacfr
+ * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
-public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, InitializingBean, BeanDefinitionRegistryPostProcessor {
-
-    /**
-     * log instance.
-     */
-    protected final Logger log = LoggerFactory.getLogger(this.getClass());
+public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, InitializingBean,
+        BeanDefinitionRegistryPostProcessor {
 
     /**
      * Specific {@link com.atlassian.event.config.ListenerHandlersConfiguration}.
      */
-    protected OverrideListenerHandlerConfiguration listenerHandlers = new OverrideListenerHandlerConfiguration();
+    private OverrideListenerHandlerConfiguration listenerHandlers = new OverrideListenerHandlerConfiguration();
+
+    /**
+     * log instance.
+     */
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * {@link EventPublisher} instance exposed by {@link FactoryBean} interface.
@@ -74,10 +75,10 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
     private boolean blockingDispatch = true;
 
     /**
-     * <code>true</code> indicate when an attempt to to queue a task 
-     * will fail if no threads are immediately available to run it,
-     * otherwise will cause new tasks to wait in the queue when all threads are busy.
-     * Default is <code>true</code>.
+     * <code>true</code> indicate when an attempt to to queue a task will fail if no threads are immediately available
+     * to run it, otherwise will cause new tasks to wait in the queue when all threads are busy. Default is
+     * <code>true</code>.
+     * 
      * @see java.util.concurrent.BlockingQueue
      * @see java.util.concurrent.LinkedBlockingQueue
      * @see java.util.concurrent.ThreadPoolExecutor
@@ -87,6 +88,7 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
 
     /**
      * Execution management.
+     * 
      * @see org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean
      */
     private ExecutorService executorService;
@@ -146,8 +148,7 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
 
     /**
      * 
-     * @return Returns list of {@link ISupportedListenerHandler}.
-     * If no listener handler exists returns empty list.
+     * @return Returns list of {@link ISupportedListenerHandler}. If no listener handler exists returns empty list.
      * @see com.atlassian.event.spi.ListenerHandler
      */
     protected List<ISupportedListenerHandler> getListenerHandlers() {
@@ -158,9 +159,13 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
     }
 
     /**
-     * Sets the indicating whether the event 'is' dispatched asynchronously or not. 
-     * <p>Default is <code>true</code>.</p>
-     * @param blocking allows dispatch event asynchronous or lock.
+     * Sets the indicating whether the event 'is' dispatched asynchronously or not.
+     * <p>
+     * Default is <code>true</code>.
+     * </p>
+     * 
+     * @param blocking
+     *            allows dispatch event asynchronous or lock.
      * @see com.atlassian.event.api.AsynchronousPreferred
      */
     public void setBlockingDispactch(final boolean blocking) {
@@ -169,33 +174,36 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
 
     /**
      * Gets indicating whether the event 'is' dispatched asynchronously or not.
-     * @return Returns <code>true</code> whether the event 'is' dispatched synchronously,
-     * otherwise <code>false</code>.
+     * 
+     * @return Returns <code>true</code> whether the event 'is' dispatched synchronously, otherwise <code>false</code>.
      */
     public boolean isBlockingDispatch() {
         return blockingDispatch;
     }
 
     /**
-     * Gets indicating whether the queuing an attempt to to queue a task 
-     * will fail if no threads are immediately available to run it,
-     * otherwise will cause new tasks to wait in the queue when all threads are busy.
-     * <p>Note: this property is only applicable is the {@link #setExecutorService(ExecutorService)} doesn't filled.</p>
+     * Gets indicating whether the queuing an attempt to to queue a task will fail if no threads are immediately
+     * available to run it, otherwise will cause new tasks to wait in the queue when all threads are busy.
+     * <p>
+     * Note: this property is only applicable is the {@link #setExecutorService(ExecutorService)} doesn't filled.
+     * </p>
      * 
-     * @return Returns <code>true</code> whether the queuing an attempt to to queue a task 
-     * will fail if no threads are immediately available to run it,
-     * otherwise returns <code>false</code>.
+     * @return Returns <code>true</code> whether the queuing an attempt to to queue a task will fail if no threads are
+     *         immediately available to run it, otherwise returns <code>false</code>.
      */
     public boolean isBoundedQueue() {
         return boundedQueue;
     }
 
     /**
-     * Sets indicating whether the queuing an attempt to to queue a task 
-     * will fail if no threads are immediately available to run it,
-     * otherwise will cause new tasks to wait in the queue when all threads are busy.
-     * <p>Note: this property is only applicable is the {@link #setExecutorService(ExecutorService)} doesn't filled.</p>
-     * @param boundedQueue bounded queue execution status.
+     * Sets indicating whether the queuing an attempt to to queue a task will fail if no threads are immediately
+     * available to run it, otherwise will cause new tasks to wait in the queue when all threads are busy.
+     * <p>
+     * Note: this property is only applicable is the {@link #setExecutorService(ExecutorService)} doesn't filled.
+     * </p>
+     * 
+     * @param boundedQueue
+     *            bounded queue execution status.
      */
     public void setBoundedQueue(final boolean boundedQueue) {
         this.boundedQueue = boundedQueue;
@@ -203,10 +211,16 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
 
     /**
      * Sets the executor service.
-     * @param executorService executor service
+     * 
+     * @param executorService
+     *            executor service
      */
     public void setExecutorService(final ExecutorService executorService) {
         this.executorService = executorService;
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 
     /**
@@ -250,6 +264,13 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
         private final Set<Class<? extends Annotation>> annotations = new LinkedHashSet<Class<? extends Annotation>>();
 
         /**
+         * 
+         */
+        public EventBeanPostProcessor() {
+            this.annotations.add(EventListener.class);
+        }
+
+        /**
          * {@inheritDoc}
          */
         @Override
@@ -261,17 +282,11 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
          * {@inheritDoc}
          */
         @Override
-        public void postProcessMergedBeanDefinition(final RootBeanDefinition beanDefinition, final Class<?> beanType, final String beanName) {
+        public void postProcessMergedBeanDefinition(final RootBeanDefinition beanDefinition, final Class<?> beanType,
+                final String beanName) {
             if (beanDefinition.isSingleton()) {
                 this.singletonNames.put(beanName, Boolean.TRUE);
             }
-        }
-
-        /**
-         * 
-         */
-        public EventBeanPostProcessor() {
-            this.annotations.add(EventListener.class);
         }
 
         @Override
@@ -288,9 +303,11 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
                     // singleton bean (top-level or inner): register on the fly
                     eventPublisher.register(bean);
                 } else if (flag == null) {
-                    if (log.isWarnEnabled() && !beanFactory.containsBean(beanName)) {
+                    if (logger.isWarnEnabled() && !beanFactory.containsBean(beanName)) {
                         // inner bean with other scope - can't reliably process events
-                        log.warn("Inner bean '" + beanName + "' implements ApplicationListener interface "
+                        logger.warn("Inner bean '"
+                                + beanName
+                                + "' implements ApplicationListener interface "
                                 + "but is not reachable for event multicasting by its containing ApplicationContext "
                                 + "because it does not have singleton scope. Only top-level listener beans are allowed "
                                 + "to be of non-singleton scope.");
@@ -303,9 +320,11 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
 
         /**
          * Gets the indicating whether the bean supports at one least {@link ISupportedListenerHandler}.
-         * @param bean bean to test
+         * 
+         * @param bean
+         *            bean to test
          * @return Returns <code>true</code> whether the bean supports at one least {@link ISupportedListenerHandler},
-         * otherwise returns <code>false</code>.
+         *         otherwise returns <code>false</code>.
          */
         private boolean isHandler(final Object bean) {
             for (ISupportedListenerHandler handler : getListenerHandlers()) {
@@ -314,7 +333,7 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
                         return true;
                     }
                 } catch (RuntimeException ex) {
-                    log.warn(ex.getMessage());
+                    logger.warn(ex.getMessage());
                 }
 
             }
@@ -324,13 +343,12 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
     }
 
     /**
-      * {@link org.springframework.beans.factory.config.BeanPostProcessor}
-      * implementation that passes the EventPublisher to beans that implement
-      * the {@link EventListenerAwareProcessor} interface.
-      *
-      * @author devacfr
-      *
-      */
+     * {@link org.springframework.beans.factory.config.BeanPostProcessor} implementation that passes the EventPublisher
+     * to beans that implement the {@link EventListenerAwareProcessor} interface.
+     *
+     * @author devacfr
+     *
+     */
     class EventListenerAwareProcessor implements BeanPostProcessor {
 
         /**
@@ -340,7 +358,9 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
 
         /**
          * Create a new ApplicationContextAwareProcessor for the given context.
-         * @param applicationContext Spring factory bean
+         * 
+         * @param applicationContext
+         *            Spring factory bean
          */
         public EventListenerAwareProcessor(final ConfigurableListableBeanFactory applicationContext) {
             this.beanFactory = applicationContext;
@@ -374,9 +394,11 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
         }
 
         /**
-         * Invoke {@link IEventPublisherAware#setEventPublisher(EventPublisher)} on bean implementing 
+         * Invoke {@link IEventPublisherAware#setEventPublisher(EventPublisher)} on bean implementing
          * {@link IEventPublisherAware} interface.
-         * @param bean Object  to invoke
+         * 
+         * @param bean
+         *            Object to invoke
          */
         private void invokeAwareInterfaces(final Object bean) {
             if (bean instanceof Aware) {

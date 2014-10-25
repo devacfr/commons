@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.commons.util.collection;
 
 import java.util.ArrayList;
@@ -14,9 +29,11 @@ import com.google.common.base.Predicate;
 public class CollectionUtil {
 
     /**
-     * Gets <code>true</code> if the supplied Collection is <code>null</code>
-     * or empty. Otherwise, return <code>false</code>.
-     * @param collection the Collection to check
+     * Gets <code>true</code> if the supplied Collection is <code>null</code> or empty. Otherwise, return
+     * <code>false</code>.
+     * 
+     * @param collection
+     *            the Collection to check
      * @return whether the given Collection is empty
      */
     public static boolean isEmpty(Collection<?> collection) {
@@ -31,8 +48,9 @@ public class CollectionUtil {
     public static <T> T first(final Iterable<T> iterable) {
         if (iterable != null) {
             Iterator<T> it = iterable.iterator();
-            if (it.hasNext())
+            if (it.hasNext()) {
                 return it.next();
+            }
         }
         return null;
     }
@@ -104,8 +122,10 @@ public class CollectionUtil {
     /**
      * Turn the enumeration into a list.
      *
-     * @param <T> the element type
-     * @param enumeration to enumerate over the elements
+     * @param <T>
+     *            the element type
+     * @param enumeration
+     *            to enumerate over the elements
      * @return an unmodifiable {@link List} of the elements in the iterator
      */
     public static <T> List<T> toList(final Enumeration<? extends T> enumeration) {
@@ -145,13 +165,15 @@ public class CollectionUtil {
         return new TransformingIterator<T, R>(iterator, transformer);
     }
 
-    /** 
+    /**
      * Answers true if a predicate is true for at least one element of a collection.
      * <p>
      * A <code>null</code> collection or predicate returns false.
      * 
-     * @param collection the collection to get the input from, may be null
-     * @param predicate the predicate to use, may be null
+     * @param collection
+     *            the collection to get the input from, may be null
+     * @param predicate
+     *            the predicate to use, may be null
      * @return true if at least one element of the collection matches the predicate
      */
     public static <T> boolean exists(Iterable<T> collection, Predicate<? super T> predicate) {
@@ -168,9 +190,12 @@ public class CollectionUtil {
     /**
      * Filter the iterable by applying a Predicate to each element. If the predicate returns false, remove the element.
      * If the input iterable or predicate is null, there is no change made.
-     * @param iterable the iterable to get the input from, may be null
-     * @param predicate the predicate to use as a filter, may be null
-    **/
+     * 
+     * @param iterable
+     *            the iterable to get the input from, may be null
+     * @param predicate
+     *            the predicate to use as a filter, may be null
+     **/
 
     public static <E> void clean(Iterable<E> iterable, Predicate<? super E> predicate) {
         if (iterable != null && predicate != null) {
@@ -183,10 +208,13 @@ public class CollectionUtil {
     }
 
     /**
-     * Create filtered iterator by applying a Predicate to each element.
-     * If the input iterable or predicate is null, there is no change made.
-     * @param collection the collection to get the input from, may be null
-     * @param predicate the predicate to use as a filter, may be null
+     * Create filtered iterator by applying a Predicate to each element. If the input iterable or predicate is null,
+     * there is no change made.
+     * 
+     * @param collection
+     *            the collection to get the input from, may be null
+     * @param predicate
+     *            the predicate to use as a filter, may be null
      */
     public static <T> Iterator<T> filter(final Iterator<T> iterator, final Predicate<T> predicate) {
         return new FilteredIterator<T>(iterator, predicate);
@@ -194,6 +222,7 @@ public class CollectionUtil {
 
     /**
      * Create a filtered {@link Iterator}.
+     * 
      * @param <T>
      * @return
      */

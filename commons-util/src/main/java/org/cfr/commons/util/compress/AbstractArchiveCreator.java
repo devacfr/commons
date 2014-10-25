@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.commons.util.compress;
 
 import java.io.BufferedInputStream;
@@ -18,8 +33,12 @@ import org.apache.commons.compress.utils.IOUtils;
  * 
  * @author acochard [Jul 30, 2009]
  */
-public abstract class AbstractArchiveCreator<O extends ArchiveOutputStream, E extends ArchiveEntry> implements IArchiveCreator {
+public abstract class AbstractArchiveCreator<O extends ArchiveOutputStream, E extends ArchiveEntry> implements
+        IArchiveCreator {
 
+    /**
+     * 
+     */
     private static final int BUFFER_SIZE = 2048;
 
     /**
@@ -30,7 +49,8 @@ public abstract class AbstractArchiveCreator<O extends ArchiveOutputStream, E ex
     /**
      * Create a new archive creator with the given file as backend.
      * 
-     * @param archiveFile the tar file.
+     * @param archiveFile
+     *            the tar file.
      */
     public AbstractArchiveCreator(File archiveFile) {
         this.archiveFile = archiveFile;
@@ -40,10 +60,14 @@ public abstract class AbstractArchiveCreator<O extends ArchiveOutputStream, E ex
      * Add the files within the given directory to the ArchiveOutputStream. This method will call itself for each
      * subdirectory.
      * 
-     * @param baseName represents the relative base name within the tar file.
-     * @param outStream the ouput stream.
-     * @param directory the directory.
-     * @throws IOException if an io exception occures.
+     * @param baseName
+     *            represents the relative base name within the tar file.
+     * @param outStream
+     *            the ouput stream.
+     * @param directory
+     *            the directory.
+     * @throws IOException
+     *             if an io exception occures.
      */
     private void addFiles(String baseName, O outStream, File directory) throws IOException {
         byte[] data = new byte[BUFFER_SIZE];
@@ -100,10 +124,13 @@ public abstract class AbstractArchiveCreator<O extends ArchiveOutputStream, E ex
     /**
      * Returns the relative path.
      * 
-     * @param baseName the base path.
-     * @param file the file.
+     * @param baseName
+     *            the base path.
+     * @param file
+     *            the file.
      * @return the path of the given file relative to the base name.
-     * @throws IOException if an io exception occures.
+     * @throws IOException
+     *             if an io exception occures.
      */
     private String getRelativePath(String baseName, File file) throws IOException {
         String name = file.getCanonicalPath().substring(baseName.length() + 1);

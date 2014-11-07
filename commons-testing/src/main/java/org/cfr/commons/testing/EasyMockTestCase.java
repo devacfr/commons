@@ -25,7 +25,6 @@ import org.easymock.IArgumentMatcher;
 import org.easymock.IExpectationSetters;
 import org.easymock.IMockBuilder;
 import org.easymock.internal.LastControl;
-import org.easymock.internal.MockBuilder;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.matchers.Captures;
 import org.junit.After;
@@ -33,11 +32,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
-import org.mockito.Mockito;
 
 /**
  * This class allow to migrate form JUnit 3.x syntax to JUnit 4.</p> it is also Mock facility.
- * 
+ *
  * @author devacfr
  *
  */
@@ -78,7 +76,7 @@ public abstract class EasyMockTestCase extends Assert {
     /**
      * Switches order checking of the given mock object (more exactly: the control of the mock object) the on and off.
      * For details, see the EasyMock documentation.
-     * 
+     *
      * @param mock
      *            the mock object.
      * @param state
@@ -95,7 +93,7 @@ public abstract class EasyMockTestCase extends Assert {
     /**
      * Reports an argument matcher. This method is needed to define own argument matchers. For details, see the EasyMock
      * documentation.
-     * 
+     *
      * @param matcher
      */
     public static void reportMatcher(final IArgumentMatcher matcher) {
@@ -124,7 +122,7 @@ public abstract class EasyMockTestCase extends Assert {
      * <li>
      * <code>EasyMock.anyObject(T.class) // pass the returned type in parameter</code></li>
      * </ul>
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @return <code>null</code>.
@@ -136,7 +134,7 @@ public abstract class EasyMockTestCase extends Assert {
     /**
      * Expects any Object argument. For details, see the EasyMock documentation. To work well with generics, this
      * matcher can be used in three different ways. See {@link #anyObject()}.
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @param clazz
@@ -237,7 +235,7 @@ public abstract class EasyMockTestCase extends Assert {
 
     /**
      * Expect any object but captures it for later use.
-     * 
+     *
      * @param <T>
      *            Type of the captured object
      * @param captured
@@ -336,7 +334,7 @@ public abstract class EasyMockTestCase extends Assert {
 
     /**
      * Expects an Object that is equal to the given value.
-     * 
+     *
      * @param <T>
      *            type of the method argument to match
      * @param value

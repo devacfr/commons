@@ -36,9 +36,8 @@ public class InjectionException extends RuntimeException {
     }
 
     /**
-     * Constructs an exception with the specified message with an optional list
-     * of message formatting arguments. Message formatting rules follow
-     * "String.format(..)" conventions.
+     * Constructs an exception with the specified message with an optional list of message formatting arguments. Message
+     * formatting rules follow "String.format(..)" conventions.
      */
     public InjectionException(@Nonnull final String messageFormat, @Nonnull final Object... messageArgs) {
         super(String.format(messageFormat, messageArgs));

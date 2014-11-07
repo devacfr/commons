@@ -15,22 +15,23 @@
  */
 package org.cfr.inject;
 
-import javax.annotation.Nonnull;
+import org.cfr.inject.binding.Binding;
 
 /**
+ * This interface is the link between the module definitions (and their bindings) and the actual DI context used by the
+ * application.
  *
  * @author devacfr<christophefriederich@mac.com>
  *
  * @since 1.0
  */
-public interface Module {
+public interface DIContext {
 
     /**
-     * Contributes bindings and other configurations for this module to {@code binder}.
+     * Adds the given binding to the underlying DI context. I.e it will create the appropriate bean definition(s).
      *
-     * <p>
-     * <strong>Do not invoke this method directly</strong> to install submodules. Instead use
-     * {@link Binder#install(Module)}, which ensures that {@link Provides provider methods} are discovered.
+     * @param binding
+     *            the {@link Binding binding} to register with the container
      */
-    void configure(@Nonnull Binder binder);
+    void add(Binding<?> binding);
 }

@@ -24,9 +24,10 @@ import org.cfr.inject.InjectionException;
 import org.cfr.inject.Injector;
 
 /**
- * @param <T> An interface type of the service being bound.
+ * @param <T>
+ *            An interface type of the service being bound.
  *
- * A binding builder that helps with fluent binding creation.
+ *            A binding builder that helps with fluent binding creation.
  *
  * @since 1.0
  */
@@ -94,40 +95,35 @@ public interface BindingBuilder<T> {
     BindingBuilder<T> in(@Nonnull Class<? extends Annotation> scopeAnnotation);
 
     /**
-     * Sets the scope of a bound instance. This method is used to change the
-     * default scope which is usually a singleton to a custom scope.
+     * Sets the scope of a bound instance. This method is used to change the default scope which is usually a singleton
+     * to a custom scope.
      */
     @Nonnull
     BindingBuilder<T> in(@Nonnull org.cfr.inject.Scope scope);
 
     /**
-     * Sets the scope of a bound instance to singleton. Singleton is normally
-     * the default, so calling this method explicitly is rarely needed.
+     * Sets the scope of a bound instance to singleton. Singleton is normally the default, so calling this method
+     * explicitly is rarely needed.
      */
     @Nonnull
     BindingBuilder<T> inSingletonScope();
 
     /**
-     * Sets the scope of a bound instance to "no scope". This means that a new
-     * instance of an object will be created on every call to
-     * {@link Injector#getInstance(Class)}.
+     * Sets the scope of a bound instance to "no scope". This means that a new instance of an object will be created on
+     * every call to {@link Injector#getInstance(Class)}.
      */
     @Nonnull
     BindingBuilder<T> withoutScope();
 
     /**
-     * Indicates to eagerly initialize this singleton-scoped binding upon
-     * cayenne startup.
+     * Indicates to eagerly initialize this singleton-scoped binding upon cayenne startup.
      * <p>
      * <b>Note</b>
      * </p>
-     * First, if there are problems with any of the singleton beans, exceptions
-     * will occur at cayenne startup time versus at the time when the singleton
-     * may first be used. Secondly, as many singleton beans are resource manager
-     * instances (like event manager or transaction managers) having the beans
-     * start with the initialization of the container avoids any delay when the
-     * service provided by the resource manager bean is requested the first
-     * time.
+     * First, if there are problems with any of the singleton beans, exceptions will occur at cayenne startup time
+     * versus at the time when the singleton may first be used. Secondly, as many singleton beans are resource manager
+     * instances (like event manager or transaction managers) having the beans start with the initialization of the
+     * container avoids any delay when the service provided by the resource manager bean is requested the first time.
      */
     @Nonnull
     BindingBuilder<T> asEagerSingleton();

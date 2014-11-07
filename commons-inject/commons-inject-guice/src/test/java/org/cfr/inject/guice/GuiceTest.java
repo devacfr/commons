@@ -18,7 +18,6 @@ package org.cfr.inject.guice;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,8 +35,6 @@ import org.junit.Test;
 
 import com.google.inject.CreationException;
 import com.google.inject.Stage;
-import com.google.inject.TypeLiteral;
-import com.google.inject.spi.Dependency;
 import com.google.inject.spi.HasDependencies;
 import com.google.inject.util.Providers;
 
@@ -63,7 +60,7 @@ public class GuiceTest extends TestCase {
 
     @Test
     public void testInject() {
-        Injector injector = DI.createInjector(new AbstractModule() {
+        final Injector injector = DI.createInjector(new AbstractModule() {
 
             @Override
             protected void configure() {
@@ -75,7 +72,7 @@ public class GuiceTest extends TestCase {
             }
         });
 
-        A a = injector.getInstance(A.class);
+        final A a = injector.getInstance(A.class);
         assertSame(b, a.b);
         assertSame(c, a.c);
         assertSame(d, a.d);
@@ -84,7 +81,7 @@ public class GuiceTest extends TestCase {
 
     @Test
     public void testQualifiedInject() {
-        Injector injector = DI.createInjector(new AbstractModule() {
+        final Injector injector = DI.createInjector(new AbstractModule() {
 
             @Override
             protected void configure() {
@@ -96,7 +93,7 @@ public class GuiceTest extends TestCase {
             }
         });
 
-        F f = injector.getInstance(F.class);
+        final F f = injector.getInstance(F.class);
         assertSame(b, f.b);
         assertSame(c, f.c);
         assertSame(d, f.d);
@@ -105,7 +102,7 @@ public class GuiceTest extends TestCase {
 
     @Test
     public void testProviderInject() {
-        Injector injector = DI.createInjector(new AbstractModule() {
+        final Injector injector = DI.createInjector(new AbstractModule() {
 
             @Override
             protected void configure() {
@@ -117,7 +114,7 @@ public class GuiceTest extends TestCase {
             }
         });
 
-        G g = injector.getInstance(G.class);
+        final G g = injector.getInstance(G.class);
         assertSame(b, g.bProvider.get());
         assertSame(c, g.cProvider.get());
         assertSame(d, g.dProvider.get());
@@ -128,7 +125,7 @@ public class GuiceTest extends TestCase {
     public void testScopeAnnotation() {
         final TestScope scope = new TestScope();
 
-        Injector injector = DI.createInjector(new AbstractModule() {
+        final Injector injector = DI.createInjector(new AbstractModule() {
 
             @Override
             protected void configure() {
@@ -138,15 +135,15 @@ public class GuiceTest extends TestCase {
             }
         });
 
-        B b = injector.getInstance(B.class);
+        final B b = injector.getInstance(B.class);
         assertSame(b, injector.getInstance(B.class));
         assertSame(b, injector.getInstance(B.class));
 
-        C c = injector.getInstance(C.class);
+        final C c = injector.getInstance(C.class);
         assertSame(c, injector.getInstance(C.class));
         assertSame(c, injector.getInstance(C.class));
 
-        H h = injector.getInstance(H.class);
+        final H h = injector.getInstance(H.class);
         assertSame(h, injector.getInstance(H.class));
         assertSame(h, injector.getInstance(H.class));
 
@@ -159,7 +156,7 @@ public class GuiceTest extends TestCase {
 
     @Test
     public void testSingleton() {
-        Injector injector = DI.createInjector(new AbstractModule() {
+        final Injector injector = DI.createInjector(new AbstractModule() {
 
             @Override
             protected void configure() {
@@ -167,11 +164,11 @@ public class GuiceTest extends TestCase {
             }
         });
 
-        B b = injector.getInstance(B.class);
+        final B b = injector.getInstance(B.class);
         assertSame(b, injector.getInstance(B.class));
         assertSame(b, injector.getInstance(B.class));
 
-        J j = injector.getInstance(J.class);
+        final J j = injector.getInstance(J.class);
         assertSame(j, injector.getInstance(J.class));
         assertSame(j, injector.getInstance(J.class));
     }
@@ -191,20 +188,20 @@ public class GuiceTest extends TestCase {
         assertEquals(1, K.nextInstanceId);
     }
 
-    //    @Test
-    //    public void testScopesIsSingleton() {
-    //        Injector injector = Guices.createInjector(new AbstractModule() {
+    // @Test
+    // public void testScopesIsSingleton() {
+    // Injector injector = Guices.createInjector(new AbstractModule() {
     //
-    //            @Override
-    //            protected void configure() {
-    //                bind(J.class);
-    //                bind(K.class).in(Singleton.class);
-    //            }
-    //        });
+    // @Override
+    // protected void configure() {
+    // bind(J.class);
+    // bind(K.class).in(Singleton.class);
+    // }
+    // });
     //
-    //        assertTrue(Scopes.isSingleton(injector.getBinding(J.class)));
-    //        assertTrue(Scopes.isSingleton(injector.getBinding(K.class)));
-    //    }
+    // assertTrue(Scopes.isSingleton(injector.getBinding(J.class)));
+    // assertTrue(Scopes.isSingleton(injector.getBinding(K.class)));
+    // }
 
     @Test
     public void testInjectingFinalFieldsIsForbidden() {
@@ -217,7 +214,7 @@ public class GuiceTest extends TestCase {
                 }
             });
             fail();
-        } catch (CreationException expected) {
+        } catch (final CreationException expected) {
             assertContains(expected.getMessage(), "1) Injected field " + L.class.getName() + ".b cannot be final.");
         }
     }
@@ -233,7 +230,7 @@ public class GuiceTest extends TestCase {
                 }
             });
             fail();
-        } catch (CreationException expected) {
+        } catch (final CreationException expected) {
             assertContains(expected.getMessage(), "1) Injected method " + AbstractM.class.getName()
                     + ".setB() cannot be abstract.");
         }
@@ -250,7 +247,7 @@ public class GuiceTest extends TestCase {
                 }
             });
             fail();
-        } catch (CreationException expected) {
+        } catch (final CreationException expected) {
             assertContains(expected.getMessage(), "1) Injected method " + N.class.getName()
                     + ".setB() cannot declare type parameters of its own.");
         }
@@ -269,7 +266,7 @@ public class GuiceTest extends TestCase {
 
     @Test
     public void testBindProviderClass() {
-        Injector injector = DI.createInjector(new AbstractModule() {
+        final Injector injector = DI.createInjector(new AbstractModule() {
 
             @Override
             protected void configure() {
@@ -288,7 +285,7 @@ public class GuiceTest extends TestCase {
 
     @Test
     public void testGuicify330Provider() {
-        Provider<String> jsr330Provider = new Provider<String>() {
+        final Provider<String> jsr330Provider = new Provider<String>() {
 
             @Override
             public String get() {
@@ -301,7 +298,7 @@ public class GuiceTest extends TestCase {
             }
         };
 
-        com.google.inject.Provider<String> guicified = Providers.guicify(jsr330Provider);
+        final com.google.inject.Provider<String> guicified = Providers.guicify(jsr330Provider);
         assertEquals("guicified(jsr330Provider)", guicified.toString());
         assertEquals("A", guicified.get());
 
@@ -311,66 +308,44 @@ public class GuiceTest extends TestCase {
         assertFalse(guicified instanceof HasDependencies);
     }
 
-    //    public void testGuicifyWithDependencies() {
-    //        Provider<String> jsr330Provider = new Provider<String>() {
+    // public void testGuicifyWithDependencies() {
+    // Provider<String> jsr330Provider = new Provider<String>() {
     //
-    //            @Inject
-    //            double d;
+    // @Inject
+    // double d;
     //
-    //            int i;
+    // int i;
     //
-    //            @Inject
-    //            void injectMe(final int i) {
-    //                this.i = i;
-    //            }
+    // @Inject
+    // void injectMe(final int i) {
+    // this.i = i;
+    // }
     //
-    //            @Override
-    //            public String get() {
-    //                return d + "-" + i;
-    //            }
-    //        };
+    // @Override
+    // public String get() {
+    // return d + "-" + i;
+    // }
+    // };
     //
-    //        final com.google.inject.Provider<String> guicified = Providers.guicify(jsr330Provider);
-    //        assertTrue(guicified instanceof HasDependencies);
-    //        Set<Dependency<?>> actual = ((HasDependencies) guicified).getDependencies();
-    //        validateDependencies(actual, jsr330Provider.getClass());
+    // final com.google.inject.Provider<String> guicified = Providers.guicify(jsr330Provider);
+    // assertTrue(guicified instanceof HasDependencies);
+    // Set<Dependency<?>> actual = ((HasDependencies) guicified).getDependencies();
+    // validateDependencies(actual, jsr330Provider.getClass());
     //
-    //        Injector injector = Guices.createInjector(new AbstractModule() {
+    // Injector injector = Guices.createInjector(new AbstractModule() {
     //
-    //            @Override
-    //            protected void configure() {
-    //                bind(String.class).toProvider(guicified);
-    //                bind(int.class).toInstance(1);
-    //                bind(double.class).toInstance(2.0d);
-    //            }
-    //        });
+    // @Override
+    // protected void configure() {
+    // bind(String.class).toProvider(guicified);
+    // bind(int.class).toInstance(1);
+    // bind(double.class).toInstance(2.0d);
+    // }
+    // });
     //
-    //        Binding<String> binding = injector.getBinding(String.class);
-    //        assertEquals("2.0-1", binding.getProvider().get());
-    //        validateDependencies(actual, jsr330Provider.getClass());
-    //    }
-
-    private void validateDependencies(final Set<Dependency<?>> actual, final Class<?> owner) {
-        assertEquals(actual.toString(), 2, actual.size());
-        Dependency<?> dDep = null;
-        Dependency<?> iDep = null;
-        for (Dependency<?> dep : actual) {
-            if (dep.getKey().equals(Key.get(Double.class))) {
-                dDep = dep;
-            } else if (dep.getKey().equals(Key.get(Integer.class))) {
-                iDep = dep;
-            }
-        }
-        assertNotNull(dDep);
-        assertNotNull(iDep);
-        assertEquals(TypeLiteral.get(owner), dDep.getInjectionPoint().getDeclaringType());
-        assertEquals("d", dDep.getInjectionPoint().getMember().getName());
-        assertEquals(-1, dDep.getParameterIndex());
-
-        assertEquals(TypeLiteral.get(owner), iDep.getInjectionPoint().getDeclaringType());
-        assertEquals("injectMe", iDep.getInjectionPoint().getMember().getName());
-        assertEquals(0, iDep.getParameterIndex());
-    }
+    // Binding<String> binding = injector.getBinding(String.class);
+    // assertEquals("2.0-1", binding.getProvider().get());
+    // validateDependencies(actual, jsr330Provider.getClass());
+    // }
 
     static class A {
 

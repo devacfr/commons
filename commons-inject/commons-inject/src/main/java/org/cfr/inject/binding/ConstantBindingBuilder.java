@@ -18,9 +18,10 @@ package org.cfr.inject.binding;
 import javax.annotation.Nonnull;
 
 /**
- * @param <T> Represents the type of value to bind.
+ * @param <T>
+ *            Represents the type of value to bind.
  *
- * This builder allows binding constant value.
+ *            This builder allows binding constant value.
  *
  * @since 1.0
  */
@@ -29,70 +30,80 @@ public interface ConstantBindingBuilder {
     /**
      * Binds constant to the given String value.
      *
-     * @param value constant value to bind.
+     * @param value
+     *            constant value to bind.
      */
     void to(@Nonnull String value);
 
     /**
      * Binds constant to the given String value.
      *
-     * @param value constant value to bind.
+     * @param value
+     *            constant value to bind.
      */
     void to(@Nonnull int value);
 
     /**
      * Binds constant to the given String value.
      *
-     * @param value constant value to bind.
+     * @param value
+     *            constant value to bind.
      */
     void to(@Nonnull long value);
 
     /**
      * Binds constant to the given String value.
      *
-     * @param value constant value to bind.
+     * @param value
+     *            constant value to bind.
      */
     void to(@Nonnull boolean value);
 
     /**
      * Binds constant to the given String value.
      *
-     * @param value constant value to bind.
+     * @param value
+     *            constant value to bind.
      */
     void to(@Nonnull double value);
 
     /**
      * Binds constant to the given String value.
      *
-     * @param value constant value to bind.
+     * @param value
+     *            constant value to bind.
      */
     void to(@Nonnull float value);
 
     /**
      * Binds constant to the given String value.
      *
-     * @param value constant value to bind.
+     * @param value
+     *            constant value to bind.
      */
     void to(@Nonnull short value);
 
     /**
      * Binds constant to the given String value.
      *
-     * @param value constant value to bind.
+     * @param value
+     *            constant value to bind.
      */
     void to(@Nonnull char value);
 
     /**
      * Binds constant to the given String value.
      *
-     * @param value constant value to bind.
+     * @param value
+     *            constant value to bind.
      */
     void to(@Nonnull byte value);
 
     /**
      * Binds constant to the given String value.
      *
-     * @param value constant value to bind.
+     * @param value
+     *            constant value to bind.
      */
     void to(@Nonnull Class<?> value);
 

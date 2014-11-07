@@ -36,29 +36,31 @@ import com.google.inject.name.Names;
 public class GuiceBinder implements Binder {
 
     /**
-     *
+     * The delagate Guice Buinder
      */
     private final com.google.inject.Binder delagate;
 
     /**
+     * Default Contruct initialize with the Guice {@code Binder}
      *
      * @param delagate
+     *            the Guice Binder
      */
     protected GuiceBinder(@Nonnull final com.google.inject.Binder delagate) {
         this.delagate = Assert.checkNotNull(delagate, "delagate");
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public void bindScope(final Class<? extends Annotation> scopeAnnotation, final org.cfr.inject.Scope scope) {
         this.delagate.bindScope(scopeAnnotation, DI.guilify(scope));
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull <T> BindingBuilder<T> bind(@Nonnull final Class<T> type) {
         Assert.checkNotNull(type, "type");
@@ -66,20 +68,20 @@ public class GuiceBinder implements Binder {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull <T> BindingBuilder<T> bind(@Nonnull final Key<T> key) {
         return new GuiceBindingBuilder<T>((AnnotatedBindingBuilder<T>) this.delagate.bind(DI.to(key)));
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull ConstantBindingBuilder bindConstant(@Nonnull final String name) {
-        return new GuiceConstantBindingBuilder(this.delagate.bindConstant()
-                .annotatedWith(Names.named(Assert.checkHasText(name, "name"))));
+        return new GuiceConstantBindingBuilder(this.delagate.bindConstant().annotatedWith(
+                Names.named(Assert.checkHasText(name, "name"))));
     }
 
     /**
@@ -87,7 +89,11 @@ public class GuiceBinder implements Binder {
      */
     @Override
     public @Nonnull ConstantBindingBuilder bindConstant(@Nonnull final Annotation annotation) {
-        return new GuiceConstantBindingBuilder(this.delagate.bindConstant()
-                .annotatedWith(Assert.checkNotNull(annotation, "annotation")));
+        return new GuiceConstantBindingBuilder(this.delagate.bindConstant().annotatedWith(
+                Assert.checkNotNull(annotation, "annotation")));
+    }
+
+    @Override
+    public void apply() {
     }
 }

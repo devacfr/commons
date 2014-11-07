@@ -29,19 +29,42 @@ import org.cfr.commons.util.Assert;
  */
 public class Names {
 
+    /**
+     *
+     */
     private Names() {
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public static Named named(final String name) {
         return new NamedImpl(name);
     }
 
+    /**
+     *
+     * @author devacfr<christophefriederich@mac.com>
+     *
+     */
     static class NamedImpl implements javax.inject.Named, Serializable {
 
+        /**
+         *
+         */
         private static final long serialVersionUID = 0;
 
+        /**
+         *
+         */
         private final String value;
 
+        /**
+         *
+         * @param value
+         */
         public NamedImpl(final String value) {
             this.value = Assert.checkNotNull(value, "value");
         }
@@ -62,7 +85,7 @@ public class Names {
                 return false;
             }
 
-            Named other = (Named) o;
+            final Named other = (Named) o;
             return value.equals(other.value());
         }
 

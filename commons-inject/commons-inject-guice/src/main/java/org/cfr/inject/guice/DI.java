@@ -65,14 +65,14 @@ public final class DI {
      */
     public static Injector createInjector(final Iterable<Module> modules) {
         return new GuiceInjector(Guice.createInjector(CollectionUtil.transform(modules,
-            new Function<Module, com.google.inject.Module>() {
+                new Function<Module, com.google.inject.Module>() {
 
-                @Override
-                public com.google.inject.Module apply(final Module model) {
-                    return DI.guicify(model);
-                }
+                    @Override
+                    public com.google.inject.Module apply(final Module model) {
+                        return DI.guicify(model);
+                    }
 
-            })));
+                })));
     }
 
     public static Injector createInjector(final Stage stage, final Module... modules) {
@@ -81,14 +81,14 @@ public final class DI {
 
     public static Injector createInjector(final Stage stage, final Iterable<Module> modules) {
         return new GuiceInjector(Guice.createInjector(stage,
-            CollectionUtil.transform(modules, new Function<Module, com.google.inject.Module>() {
+                CollectionUtil.transform(modules, new Function<Module, com.google.inject.Module>() {
 
-                @Override
-                public com.google.inject.Module apply(final Module model) {
-                    return DI.guicify(model);
-                }
+                    @Override
+                    public com.google.inject.Module apply(final Module model) {
+                        return DI.guicify(model);
+                    }
 
-            })));
+                })));
     }
 
     /**

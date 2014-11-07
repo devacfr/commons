@@ -34,14 +34,24 @@ import com.google.common.base.MoreObjects;
  */
 public final class Key<T> {
 
+    /**
+     *
+     */
     private @Nonnull final Class<T> type;
 
+    /**
+     *
+     */
     private @Nullable final Class<? extends Annotation> annotationType;
 
+    /**
+     *
+     */
     private @Nullable final Annotation annotation;
 
     /**
      * Creates a key for a nameless binding of a given type.
+     * 
      * @param type
      * @return Returns a new key instance for a nameless binding of a given type.
      *
@@ -53,9 +63,9 @@ public final class Key<T> {
     }
 
     /**
-     * Creates a key for a named binding of a given type. 'bindingName' that is
-     * an empty String is treated the same way as a null 'bindingName'. In both
-     * cases a nameless binding key is created.
+     * Creates a key for a named binding of a given type. 'bindingName' that is an empty String is treated the same way
+     * as a null 'bindingName'. In both cases a nameless binding key is created.
+     * 
      * @param type
      * @return a new key for a named binding of a given type.
      *
@@ -111,7 +121,7 @@ public final class Key<T> {
         }
 
         if (object instanceof Key<?>) {
-            Key<?> key = (Key<?>) object;
+            final Key<?> key = (Key<?>) object;
             return type.equals(key.type) && Objects.equals(annotationType, key.annotationType)
                     && Objects.equals(annotation, key.annotation);
         }
@@ -132,11 +142,8 @@ public final class Key<T> {
      */
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(getClass())
-                .add("type", type)
-                .add("annotationType", this.annotationType)
-                .add("annotation", this.annotation)
-                .toString();
+        return MoreObjects.toStringHelper(getClass()).add("type", type).add("annotationType", this.annotationType)
+                .add("annotation", this.annotation).toString();
 
     }
 }

@@ -53,8 +53,8 @@ public class GuiceBindingBuilder<T> implements BindingBuilder<T> {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull BindingBuilder<T> annotatedWith(@Nonnull final Class<? extends Annotation> annotationType) {
         delagate.annotatedWith(annotationType);
@@ -62,8 +62,8 @@ public class GuiceBindingBuilder<T> implements BindingBuilder<T> {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull BindingBuilder<T> annotatedWith(@Nonnull final Annotation annotation) {
         Annotation a = annotation;
@@ -75,8 +75,8 @@ public class GuiceBindingBuilder<T> implements BindingBuilder<T> {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull BindingBuilder<T> to(@Nonnull final Class<? extends T> implementation) throws InjectionException {
         delagate.to(implementation);
@@ -84,8 +84,8 @@ public class GuiceBindingBuilder<T> implements BindingBuilder<T> {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull BindingBuilder<T> toInstance(final T instance) throws InjectionException {
         delagate.toInstance(instance);
@@ -93,8 +93,8 @@ public class GuiceBindingBuilder<T> implements BindingBuilder<T> {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull BindingBuilder<T> toProvider(final Class<? extends Provider<? extends T>> providerType)
             throws InjectionException {
@@ -103,8 +103,8 @@ public class GuiceBindingBuilder<T> implements BindingBuilder<T> {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull BindingBuilder<T> toProviderInstance(final Provider<? extends T> provider)
             throws InjectionException {
@@ -113,8 +113,8 @@ public class GuiceBindingBuilder<T> implements BindingBuilder<T> {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull BindingBuilder<T> in(final Class<? extends Annotation> scopeAnnotation) {
         delagate.in(scopeAnnotation);
@@ -122,8 +122,8 @@ public class GuiceBindingBuilder<T> implements BindingBuilder<T> {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull BindingBuilder<T> in(final org.cfr.inject.Scope scope) {
         delagate.in(DI.guilify(scope));
@@ -131,8 +131,8 @@ public class GuiceBindingBuilder<T> implements BindingBuilder<T> {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull BindingBuilder<T> inSingletonScope() {
         delagate.in(Singleton.class);
@@ -140,8 +140,8 @@ public class GuiceBindingBuilder<T> implements BindingBuilder<T> {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull BindingBuilder<T> withoutScope() {
         delagate.in(Scopes.NO_SCOPE);
@@ -149,8 +149,8 @@ public class GuiceBindingBuilder<T> implements BindingBuilder<T> {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public @Nonnull BindingBuilder<T> asEagerSingleton() {
         delagate.asEagerSingleton();

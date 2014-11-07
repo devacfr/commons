@@ -34,7 +34,8 @@ public interface Injector {
      *
      * @param type
      * @return Returns a instance bound in the container for a specific type.
-     * @throws InjectionException occurs if the type is not bound, or an instance can not be created.
+     * @throws InjectionException
+     *             occurs if the type is not bound, or an instance can not be created.
      *
      * @param <T>
      */
@@ -46,7 +47,8 @@ public interface Injector {
      *
      * @param key
      * @return Returns a instance bound in the container for a specific binding key.
-     * @throws InjectionException occurs if the key is not bound, or an instance can not be created.
+     * @throws InjectionException
+     *             occurs if the key is not bound, or an instance can not be created.
      *
      * @param <T>
      */
@@ -56,10 +58,12 @@ public interface Injector {
     /**
      * Gets the provider used to obtain the instance for the given type.
      *
-     * @param type the type of class associated to returned {@link Provider}.
-     * @return Returns the {@link javax.inject.Provider} for the given type. Avoid using directly this method,
-     * prefer the dependency injection.
-     * @throws InjectionException occurs if the binding for the type of class doesn't exist.
+     * @param type
+     *            the type of class associated to returned {@link Provider}.
+     * @return Returns the {@link javax.inject.Provider} for the given type. Avoid using directly this method, prefer
+     *         the dependency injection.
+     * @throws InjectionException
+     *             occurs if the binding for the type of class doesn't exist.
      *
      * @param <T>
      */
@@ -69,10 +73,12 @@ public interface Injector {
     /**
      * Gets the provider used to obtain the instance for the given binding key.
      *
-     * @param key the binding identifier associated to returned provider.
+     * @param key
+     *            the binding identifier associated to returned provider.
      * @return Returns the {@link javax.inject.Provider} for the given binding key. Avoid using directly this method,
-     * prefer the dependency injection.
-     * @throws InjectionException occurs if the binding for the type of class doesn't exist.
+     *         prefer the dependency injection.
+     * @throws InjectionException
+     *             occurs if the binding for the type of class doesn't exist.
      *
      * @param <T>
      */
@@ -83,11 +89,9 @@ public interface Injector {
      * Performs field injection on a given object, ignoring constructor injection. Since Cayenne DI injector returns
      * fully injected objects, this method is rarely used directly.
      * <p>
-     * <b>Note</b>: that using this method inside a custom DI {@link Provider} will most
-     * likely result in double injection, as custom provider is wrapped in a
-     * field-injecting provider by the DI container. Instead custom providers
-     * must initialize object properties manually, obtaining dependencies from
-     * Injector.
+     * <b>Note</b>: that using this method inside a custom DI {@link Provider} will most likely result in double
+     * injection, as custom provider is wrapped in a field-injecting provider by the DI container. Instead custom
+     * providers must initialize object properties manually, obtaining dependencies from Injector.
      * </p>
      */
     void injectMembers(@Nonnull Object object);

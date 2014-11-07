@@ -26,6 +26,9 @@ import org.cfr.inject.binding.ConstantBindingBuilder;
  */
 public class GuiceConstantBindingBuilder implements ConstantBindingBuilder {
 
+    /**
+     *
+     */
     private final com.google.inject.binder.ConstantBindingBuilder delagate;
 
     /**
@@ -36,8 +39,8 @@ public class GuiceConstantBindingBuilder implements ConstantBindingBuilder {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public void to(final String value) {
         delagate.to(value);
@@ -45,80 +48,80 @@ public class GuiceConstantBindingBuilder implements ConstantBindingBuilder {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public void to(final int value) {
         delagate.to(value);
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public void to(final long value) {
         delagate.to(value);
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public void to(final boolean value) {
         delagate.to(value);
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public void to(final double value) {
         delagate.to(value);
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public void to(final float value) {
         delagate.to(value);
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public void to(final short value) {
         delagate.to(value);
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public void to(final char value) {
         delagate.to(value);
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public void to(final byte value) {
         delagate.to(value);
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public void to(final Class<?> value) {
         delagate.to(value);
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Enum<E>> void to(final E value) {
         delagate.to(value);

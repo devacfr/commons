@@ -49,57 +49,57 @@ public class GuiceInjector implements Injector {
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public <T> T getInstance(@Nonnull final Class<T> type) throws InjectionException {
         return delegate.getInstance(Assert.checkNotNull(type, "type"));
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public <T> T getInstance(@Nonnull final Key<T> key) throws InjectionException {
         return delegate.getInstance(DI.to(Assert.checkNotNull(key, "key")));
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public <T> Provider<T> getProvider(@Nonnull final Class<T> type) throws InjectionException {
         return delegate.getProvider(Assert.checkNotNull(type, "type"));
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public <T> Provider<T> getProvider(@Nonnull final Key<T> key) throws InjectionException {
         return delegate.getProvider(DI.to(Assert.checkNotNull(key, "key")));
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public void injectMembers(@Nonnull final Object object) {
         delegate.injectMembers(Assert.checkNotNull(object, "object"));
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
     public Map<Class<? extends Annotation>, org.cfr.inject.Scope> getScopeBindings() {
         return Maps.transformValues(delegate.getScopeBindings(),
-            new Function<com.google.inject.Scope, org.cfr.inject.Scope>() {
+                new Function<com.google.inject.Scope, org.cfr.inject.Scope>() {
 
-                @Override
-                public org.cfr.inject.Scope apply(@Nonnull final com.google.inject.Scope scope) {
-                    return DI.normalize(scope);
-                }
-            });
+                    @Override
+                    public org.cfr.inject.Scope apply(@Nonnull final com.google.inject.Scope scope) {
+                        return DI.normalize(scope);
+                    }
+                });
     }
 }

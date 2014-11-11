@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>commons</artifactId>
@@ -12,7 +13,12 @@
 
 
     <dependencies>
-        <!--  Test Dependency -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Test Dependency -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -21,14 +27,14 @@
             <groupId>junit-addons</groupId>
             <artifactId>junit-addons</artifactId>
             <exclusions>
-            	<exclusion>
-            		<artifactId>xercesImpl</artifactId>
-            		<groupId>xerces</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>xmlParserAPIs</artifactId>
-            		<groupId>xerces</groupId>
-            	</exclusion>
+                <exclusion>
+                    <artifactId>xercesImpl</artifactId>
+                    <groupId>xerces</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>xmlParserAPIs</artifactId>
+                    <groupId>xerces</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -40,7 +46,7 @@
             <artifactId>mockito-core</artifactId>
         </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>

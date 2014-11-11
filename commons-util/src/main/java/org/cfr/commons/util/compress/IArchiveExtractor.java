@@ -20,14 +20,16 @@ import java.io.IOException;
 
 /**
  * Helper interface to extract archive.
- * 
+ *
  * @author acochard
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
 public interface IArchiveExtractor {
 
     /**
      * Extract the archive file to the given destination.
-     * 
+     *
      * @param destination
      *            the destination the file will be extracted to.
      * @throws IOException
@@ -37,7 +39,7 @@ public interface IArchiveExtractor {
 
     /**
      * Extract the archive file to the given destination.
-     * 
+     *
      * @param destination
      *            the destination the file will be extracted to.
      * @param outputFilePattern
@@ -49,7 +51,7 @@ public interface IArchiveExtractor {
 
     /**
      * Extract the archive file to the given destination, without directory tree structure.
-     * 
+     *
      * @param destination
      *            the destination the file will be extracted to.
      * @param outputFilePattern

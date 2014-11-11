@@ -15,11 +15,16 @@
  */
 package org.cfr.commons.app.transaction;
 
+import javax.annotation.Nonnull;
+
 /**
  * A simple callback that needs to be provided with an action to run in the doInTransaction method. It is assumed that
  * if anything goes wrong, doInTransaction will throw a RuntimeException if anything goes wrong, and the calling
  * transactionTemplate will roll back the transaction.
  *
+ * @param <T>
+ *            type returned by {@link #doInTransaction(TransactionStatus)} method.
+ * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
 public interface ITransactionCallback<T> {
@@ -33,5 +38,5 @@ public interface ITransactionCallback<T> {
      * @throws RuntimeException
      *             if anything went wrong. The caller will be responsible for rolling back.
      */
-    T doInTransaction(TransactionStatus transactionStatus);
+    T doInTransaction(@Nonnull TransactionStatus transactionStatus);
 }

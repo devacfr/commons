@@ -5,21 +5,21 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
+import org.cfr.commons.io.DefaultResourceLoader;
+import org.cfr.commons.io.IResourceLoader;
 import org.cfr.commons.util.compress.AbstractJunitTest;
 import org.junit.Test;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.ResourceLoader;
 
 public class TarExtractorTest extends AbstractJunitTest {
 
-    private ResourceLoader resourceLoader = new DefaultResourceLoader();
+    private final IResourceLoader resourceLoader = new DefaultResourceLoader();
 
     @Test
     public void testDeflateFile() throws Exception {
         File destination = WORK_HOME;
 
-        TarExtractor extractor = new TarExtractor(
-                resourceLoader.getResource("classpath:org/cfr/commons/util/compress/tar/testtar.tar"));
+        TarExtractor extractor =
+                new TarExtractor(resourceLoader.getResource("classpath:org/cfr/commons/util/compress/tar/testtar.tar"));
         extractor.deflate(destination);
 
         assertTrue(new File(destination, "root1.tst").exists());
@@ -37,8 +37,8 @@ public class TarExtractorTest extends AbstractJunitTest {
     public void testDeflateFileWithPattern() throws Exception {
         File destination = WORK_HOME;
 
-        TarExtractor extractor = new TarExtractor(
-                resourceLoader.getResource("classpath:org/cfr/commons/util/compress/tar/testtar.tar"));
+        TarExtractor extractor =
+                new TarExtractor(resourceLoader.getResource("classpath:org/cfr/commons/util/compress/tar/testtar.tar"));
         extractor.deflate(destination, "root*.tst");
 
         assertTrue(new File(destination, "root1.tst").exists());
@@ -53,8 +53,8 @@ public class TarExtractorTest extends AbstractJunitTest {
     public void testDeflateFileWithPatternAndFlatMode() throws Exception {
         File destination = WORK_HOME;
 
-        TarExtractor extractor = new TarExtractor(
-                resourceLoader.getResource("classpath:org/cfr/commons/util/compress/tar/testtar.tar"));
+        TarExtractor extractor =
+                new TarExtractor(resourceLoader.getResource("classpath:org/cfr/commons/util/compress/tar/testtar.tar"));
         extractor.deflate(destination, "sub*.tst", true);
 
         assertTrue(new File(destination, "sub1.tst").exists());

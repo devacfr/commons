@@ -18,29 +18,37 @@ package org.cfr.commons.util.compress.zip;
 import java.io.BufferedOutputStream;
 import java.io.File;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
+import org.cfr.commons.util.Assert;
 import org.cfr.commons.util.compress.AbstractArchiveCreator;
 
 /**
  * Helper class to create ZIP archive.
- * 
+ *
  * @author acochard [Jul 30, 2009]
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
 public class ZipCreator extends AbstractArchiveCreator<ZipArchiveOutputStream, ZipArchiveEntry> {
 
-    public ZipCreator(File archiveFile) {
-        super(archiveFile);
+    /**
+     * @param archiveFile
+     */
+    public ZipCreator(@Nonnull final File archiveFile) {
+        super(Assert.checkNotNull(archiveFile, "archiveFile"));
     }
 
     @Override
-    protected ZipArchiveEntry createArchiveEntry(String name, File file) {
-        return new ZipArchiveEntry(name);
+    protected @Nonnull ZipArchiveEntry createArchiveEntry(@Nonnull final String name, @Nonnull final File file) {
+        return new ZipArchiveEntry(Assert.checkHasText(name, "name"));
     }
 
     @Override
-    protected ZipArchiveOutputStream createArchiveOutputStream(BufferedOutputStream stream) {
-        return new ZipArchiveOutputStream(stream);
+    protected @Nonnull ZipArchiveOutputStream createArchiveOutputStream(@Nonnull final BufferedOutputStream stream) {
+        return new ZipArchiveOutputStream(Assert.checkNotNull(stream, "stream"));
     }
 
 }

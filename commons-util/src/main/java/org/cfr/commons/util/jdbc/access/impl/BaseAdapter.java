@@ -15,8 +15,51 @@
  */
 package org.cfr.commons.util.jdbc.access.impl;
 
+import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Collections;
+
 import org.cfr.commons.util.jdbc.access.IDbAdapter;
 
+/**
+ * Abstract class of interface {@link IDbAdapter}
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public abstract class BaseAdapter implements IDbAdapter {
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Collection<String> checkForeignKeyStatements() {
+        return Collections.emptyList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Collection<String> unCheckForeignKeyStatements() {
+        return Collections.emptyList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public void shudownDatabase() throws SQLException {
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Collection<String> shudownStatements() {
+        return Collections.emptyList();
+    }
 
 }

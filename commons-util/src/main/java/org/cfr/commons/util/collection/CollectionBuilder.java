@@ -51,14 +51,14 @@ import com.google.common.collect.Sets;
 public final class CollectionBuilder<T> {
 
     /**
-     * 
+     *
      */
     private static final Ordering<?> NATURAL_ORDER = new NaturalOrdering();
 
     /**
-     * 
+     *
      */
-    private final List<T> elements = Lists.<T> newLinkedList();
+    private final List<T> elements = Lists.<T> newArrayList();
 
     CollectionBuilder(final Collection<? extends T> initialElements) {
         elements.addAll(initialElements);
@@ -92,7 +92,8 @@ public final class CollectionBuilder<T> {
         return (Comparator<T>) NATURAL_ORDER;
     }
 
-    public <E extends T> CollectionBuilder<T> addAll(final E... elements) {
+    @SafeVarargs
+    public final <E extends T> CollectionBuilder<T> addAll(final E... elements) {
         this.elements.addAll(Arrays.asList(notNull(elements, "elements")));
         return this;
     }
@@ -184,11 +185,12 @@ public final class CollectionBuilder<T> {
     static class NaturalOrdering extends Ordering<Comparable<Object>> implements Serializable {
 
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = 0;
 
         @Override
+        @SuppressWarnings("PMD.CompareObjectsWithEquals")
         public int compare(final Comparable<Object> left, final Comparable<Object> right) {
             notNull(right, "right"); // left null is caught later
             if (left == right) {

@@ -19,57 +19,84 @@ import java.io.File;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
+
+/**
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public interface IGlobalApplicationProperties {
 
     /**
-     * The application key.
+     * Gets the application key.
      *
-     * @return an application key
+     * @return an application key.
      */
+    @Nonnull
     String getKey();
 
     /**
-     * Get the base URL of the current application.
+     * Gets the base URL of the current application.
      *
-     * @return the current application's base URL
+     * @return Returns the current application's base URL.
      */
+    @Nonnull
     String getBaseUrl();
 
     /**
-     * @return the displayable name of the application
+     * Gets the displayable name of the application.
+     *
+     * @return Returns the displayable name of the application.
      */
+    @Nonnull
     String getDisplayName();
 
     /**
-     * @return the version of the application
+     * Gets the version of the application.
+     *
+     * @return Returns the version of the application.
      */
+    @Nonnull
     String getVersion();
 
     /**
-     * @return the build date of the application
+     * Gets the build date of the application.
+     *
+     * @return Returns the build date of the application.
      */
+    @Nonnull
     Date getBuildDate();
 
     /**
-     * @return the build number of the application
+     * Gets the build number of the application.
+     *
+     * @return the build number of the application.
      */
+    @Nonnull
     String getBuildNumber();
 
     /**
-     * @return the home directory of the application or null if none is defined
+     * Gets the home directory of the application or null if none is defined.
+     *
+     * @return Returns the home directory of the application or null if none is defined.
      */
+    @Nonnull
     File getHomeDirectory();
 
     /**
+     * Gets the current value of the default locale for the application.
      * 
-     * @return
+     * @return Returns the current value of the default locale for the application.
      */
+    @Nonnull
     Locale getDefaultLocale();
 
     /**
+     * Gets the current selected environment for the application.
      * 
-     * @return
+     * @return Returns the current selected environment for the application.
      */
+    @Nonnull
     Environment getEnvironment();
 
 }

@@ -20,22 +20,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-
 /**
  * Represents a result of a validation execution. Contains a set of {@link ValidationFailure ValidationFailures}that
  * occured in a given context. All failures are kept in the same order they were added.
- * 
+ *
  * @since 1.0
  */
 public class ValidationResult implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1579697072241636599L;
 
-    private List<ValidationFailure> failures;
+    private final List<ValidationFailure> failures;
 
     public ValidationResult() {
         failures = new ArrayList<ValidationFailure>();
@@ -43,12 +41,12 @@ public class ValidationResult implements Serializable {
 
     /**
      * Add a failure to the validation result.
-     * 
+     *
      * @param failure
      *            failure to be added. It may not be null.
      * @see ValidationFailure
      */
-    public void addFailure(ValidationFailure failure) {
+    public void addFailure(final ValidationFailure failure) {
         if (failure == null) {
             throw new IllegalArgumentException("failure cannot be null.");
         }
@@ -65,12 +63,12 @@ public class ValidationResult implements Serializable {
 
     /**
      * Returns all failures related to the <code>source</code> object, or an empty list if there are no such failures.
-     * 
+     *
      * @param source
      *            it may be null.
      * @see ValidationFailure#getSource()
      */
-    public List<ValidationFailure> getFailures(Object source) {
+    public List<ValidationFailure> getFailures(final Object source) {
         ArrayList<ValidationFailure> matchingFailures = new ArrayList<ValidationFailure>(5);
         for (ValidationFailure failure : failures) {
             if (nullSafeEquals(source, failure.getSource())) {
@@ -93,7 +91,7 @@ public class ValidationResult implements Serializable {
      *            it may be null.
      * @return true if there is at least one failure for <code>source</code>. False otherwise.
      */
-    public boolean hasFailures(Object source) {
+    public boolean hasFailures(final Object source) {
         for (ValidationFailure failure : failures) {
             if (nullSafeEquals(source, failure.getSource())) {
                 return true;
@@ -122,21 +120,13 @@ public class ValidationResult implements Serializable {
      * Compares two objects similar to "Object.equals(Object)". Unlike Object.equals(..), this method doesn't throw an
      * exception if any of the two objects is null.
      */
-    public static boolean nullSafeEquals(Object o1, Object o2) {
-
+    private static boolean nullSafeEquals(final Object o1, final Object o2) {
         if (o1 == null) {
             return o2 == null;
         }
-
-        // Arrays must be handled differently since equals() only does
-        // an "==" for an array and ignores equivalence. If an array, use
-        // the Jakarta Commons Language component EqualsBuilder to determine
-        // the types contained in the array and do individual comparisons.
         if (o1.getClass().isArray()) {
-            EqualsBuilder builder = new EqualsBuilder();
-            builder.append(o1, o2);
-            return builder.isEquals();
-        } else { // It is NOT an array, so use regular equals()
+            return java.util.Objects.deepEquals(o1, o2);
+        } else {
             return o1.equals(o2);
         }
     }

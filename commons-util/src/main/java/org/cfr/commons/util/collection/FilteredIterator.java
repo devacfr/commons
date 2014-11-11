@@ -28,7 +28,6 @@ import com.google.common.base.Predicate;
  *
  * @since Commons Collections 1.0
  * @version $Revision: 366576 $ $Date: 2006-01-06 22:07:07 +0000 (Fri, 06 Jan 2006) $
- * 
  * @author James Strachan
  * @author Jan Sorensen
  * @author Ralph Wagner

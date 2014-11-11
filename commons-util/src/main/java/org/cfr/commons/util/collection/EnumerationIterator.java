@@ -20,14 +20,14 @@ import java.util.Iterator;
 
 /**
  * Adaptor for turning an {@link Enumeration} into an {@link Iterator}.
- * 
+ *
  * @param <E>
  *            the type of element produced.
  */
 public class EnumerationIterator<E> implements Iterator<E> {
 
     /**
-     * 
+     *
      */
     private final Enumeration<? extends E> enumeration;
 
@@ -39,14 +39,17 @@ public class EnumerationIterator<E> implements Iterator<E> {
         return new EnumerationIterator<E>(enumeration);
     }
 
+    @Override
     public boolean hasNext() {
         return enumeration.hasMoreElements();
     }
 
+    @Override
     public E next() {
         return enumeration.nextElement();
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }

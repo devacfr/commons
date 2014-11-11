@@ -15,6 +15,27 @@
  */
 package org.cfr.commons.util.jdbc.access;
 
+/**
+ * Define enumeration of recognized database
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public enum Database {
-    derby, hsqldb, oracle, mysql
+    /**
+     * Derby database.
+     */
+    Derby,
+    /**
+     * HSQLDB database.
+     */
+    HSQLDB,
+    /**
+     * Oracle database.
+     */
+    Oracle,
+    /**
+     * MySql database.
+     */
+    MySql
 }

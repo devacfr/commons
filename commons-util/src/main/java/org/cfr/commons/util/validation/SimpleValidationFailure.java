@@ -17,21 +17,21 @@ package org.cfr.commons.util.validation;
 
 /**
  * Represents a generic validation failure that contains failed object and a message describing the failure.
- * 
+ *
  * @since 1.0
  */
 public class SimpleValidationFailure implements ValidationFailure {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 8464118115080226892L;
 
-    protected Object source;
+    private final Object source;
 
-    protected Object error;
+    private final Object error;
 
-    public SimpleValidationFailure(Object source, Object error) {
+    public SimpleValidationFailure(final Object source, final Object error) {
         this.source = source;
         this.error = error;
     }
@@ -39,6 +39,7 @@ public class SimpleValidationFailure implements ValidationFailure {
     /**
      * Returns the error converted to String.
      */
+    @Override
     public String getDescription() {
         return String.valueOf(error);
     }
@@ -46,10 +47,12 @@ public class SimpleValidationFailure implements ValidationFailure {
     /**
      * Returns object that failed the validation.
      */
+    @Override
     public Object getSource() {
         return source;
     }
 
+    @Override
     public Object getError() {
         return error;
     }

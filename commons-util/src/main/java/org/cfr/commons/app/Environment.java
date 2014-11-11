@@ -15,20 +15,29 @@
  */
 package org.cfr.commons.app;
 
+/**
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public enum Environment {
 
     /**
-     * 
+     * Development environment.
      */
     Development,
 
     /**
-     * 
+     * Integration environment.
      */
     Integration,
 
     /**
-     * 
+     * QA environment.
+     */
+    QA,
+
+    /**
+     * Production environment.
      */
     Production
 }

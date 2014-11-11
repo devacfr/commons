@@ -18,20 +18,29 @@ package org.cfr.commons.util.jdbc.access.impl;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.cfr.commons.util.jdbc.access.IDbAdapter;
 
 /**
- * 
- * @author devacfr
+ * Abstract Base Adapter Manger Implementations.
  *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
-public abstract class BaseAdapterManager {
+public abstract class AbstractAdapterManager {
 
     /**
-     * 
-     * @param md
-     * @return
+     * Create the Adapter corresponding to to database metadata,
+     *
+     * @param metadata
+     *            database metadata
+     * @return Return new instance of a adapter corresponding to to database metadata.
      * @throws SQLException
+     *             if a database access error occurs
+     * @throws IllegalArgumentException
+     *             Throws {@code metadata} if {@code null}.
      */
-    public abstract IDbAdapter createAdapter(DatabaseMetaData md) throws SQLException;
+    public abstract @Nullable IDbAdapter createAdapter(@Nonnull DatabaseMetaData metadata) throws SQLException;
 }

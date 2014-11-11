@@ -15,64 +15,124 @@
  */
 package org.cfr.commons.util.error;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.cfr.commons.util.Assert;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
+/**
+ * Default implementation of interface {@link IErrorCollection}.
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public class SimpleErrorCollection implements IErrorCollection {
 
-    Map<String, String> errors;
+    /**
+     *
+     */
+    private final Map<String, String> errors;
 
-    List<String> errorMessages;
+    /**
+     *
+     */
+    private final List<String> errorMessages;
 
+    /**
+     * Create new instance.
+     */
     public SimpleErrorCollection() {
         errors = new HashMap<String, String>(2);
         errorMessages = new LinkedList<String>();
     }
 
-    public void addError(String field, String message) {
-        errors.put(field, message);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addError(@Nonnull final String field, @Nonnull final String message) {
+        errors.put(Assert.checkHasText(field, "field"), Assert.checkHasText(message, "message"));
     }
 
-    public void addErrorMessage(String message) {
-        errorMessages.add(message);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addErrorMessage(@Nonnull final String message) {
+        errorMessages.add(Assert.checkHasText(message, "message"));
     }
 
-    public Collection<String> getErrorMessages() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public @Nonnull Collection<String> getErrorMessages() {
         return errorMessages;
     }
 
-    public void setErrorMessages(Collection<String> errorMessages) {
-        this.errorMessages = new ArrayList<String>(errorMessages);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setErrorMessages(@Nonnull final Collection<String> errorMessages) {
+        Assert.checkNotNull(errorMessages, "errorMessages");
+        this.errorMessages.clear();
+        this.errorMessages.addAll(errorMessages);
     }
 
-    public Collection<String> getFlushedErrorMessages() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public @Nonnull Collection<String> getFlushedErrorMessages() {
         Collection<String> errors = getErrorMessages();
-        this.errorMessages = new ArrayList<String>();
+        this.errorMessages.clear();
         return errors;
     }
 
-    public Map<String, String> getErrors() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public @Nonnull Map<String, String> getErrors() {
         return errors;
     }
 
-    public void addErrorCollection(IErrorCollection errors) {
-        addErrorMessages(errors.getErrorMessages());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addErrorCollection(@Nonnull final IErrorCollection errors) {
+        addErrorMessages(Assert.checkNotNull(errors, "errors").getErrorMessages());
         addErrors(errors.getErrors());
     }
 
-    public void addErrorMessages(Collection<String> incomingMessages) {
-        if (incomingMessages != null && !incomingMessages.isEmpty()) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addErrorMessages(@Nullable final Iterable<String> incomingMessages) {
+        if (incomingMessages != null) {
             for (final String incomingMessage : incomingMessages) {
                 addErrorMessage(incomingMessage);
             }
         }
     }
 
-    public void addErrors(Map<String, String> incomingErrors) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addErrors(@Nullable final Map<String, String> incomingErrors) {
         if (incomingErrors == null) {
             return;
         }
@@ -81,25 +141,38 @@ public class SimpleErrorCollection implements IErrorCollection {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean hasAnyErrors() {
         return (errors != null && !errors.isEmpty()) || (errorMessages != null && !errorMessages.isEmpty());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Errors: " + getErrors() + "\n" + "Error Messages: " + getErrorMessages();
+        return MoreObjects.toStringHelper(this.getClass())
+                .add("errors", getErrors())
+                .add("error messages", getErrorMessages())
+                .toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
-        int result;
-        result = errors.hashCode();
-        result = 29 * result + errorMessages.hashCode();
-        return result;
+        return Objects.hashCode(errors, errorMessages);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable final Object o) {
         if (this == o) {
             return true;
         }

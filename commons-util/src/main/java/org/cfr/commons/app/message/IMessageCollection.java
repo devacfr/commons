@@ -18,38 +18,47 @@ package org.cfr.commons.app.message;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 /**
  * A collection of messages that haven't been resolved
  *
+ * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
 public interface IMessageCollection {
 
     /**
      * Adds a message to the collection
-     * 
+     *
      * @param key
-     *            The i18n key
+     *            The i18n key. Can not be {@code null} or empty.
      * @param arguments
      *            The arguments to insert into the resolved message
+     * @throws IllegalArgumentException
+     *             if {@code key} is {@code null} or empty.
      */
     void addMessage(String key, Serializable... arguments);
 
     /**
      * Adds a message to the collection
-     * 
+     *
      * @param message
-     *            the message
+     *            the message. Can not be {@code null}.
+     * @throws IllegalArgumentException
+     *             if {@code message} is {@code null}.
      */
-    void addMessage(IMessage message);
+    void addMessage(@Nonnull IMessage message);
 
     /**
      * Adds all messages to the collection
      *
      * @param messages
-     *            The list of messages
+     *            The list of messages. Can not be {@code null}.
+     * @throws IllegalArgumentException
+     *             if {@code messages} is {@code null}.
      */
-    void addAll(List<IMessage> messages);
+    void addAll(@Nonnull List<IMessage> messages);
 
     /**
      * @return True if the collection is empty
@@ -59,6 +68,7 @@ public interface IMessageCollection {
     /**
      * @return the list of messages
      */
+    @Nonnull
     List<IMessage> getMessages();
 
 }

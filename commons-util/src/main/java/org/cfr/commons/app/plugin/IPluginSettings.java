@@ -18,9 +18,14 @@ package org.cfr.commons.app.plugin;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
- * Provides access to settings globally or per project/space/repository/build-plan
- * <p/>
+ * <p>
+ * Provides access to settings globally
+ * </p>
  * The following types are supported:
  * <ul>
  * <li>java.lang.String</li>
@@ -32,6 +37,7 @@ import java.util.Properties;
  * <p/>
  * Instances are assumed to be not threadsafe and mutable.
  *
+ * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
 public interface IPluginSettings {
@@ -41,24 +47,31 @@ public interface IPluginSettings {
      * value to a global context.
      *
      * @param key
-     *            The setting key. Cannot be null
+     *            The setting key. Cannot be {@code null} or empty.
      * @return The setting value. May be null
+     * @throws IllegalArgumentException
+     *             Throws {@code key} if {@code null} or empty.
      */
-    Object get(String key);
+    @Nullable
+    @CheckReturnValue
+    Object get(@Nonnull String key);
 
     /**
      * Puts a setting value.
      *
      * @param key
-     *            Setting key. Cannot be null
+     *            Setting key. Cannot be {@code null} or empty.
      * @param value
      *            Setting value. Must be one of {@link String}, {@link List}, {@link Properties}, {@link Map}, or null.
      *            null will remove the item from the settings.
      * @throws IllegalArgumentException
      *             if value is not {@link String}, {@link List}, {@link Properties}, {@link Map}, or null.
      * @return The setting value that was over ridden. Null if none existed.
+     * @throws IllegalArgumentException
+     *             Throws {@code key} if {@code null} or empty.
      */
-    Object put(String key, Object value);
+    @Nullable
+    Object put(@Nonnull String key, @Nullable Object value);
 
     /**
      * Removes a setting value
@@ -66,6 +79,9 @@ public interface IPluginSettings {
      * @param key
      *            The setting key
      * @return The setting value that was removed. Null if nothing was removed.
+     * @throws IllegalArgumentException
+     *             Throws {@code key} if {@code null} or empty.
      */
-    Object remove(String key);
+    @Nullable
+    Object remove(@Nonnull String key);
 }

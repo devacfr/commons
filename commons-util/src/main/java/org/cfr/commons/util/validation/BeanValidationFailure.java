@@ -18,28 +18,34 @@ package org.cfr.commons.util.validation;
 import java.util.Collection;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.cfr.commons.util.Assert;
 
 /**
  * ValidationFailure implementation that described a failure of a single named property of a Java Bean object.
- * 
+ *
+ * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
 public class BeanValidationFailure extends SimpleValidationFailure {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 2500734679142455099L;
 
     /**
-     * 
+     * property name.
      */
-    protected String property;
+    private final String property;
 
     /**
      * Creates new BeanValidationFailure.
+     *
+     * @param source
+     * @param property
+     * @param error
      */
-    public BeanValidationFailure(Object source, String property, Object error) {
+    public BeanValidationFailure(final Object source, final String property, final Object error) {
         super(source, error);
 
         if (source == null && property != null) {
@@ -49,7 +55,7 @@ public class BeanValidationFailure extends SimpleValidationFailure {
         this.property = property;
     }
 
-    private static String validationMessage(String attribute, String message) {
+    private static String validationMessage(final String attribute, final String message) {
         StringBuilder buffer = new StringBuilder(message.length() + attribute.length() + 5);
         buffer.append('\"').append(attribute).append("\" ").append(message);
         return buffer.toString();
@@ -57,8 +63,14 @@ public class BeanValidationFailure extends SimpleValidationFailure {
 
     /**
      * Returns a ValidationFailure if a collection attribute of an object is null or empty.
+     *
+     * @param bean
+     * @param attribute
+     * @param value
+     * @return
      */
-    public static ValidationFailure validateNotEmpty(Object bean, String attribute, Collection<?> value) {
+    public static ValidationFailure validateNotEmpty(final Object bean, final String attribute,
+                                                     final Collection<?> value) {
 
         if (value == null) {
             return new BeanValidationFailure(bean, attribute, validationMessage(attribute, " is required."));
@@ -71,7 +83,20 @@ public class BeanValidationFailure extends SimpleValidationFailure {
         return null;
     }
 
-    public static ValidationFailure validateMandatory(Object bean, String attribute, Object value) {
+    /**
+     * A utility method that returns a new ValidationFailure if {@code value} is:
+     * <ul>
+     * <li>a string is either null or has a length of zero</li>
+     * <li>a collection of an object is null or empty</li>
+     * </ul>
+     * a {@code value} is either {@code null} or empty ; otherwise returns null.
+     *
+     * @param bean
+     * @param attribute
+     * @param value
+     * @return
+     */
+    public static ValidationFailure validateMandatory(final Object bean, final String attribute, final Object value) {
 
         if (value instanceof String) {
             return validateNotEmpty(bean, attribute, (String) value);
@@ -82,21 +107,31 @@ public class BeanValidationFailure extends SimpleValidationFailure {
         return validateNotNull(bean, attribute, value);
     }
 
-    public static ValidationFailure validateMandatory(Object bean, String attribute) {
-        if (bean == null) {
-            throw new NullPointerException("Null bean.");
-        }
-
+    /**
+     * @param bean
+     * @param name
+     * @return
+     */
+    public static ValidationFailure validateMandatory(final Object bean, final String name) {
+        Assert.checkNotNull(bean, "bean");
         try {
-            Object result = PropertyUtils.getProperty(bean, attribute);
-            return validateMandatory(bean, attribute, result);
+            Object result = PropertyUtils.getProperty(bean, name);
+            return validateMandatory(bean, name, result);
         } catch (Exception ex) {
-            throw new RuntimeException("Error validationg bean property: " + bean.getClass().getName() + "."
-                    + attribute, ex);
+            throw new RuntimeException("Error validationg bean property: " + //
+                    bean.getClass().getName() + "." + name, ex);
         }
     }
 
-    public static ValidationFailure validateNotNull(Object bean, String attribute, Object value) {
+    /**
+     * A utility method that returns a new ValidationFailure if a {@code value} is null ; otherwise returns null.
+     *
+     * @param bean
+     * @param attribute
+     * @param value
+     * @return Returns a new ValidationFailure if a {@code value} is null ; otherwise returns null.
+     */
+    public static ValidationFailure validateNotNull(final Object bean, final String attribute, final Object value) {
 
         if (value == null) {
             return new BeanValidationFailure(bean, attribute, validationMessage(attribute, " is required."));
@@ -106,10 +141,15 @@ public class BeanValidationFailure extends SimpleValidationFailure {
     }
 
     /**
-     * A utility method that returns a ValidationFailure if a string is either null or has a length of zero; otherwise
-     * returns null.
+     * A utility method that returns a ValidationFailure if a string {@code value} is either null or has a length of
+     * zero; otherwise returns null.
+     *
+     * @param bean
+     * @param attribute
+     * @param value
+     * @return
      */
-    public static ValidationFailure validateNotEmpty(Object bean, String attribute, String value) {
+    public static ValidationFailure validateNotEmpty(final Object bean, final String attribute, final String value) {
 
         if (value == null || value.length() == 0) {
             return new BeanValidationFailure(bean, attribute, validationMessage(attribute, " is a required field."));
@@ -119,13 +159,15 @@ public class BeanValidationFailure extends SimpleValidationFailure {
 
     /**
      * A utility method that checks that a given string is a valid Java full class name, returning a non-null
-     * ValidationFailure if this is not so.
-     * 
-     * Special case: primitive arrays like byte[] are also handled as a valid java class name.
-     * 
-     * @since 1.2
+     * ValidationFailure if this is not so. Special case: primitive arrays like byte[] are also handled as a valid java
+     * class name.
+     *
+     * @param bean
+     * @param attribute
+     * @param identifier
+     * @return
      */
-    public static ValidationFailure validateJavaClassName(Object bean, String attribute, String identifier) {
+    public static ValidationFailure validateJavaClassName(final Object bean, final String attribute, String identifier) {
 
         ValidationFailure emptyFailure = validateNotEmpty(bean, attribute, identifier);
         if (emptyFailure != null) {
@@ -135,7 +177,7 @@ public class BeanValidationFailure extends SimpleValidationFailure {
         char c = identifier.charAt(0);
         if (!Character.isJavaIdentifierStart(c)) {
             return new BeanValidationFailure(bean, attribute, validationMessage(attribute,
-                    " starts with invalid character: " + c));
+                " starts with invalid character: " + c));
         }
 
         // handle arrays
@@ -150,7 +192,7 @@ public class BeanValidationFailure extends SimpleValidationFailure {
             if (c == '.') {
                 if (wasDot || i + 1 == identifier.length()) {
                     return new BeanValidationFailure(bean, attribute, validationMessage(attribute,
-                            " is not a valid Java Class Name: " + identifier));
+                        " is not a valid Java Class Name: " + identifier));
                 }
 
                 wasDot = true;
@@ -159,7 +201,7 @@ public class BeanValidationFailure extends SimpleValidationFailure {
 
             if (!Character.isJavaIdentifierPart(c)) {
                 return new BeanValidationFailure(bean, attribute, validationMessage(attribute,
-                        " contains invalid character: " + c));
+                    " contains invalid character: " + c));
             }
 
             wasDot = false;
@@ -169,7 +211,7 @@ public class BeanValidationFailure extends SimpleValidationFailure {
     }
 
     /**
-     * Returns a failed property of the failure source object.
+     * @return Returns a failed property of the failure source object.
      */
     public String getProperty() {
         return property;

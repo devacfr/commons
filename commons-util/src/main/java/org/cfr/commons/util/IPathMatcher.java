@@ -19,29 +19,22 @@ import java.util.Comparator;
 import java.util.Map;
 
 /**
- * Strategy interface for <code>String</code>-based path matching.
- *
- * <p>
- * Used by {@link org.springframework.core.io.support.PathMatchingResourcePatternResolver},
- * {@link org.springframework.web.servlet.handler.AbstractUrlHandlerMapping},
- * {@link org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver}, and
- * {@link org.springframework.web.servlet.mvc.WebContentInterceptor}.
- *
- * <p>
+ * Strategy interface for <code>String</code>-based path matching. <p>
  * The default implementation is {@link AntPathMatcher}, supporting the Ant-style pattern syntax.
- *
+ * </p>
+ * 
  * @author Juergen Hoeller
  * @since 1.2
  * @see AntPathMatcher
  */
-public interface PathMatcher {
+public interface IPathMatcher {
 
     /**
      * Does the given <code>path</code> represent a pattern that can be matched by an implementation of this interface?
      * <p>
      * If the return value is <code>false</code>, then the {@link #match} method does not have to be used because direct
      * equality comparisons on the static path Strings will lead to the same result.
-     * 
+     *
      * @param path
      *            the path String to check
      * @return <code>true</code> if the given <code>path</code> represents a pattern
@@ -51,7 +44,7 @@ public interface PathMatcher {
     /**
      * Match the given <code>path</code> against the given <code>pattern</code>, according to this PathMatcher's
      * matching strategy.
-     * 
+     *
      * @param pattern
      *            the pattern to match against
      * @param path
@@ -66,7 +59,7 @@ public interface PathMatcher {
      * <p>
      * Determines whether the pattern at least matches as far as the given base path goes, assuming that a full path may
      * then match as well.
-     * 
+     *
      * @param pattern
      *            the pattern to match against
      * @param path
@@ -89,7 +82,7 @@ public interface PathMatcher {
      * in case of the pattern not containing any dynamic parts (i.e. the <code>pattern</code> parameter being a static
      * path that wouldn't qualify as an actual {@link #isPattern pattern}). A sophisticated implementation will
      * differentiate between the static parts and the dynamic parts of the given path pattern.
-     * 
+     *
      * @param pattern
      *            the path pattern
      * @param path

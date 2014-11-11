@@ -15,23 +15,25 @@
  */
 package org.cfr.commons.app.user;
 
+import javax.annotation.Nonnull;
+
 /**
  * This interface represents the common group interface for the security.
- * 
- * @author cfriedri
  *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
 public interface IGroup {
 
     /**
-     * 
      * @return Returns name of group
      */
-    public String getName();
+    @Nonnull
+    String getName();
 
     /**
-     * 
      * @return Returns the description of group
      */
-    public String getDescription();
+    @Nonnull
+    String getDescription();
 }

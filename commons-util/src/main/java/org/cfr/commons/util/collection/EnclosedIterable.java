@@ -57,7 +57,7 @@ public interface EnclosedIterable<T> extends Sized {
 
         /**
          * Get an {@link ArrayList} of the contents of the supplied {@link EnclosedIterable}
-         * 
+         *
          * @return a mutable {@link ArrayList} containing all elements of the iterable.
          */
         @Override
@@ -91,7 +91,7 @@ public interface EnclosedIterable<T> extends Sized {
 
         /**
          * Get an {@link ArrayList} of the contents of the supplied {@link EnclosedIterable}
-         * 
+         *
          * @return a mutable {@link ArrayList} containing all elements of the iterable.
          */
         public static <T> List<T> toList(final EnclosedIterable<T> iterable) {
@@ -107,7 +107,7 @@ public interface EnclosedIterable<T> extends Sized {
         /**
          * Get an {@link ArrayList} of the contents of the supplied {@link EnclosedIterable} transformed by the supplied
          * transform function into the new type O.
-         * 
+         *
          * @return a mutable {@link ArrayList} containing all elements of the iterable.
          */
         public static <I, O> List<O> toList(final EnclosedIterable<I> iterable, final Function<I, O> transformer) {

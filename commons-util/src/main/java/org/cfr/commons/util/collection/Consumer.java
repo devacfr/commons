@@ -24,7 +24,7 @@ public interface Consumer<T> {
 
     /**
      * Consume the product.
-     * 
+     *
      * @param element
      *            must not be null
      */

@@ -27,9 +27,9 @@ import java.io.Serializable;
 public interface ValidationFailure extends Serializable {
 
     /**
-     * Returns the object that has generated the failure. For example, if a <code>Person</code> must have a name and a
-     * <code>ValidationFailure</code> is created when the user attempts to save it, the <code>Person</code> object would
-     * be the failure source.
+     * Returns the object that has generated the failure. For example, if a {@code Person} must have a name and a
+     * {@code ValidationFailure} is created when the user attempts to save it, the {@code Person} object would be the
+     * failure source.
      *
      * @return the failure's source or null in case a source cannot be defined.
      */

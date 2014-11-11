@@ -11,7 +11,6 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
-import org.cfr.commons.util.log.LoggingOutputStream;
 import org.easymock.EasyMock;
 import org.easymock.IArgumentMatcher;
 import org.junit.After;
@@ -27,17 +26,17 @@ public final class LoggingOutputStreamTest {
 
         private final StringBuilder fSb;
 
-        private LoggingEventStringMatcher(StringBuilder sb) {
+        private LoggingEventStringMatcher(final StringBuilder sb) {
             fSb = sb;
         }
 
         @Override
-        public void appendTo(StringBuffer buffer) {
+        public void appendTo(final StringBuffer buffer) {
             buffer.append("(" + fSb.toString() + ")");
         }
 
         @Override
-        public boolean matches(Object argument) {
+        public boolean matches(final Object argument) {
             return fSb.toString().equals(((LoggingEvent) argument).getMessage());
         }
 
@@ -47,7 +46,7 @@ public final class LoggingOutputStreamTest {
 
     private LoggingOutputStream fLoggingOutputStream;
 
-    //    private MockControl<Appender> fAppenderControl;
+    // private MockControl<Appender> fAppenderControl;
 
     private Appender fAppenderMock;
 
@@ -65,7 +64,7 @@ public final class LoggingOutputStreamTest {
 
     @Before
     public void setUp() throws Exception {
-        //        fAppenderControl = MockControl.createControl(Appender.class);
+        // fAppenderControl = MockControl.createControl(Appender.class);
         fAppenderMock = EasyMock.createMock(Appender.class);
         fLOG = Logger.getLogger(LoggingOutputStreamTest.class);
         fLOG.removeAllAppenders();
@@ -83,8 +82,7 @@ public final class LoggingOutputStreamTest {
     public void testClose() throws Exception {
         StringBuilder sb = new StringBuilder("foo");
         EasyMock.reportMatcher(new LoggingEventStringMatcher(sb));
-        fAppenderMock.doAppend(new LoggingEvent(LAST_FRAMEWORK_CLASS.getName(), fLOG, TEST_PRIORITY, "foo",
-                null));
+        fAppenderMock.doAppend(new LoggingEvent(LAST_FRAMEWORK_CLASS.getName(), fLOG, TEST_PRIORITY, "foo", null));
         EasyMock.replay(fAppenderMock);
 
         fLoggingOutputStream.write(sb.toString().getBytes());
@@ -106,8 +104,7 @@ public final class LoggingOutputStreamTest {
     public void testFlushSkipsOnlyEmptyLine() throws IOException {
         LoggingOutputStream loggingOutputStream = null;
         try {
-            loggingOutputStream = new LoggingOutputStream(LAST_FRAMEWORK_CLASS, Logger.getRootLogger(),
-                    TEST_PRIORITY);
+            loggingOutputStream = new LoggingOutputStream(LAST_FRAMEWORK_CLASS, Logger.getRootLogger(), TEST_PRIORITY);
             byte testBytes[] = LoggingOutputStream.LINE_SEPARATOR.getBytes();
             for (int i = 0; i < testBytes.length; i++)
                 testBytes[i] = 120;
@@ -124,15 +121,14 @@ public final class LoggingOutputStreamTest {
     @Test
     public void testLoggingEventStringMatcher() {
         StringBuilder sb = new StringBuilder();
-        Object arguments = new LoggingEvent(LAST_FRAMEWORK_CLASS.getName(), fLOG, TEST_PRIORITY, "message",
-                null);
+        Object arguments = new LoggingEvent(LAST_FRAMEWORK_CLASS.getName(), fLOG, TEST_PRIORITY, "message", null);
         LoggingEventStringMatcher lesm = new LoggingEventStringMatcher(sb);
         assertFalse(lesm.matches(arguments));
         sb.append("message");
         assertTrue(lesm.matches(arguments));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testLoggingOutputStream1() throws Exception {
         LoggingOutputStream loggingOutputStream = null;
         try {
@@ -142,12 +138,13 @@ public final class LoggingOutputStreamTest {
         }
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testLoggingOutputStream2() throws Exception {
         LoggingOutputStream loggingOutputStream = null;
         try {
-            loggingOutputStream = new LoggingOutputStream(LoggingOutputStreamTest.LAST_FRAMEWORK_CLASS, null,
-                    LoggingOutputStreamTest.TEST_PRIORITY);
+            loggingOutputStream =
+                    new LoggingOutputStream(LoggingOutputStreamTest.LAST_FRAMEWORK_CLASS, null,
+                            LoggingOutputStreamTest.TEST_PRIORITY);
         } finally {
             IOUtils.closeQuietly(loggingOutputStream);
         }
@@ -157,8 +154,8 @@ public final class LoggingOutputStreamTest {
     public void testLoggingOutputStream3() throws Exception {
         LoggingOutputStream loggingOutputStream = null;
         try {
-            loggingOutputStream = new LoggingOutputStream(LoggingOutputStreamTest.LAST_FRAMEWORK_CLASS,
-                    Logger.getRootLogger(), null);
+            loggingOutputStream =
+                    new LoggingOutputStream(LoggingOutputStreamTest.LAST_FRAMEWORK_CLASS, Logger.getRootLogger(), null);
         } finally {
             IOUtils.closeQuietly(loggingOutputStream);
         }
@@ -175,8 +172,7 @@ public final class LoggingOutputStreamTest {
     public void testWriteGrowsBuffer() throws Exception {
         StringBuilder sb = new StringBuilder(2049);
         EasyMock.reportMatcher(new LoggingEventStringMatcher(sb));
-        fAppenderMock.doAppend(new LoggingEvent(LAST_FRAMEWORK_CLASS.getName(), fLOG, TEST_PRIORITY, null,
-                null));
+        fAppenderMock.doAppend(new LoggingEvent(LAST_FRAMEWORK_CLASS.getName(), fLOG, TEST_PRIORITY, null, null));
         EasyMock.replay(fAppenderMock);
         assertEquals(0, fLoggingOutputStream.getCount());
         writeAndStoreACharacter(sb, 'A');
@@ -198,7 +194,7 @@ public final class LoggingOutputStreamTest {
         EasyMock.verify(fAppenderMock);
     }
 
-    private void writeAndStoreACharacter(StringBuilder sb, char b) throws IOException {
+    private void writeAndStoreACharacter(final StringBuilder sb, final char b) throws IOException {
         fLoggingOutputStream.write(b);
         sb.append(b);
     }

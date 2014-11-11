@@ -19,9 +19,14 @@ import java.io.Serializable;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * This interface is responsible for resolving a message or key/argument pairs to their internationalized message.
  *
+ * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
 public interface I18nResolver {
@@ -31,45 +36,60 @@ public interface I18nResolver {
      * be of the form {@link IMessage} which means they will be resolved as well before being included as an argument.
      *
      * @param key
-     *            key for the i18ned message
+     *            key for the i18ned message. Can not be {@code null} or empty.
      * @param arguments
      *            Optional list of arguments for the message.
      * @return I18ned string
+     * @throws IllegalArgumentException
+     *             Throws {@code key} if {@code null}.
      */
-    String getText(String key, Serializable... arguments);
+    @CheckReturnValue
+    @Nullable
+    String getText(@Nonnull String key, @Nullable Serializable... arguments);
 
     /**
      * Does the same as {@link #getText(String, java.io.Serializable...)} however it is needed for velocity.
-     * 
+     *
      * @param key
-     *            key for the i18ned message
+     *            key for the i18ned message. Can not be {@code null} or empty.
      * @return I18ned string
+     * @throws IllegalArgumentException
+     *             Throws {@code key} if {@code null} or empty.
      */
-    String getText(String key);
+    @CheckReturnValue
+    @Nullable
+    String getText(@Nonnull String key);
 
     /**
      * Given a {@link IMessage} this method returns the i18ned text if it can be resolved.
-     * 
+     *
      * @param message
-     *            The message to i18n
+     *            The message to i18n. Can not be {@code null}.
      * @return I18ned string
+     * @throws IllegalArgumentException
+     *             Throws {@code message} if {@code null} or empty.
      */
-    String getText(IMessage message);
+    @Nullable
+    String getText(@Nonnull IMessage message);
 
     /**
      * Creates an instance of Message.
-     * 
+     *
      * @param key
-     *            The message key
+     *            The message key. Can not be {@code null} or empty.
      * @param arguments
      *            The arguments to interpolate
-     * @return The message
+     * @return The message.
+     * @throws IllegalArgumentException
+     *             Throws {@code key} if {@code null}.
      */
-    IMessage createMessage(String key, Serializable... arguments);
+    @Nonnull
+    IMessage createMessage(@Nonnull String key, @Nullable Serializable... arguments);
 
     /**
      * @return an instance of MessageCollection.
      */
+    @Nonnull
     IMessageCollection createMessageCollection();
 
     /**
@@ -78,13 +98,13 @@ public interface I18nResolver {
      *
      * @param prefix
      *            The prefix for a particular key to start with. Empty string will match everything, which may be slow.
-     *            Throws {@code NullPointerException} if {@code null}.
+     *            Can not be {@code null} or empty.
      * @return A Map of i18nKey -> translation mappings where i18nKey starts with the prefix. Empty map if no matches.
-     * @throws NullPointerException
-     *             if {@code link} is {@code null}
-     * @since 2.1
+     * @throws IllegalArgumentException
+     *             if {@code prefix} is {@code null} or empty.
      */
-    Map<String, String> getAllTranslationsForPrefix(String prefix);
+    @Nonnull
+    Map<String, String> getAllTranslationsForPrefix(@Nonnull String prefix);
 
     /**
      * Given a prefix, this method will return all translations where the key starts with the given prefix as key ->
@@ -92,12 +112,13 @@ public interface I18nResolver {
      *
      * @param prefix
      *            The prefix for a particular key to start with. Empty string will match everything, which may be slow.
-     *            Throws {@code NullPointerException} if {@code null}.
+     *            Can not be {@code null} or empty.
      * @param locale
-     *            The locale for which to lookup translations. Throws {@code NullPointerException} if {@code null}.
+     *            The locale for which to lookup translations. Can not be {@code null}.
      * @return A Map of i18nKey -> translation mappings where i18nKey starts with the prefix. Empty map if no matches.
-     * @throws NullPointerException
-     *             if {@code prefix} or {@code link} are {@code null}
+     * @throws IllegalArgumentException
+     *             if {@code prefix} is {@code null} or empty and {@code local} is {@code null}.
      */
-    Map<String, String> getAllTranslationsForPrefix(String prefix, Locale locale);
+    @Nonnull
+    Map<String, String> getAllTranslationsForPrefix(@Nonnull String prefix, @Nonnull Locale locale);
 }

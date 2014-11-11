@@ -28,41 +28,18 @@ import org.cfr.commons.util.Assert;
  * Note that no data is written out to the logger until the stream is flushed or closed.
  * <p>
  * Example:
- * 
+ *
  * <pre>
  * // make sure everything sent to System.err is logged
  * System.setErr(new PrintStream(new LoggingOutputStream(Category.getRoot(), Priority.WARN), true));
  * // make sure everything sent to System.out is also logged
  * System.setOut(new PrintStream(new LoggingOutputStream(Category.getRoot(), Priority.INFO), true));
  * </pre>
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since1.0
  */
 public class LoggingOutputStream extends OutputStream {
-
-    /**
-     * 
-     */
-    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
-    /**
-     * Used to maintain the contract of {@link #close()}.
-     */
-    private boolean fHasBeenClosed;
-
-    /**
-     * The internal buffer where data is stored.
-     */
-    private byte[] fBuf;
-
-    /**
-     * The number of valid bytes in the buffer. This value is always in the range <tt>0</tt> through <tt>buf.length</tt>
-     * ; elements <tt>buf[0]</tt> through <tt>buf[count-1]</tt> contain valid byte data.
-     */
-    private int fCount;
-
-    /**
-     * Remembers the size of the buffer for speed.
-     */
-    private int fBufLength;
 
     /**
      * The default number of bytes in the buffer.
@@ -70,20 +47,47 @@ public class LoggingOutputStream extends OutputStream {
     public static final int DEFAULT_BUFFER_LENGTH = 2048;
 
     /**
+     *
+     */
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
+    /**
+     * Used to maintain the contract of {@link #close()}.
+     */
+    private boolean hasBeenClosed;
+
+    /**
+     * The internal buffer where data is stored.
+     */
+    private byte[] buffer;
+
+    /**
+     * The number of valid bytes in the buffer. This value is always in the range <tt>0</tt> through <tt>buf.length</tt>
+     * ; elements <tt>buf[0]</tt> through <tt>buf[count-1]</tt> contain valid byte data.
+     */
+    private int count;
+
+    /**
+     * Remembers the size of the buffer for speed.
+     */
+    private int bufferLength;
+
+    /**
      * The logger to write to.
      */
-    private final Logger fLogger;
+    @SuppressWarnings("PMD.LoggerIsNotStaticFinal")
+    private final Logger logger;
 
     /**
      * The priority to use when writing to the Category.
      */
-    private final Priority fPriority;
+    private final Priority priority;
 
     /**
      * The last framework class for Log4j. Log4j generates a stack trace and uses the first entry after the named class
      * as the location in a log entry.
      */
-    private final String fLastFrameworkClassName;
+    private final String lastFrameworkClassName;
 
     /**
      * Creates the LoggingOutputStream to flush to the given Category.
@@ -94,18 +98,16 @@ public class LoggingOutputStream extends OutputStream {
      *            The Logger to write to.
      * @param priority
      *            The Priority to use when writing to the Logger.
-     * @throws IllegalArgumentException
-     *             if one of the argument is null.
      */
-    public LoggingOutputStream(Class<?> lastFrameworkClass, Logger log, Priority priority) {
-        fBuf = new byte[2048];
-        fBufLength = fBuf.length;
+    public LoggingOutputStream(final Class<?> lastFrameworkClass, final Logger log, final Priority priority) {
+        buffer = new byte[2048];
+        bufferLength = buffer.length;
         Assert.notNull(lastFrameworkClass, "lastFrameworkClass cannot be null");
         Assert.notNull(log, "log cannot be null");
         Assert.notNull(priority, "priority cannot be null");
-        fPriority = priority;
-        fLogger = log;
-        fLastFrameworkClassName = lastFrameworkClass.getName();
+        this.priority = priority;
+        logger = log;
+        lastFrameworkClassName = lastFrameworkClass.getName();
     }
 
     /**
@@ -116,7 +118,7 @@ public class LoggingOutputStream extends OutputStream {
     @Override
     public void close() {
         flush();
-        fHasBeenClosed = true;
+        hasBeenClosed = true;
     }
 
     /**
@@ -126,15 +128,18 @@ public class LoggingOutputStream extends OutputStream {
      * destination.
      */
     @Override
+    @SuppressWarnings("CheckStyle")
     public void flush() {
-        if (fCount == 0)
+        if (count == 0) {
             return;
-        if (fCount == LINE_SEPARATOR.length() && (char) fBuf[0] == LINE_SEPARATOR.charAt(0)
-                && (fCount == 1 || fCount == 2 && (char) fBuf[1] == LINE_SEPARATOR.charAt(1))) {
+        }
+        // TODO [devacfr] add test before simplify condition
+        if (count == LINE_SEPARATOR.length() && (char) buffer[0] == LINE_SEPARATOR.charAt(0)
+                && (count == 1 || count == 2 && (char) buffer[1] == LINE_SEPARATOR.charAt(1))) {
             reset();
             return;
         } else {
-            fLogger.log(fLastFrameworkClassName, fPriority, new String(fBuf, 0, fCount), null);
+            logger.log(lastFrameworkClassName, priority, new String(buffer, 0, count), null);
             reset();
             return;
         }
@@ -142,46 +147,45 @@ public class LoggingOutputStream extends OutputStream {
 
     /**
      * Gets the number of valid bytes in the buffer.
-     * 
+     *
      * @return return the number of valid bytes in the buffer.
      */
-    int getCount() {
-        return fCount;
+    public int getCount() {
+        return count;
     }
 
     /**
      * Gets the last class for log4j to ignore in a stack trace.
-     * 
+     *
      * @return Returns the last class for log4j to ignore in a stack trace.
      */
-    String getLastFrameworkClassName() {
-        return fLastFrameworkClassName;
+    public String getLastFrameworkClassName() {
+        return lastFrameworkClassName;
     }
 
     /**
      * Gets the logger to write to.
-     * 
+     *
      * @return Returns the logger to write to.
      */
-    Logger getLogger() {
-        return fLogger;
+    public Logger getLogger() {
+        return logger;
     }
 
     /**
      * Gets the priority to use when writing to the Category.
-     * 
+     *
      * @return Returns the priority to use when writing to the Category.
      */
-    Priority getPriority() {
-        return fPriority;
+    public Priority getPriority() {
+        return priority;
     }
 
     /**
      * clear the buffer.
-     *
      */
     private void reset() {
-        fCount = 0;
+        count = 0;
     }
 
     /**
@@ -196,19 +200,21 @@ public class LoggingOutputStream extends OutputStream {
      *             has been closed.
      */
     @Override
-    public void write(int b) throws IOException {
-        if (fHasBeenClosed)
+    public void write(final int b) throws IOException {
+        if (hasBeenClosed) {
             throw new IOException("The stream has been closed.");
-        if (b == 0)
-            return;
-        if (fCount == fBufLength) {
-            int newBufLength = fBufLength + 2048;
-            byte newBuf[] = new byte[newBufLength];
-            System.arraycopy(fBuf, 0, newBuf, 0, fBufLength);
-            fBuf = newBuf;
-            fBufLength = fBuf.length;
         }
-        fBuf[fCount++] = (byte) b;
+        if (b == 0) {
+            return;
+        }
+        if (count == bufferLength) {
+            int newBufLength = bufferLength + 2048;
+            byte[] newBuf = new byte[newBufLength];
+            System.arraycopy(buffer, 0, newBuf, 0, bufferLength);
+            buffer = newBuf;
+            bufferLength = buffer.length;
+        }
+        buffer[count++] = (byte) b;
     }
 
 }

@@ -5,15 +5,12 @@ import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
 import org.cfr.commons.testing.EasyMockTestCase;
-import org.cfr.commons.util.jdbc.access.AdapterFactory;
-import org.cfr.commons.util.jdbc.access.IDbAdapter;
 import org.junit.Test;
-
 
 public class AdapterFactoryTest extends EasyMockTestCase {
 
     @Test
-    public void getKnownCurrentAdapter() throws SQLException {
+    public void getKnownAdapter() throws SQLException {
         // Mysql Adapter
         Connection connection = mock(Connection.class);
         DatabaseMetaData metaData = mock(DatabaseMetaData.class);
@@ -21,7 +18,7 @@ public class AdapterFactoryTest extends EasyMockTestCase {
         expect(metaData.getDatabaseProductName()).andReturn("DATABASE mySql").once();
 
         replay();
-        IDbAdapter adapter = AdapterFactory.getCurrentAdapter(connection);
+        IDbAdapter adapter = AdapterFactory.getAdapter(connection);
         assertNotNull(adapter);
         verify();
     }

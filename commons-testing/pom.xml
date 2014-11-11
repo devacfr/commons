@@ -11,6 +11,10 @@
     <description>Contains Commons Testing class Utilities</description>
     <packaging>jar</packaging>
 
+    <properties>
+        <!-- Enable report aggregation -->
+        <aggregate>true</aggregate>
+    </properties>
 
     <dependencies>
         <dependency>

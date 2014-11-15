@@ -25,12 +25,17 @@ import java.util.ResourceBundle;
 /**
  * This class is extremely useful for loading resources and classes in a fault tolerant manner that works across
  * different applications servers.
- * 
  *
- * @author $Author: jnolen $
- * @version $Revision: 1.6 $
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
-public class ClassLoaderUtils {
+public final class ClassLoaderUtils {
+
+    /**
+     * Singleton restriction instantiation of the class
+     */
+    private ClassLoaderUtils() {
+    }
 
     /**
      * Load a class with a given name.
@@ -50,7 +55,7 @@ public class ClassLoaderUtils {
      * @throws ClassNotFoundException
      *             If the class cannot be found anywhere.
      */
-    public static Class<?> loadClass(String className, Class<?> callingClass) throws ClassNotFoundException {
+    public static Class<?> loadClass(final String className, final Class<?> callingClass) throws ClassNotFoundException {
         return loadClass(className, callingClass.getClassLoader());
     }
 
@@ -72,7 +77,8 @@ public class ClassLoaderUtils {
      * @throws ClassNotFoundException
      *             If the class cannot be found anywhere.
      */
-    public static Class<?> loadClass(String className, ClassLoader callingClassLoader) throws ClassNotFoundException {
+    public static Class<?> loadClass(final String className, final ClassLoader callingClassLoader)
+            throws ClassNotFoundException {
         try {
             return Thread.currentThread().getContextClassLoader().loadClass(className);
         } catch (ClassNotFoundException e) {
@@ -104,7 +110,7 @@ public class ClassLoaderUtils {
      * @param callingClass
      *            The Class object of the calling object
      */
-    public static URL getResource(String resourceName, Class<?> callingClass) {
+    public static URL getResource(final String resourceName, final Class<?> callingClass) {
         URL url = null;
 
         url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
@@ -121,12 +127,12 @@ public class ClassLoaderUtils {
 
     /**
      * getBundle() version of getResource() (that checks against the same list of class loaders)
-     * 
+     *
      * @param resourceName
      * @param locale
      * @param callingClass
      */
-    public static ResourceBundle getBundle(String resourceName, Locale locale, Class<?> callingClass) {
+    public static ResourceBundle getBundle(final String resourceName, final Locale locale, final Class<?> callingClass) {
         ResourceBundle bundle = null;
 
         bundle = ResourceBundle.getBundle(resourceName, locale, Thread.currentThread().getContextClassLoader());
@@ -156,7 +162,8 @@ public class ClassLoaderUtils {
      * @param callingClass
      *            The Class object of the calling object
      */
-    public static Enumeration<URL> getResources(String resourceName, Class<?> callingClass) throws IOException {
+    public static Enumeration<URL> getResources(final String resourceName, final Class<?> callingClass)
+            throws IOException {
         Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(resourceName);
         if (urls == null) {
             urls = ClassLoaderUtils.class.getClassLoader().getResources(resourceName);
@@ -169,16 +176,15 @@ public class ClassLoaderUtils {
     }
 
     /**
-     * This is a convenience method to load a resource as a stream.
-     *
-     * The algorithm used to find the resource is given in getResource()
+     * This is a convenience method to load a resource as a stream. The algorithm used to find the resource is given in
+     * getResource()
      *
      * @param resourceName
      *            The name of the resource to load
      * @param callingClass
      *            The Class object of the calling object
      */
-    public static InputStream getResourceAsStream(String resourceName, Class<?> callingClass) {
+    public static InputStream getResourceAsStream(final String resourceName, final Class<?> callingClass) {
         URL url = getResource(resourceName, callingClass);
         try {
             return url != null ? url.openStream() : null;
@@ -187,21 +193,4 @@ public class ClassLoaderUtils {
         }
     }
 
-    /**
-     * Prints the current classloader hierarchy - useful for debugging.
-     */
-    public static void printClassLoader() {
-        System.out.println("ClassLoaderUtils.printClassLoader");
-        printClassLoader(Thread.currentThread().getContextClassLoader());
-    }
-
-    /**
-     * Prints the classloader hierarchy from a given classloader - useful for debugging.
-     */
-    public static void printClassLoader(ClassLoader cl) {
-        System.out.println("ClassLoaderUtils.printClassLoader(cl = " + cl + ")");
-        if (cl != null) {
-            printClassLoader(cl.getParent());
-        }
-    }
 }

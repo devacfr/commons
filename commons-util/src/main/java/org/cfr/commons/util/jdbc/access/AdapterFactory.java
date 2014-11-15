@@ -19,7 +19,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.cfr.commons.util.jdbc.access.impl.BaseAdapterManager;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.cfr.commons.util.jdbc.access.impl.AbstractAdapterManager;
 import org.cfr.commons.util.jdbc.access.impl.derby.DerbyAdapterManager;
 import org.cfr.commons.util.jdbc.access.impl.hsqldb.HsqlDbAdapterManager;
 import org.cfr.commons.util.jdbc.access.impl.mysql.MySqlAdapterManager;
@@ -27,54 +30,36 @@ import org.cfr.commons.util.jdbc.access.impl.mysql.MySqlAdapterManager;
 import com.google.common.collect.Lists;
 
 /**
- * 
- * @author devacfr
- *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
 public final class AdapterFactory {
 
     /**
-     * 
+     * List of supported database adapter.
      */
-    private static ArrayList<BaseAdapterManager> adaptersMgr = null;
+    private static final ArrayList<AbstractAdapterManager> ADAPTER_MANAGERS = Lists.newArrayList(new MySqlAdapterManager(),
+        new DerbyAdapterManager(),
+        new HsqlDbAdapterManager());
 
     /**
-     * 
+     * Singleton restriction instantiation of the class
      */
-    private static IDbAdapter adapterCurrent;
-
-    static {
-        adaptersMgr = Lists.newArrayList(new MySqlAdapterManager(), new DerbyAdapterManager(),
-                new HsqlDbAdapterManager());
-    }
-
     private AdapterFactory() {
     }
 
     /**
+     * Gets the adapter corresponding to the {@code connection} parameter.
      * 
      * @param connection
-     * @return
+     *            the connection
+     * @return Returns new adapter instance if database is recognized, otherwise {@code null}.
      * @throws SQLException
+     *             if a database access error occurs
      */
-    public static IDbAdapter getCurrentAdapter(final Connection connection) throws SQLException {
+    public static @Nullable IDbAdapter getAdapter(@Nonnull final Connection connection) throws SQLException {
         synchronized (AdapterFactory.class) {
-            if (adapterCurrent == null) {
-                for (BaseAdapterManager mgr : adaptersMgr) {
-                    IDbAdapter adapter = mgr.createAdapter(connection.getMetaData());
-                    if (adapter != null) {
-                        adapterCurrent = adapter;
-                        break;
-                    }
-                }
-            }
-        }
-        return adapterCurrent;
-    }
-
-    public static IDbAdapter getAdapter(final Connection connection) throws SQLException {
-        synchronized (AdapterFactory.class) {
-            for (BaseAdapterManager mgr : adaptersMgr) {
+            for (AbstractAdapterManager mgr : ADAPTER_MANAGERS) {
                 IDbAdapter adapter = mgr.createAdapter(connection.getMetaData());
                 if (adapter != null) {
                     return adapter;

@@ -17,9 +17,14 @@ package org.cfr.commons.app.message;
 
 import java.io.Serializable;
 
+import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * Encapsulates a message before it has been resolved via an I18N resolver
  *
+ * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
 public interface IMessage extends Serializable {
@@ -27,10 +32,13 @@ public interface IMessage extends Serializable {
     /**
      * @return the i18n message key
      */
+    @Nonnull
     String getKey();
 
     /**
      * @return the arguments to insert into the resolved message
      */
+    @CheckReturnValue
+    @Nullable
     Serializable[] getArguments();
 }

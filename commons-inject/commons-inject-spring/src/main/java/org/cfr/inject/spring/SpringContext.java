@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.inject.spring;
 
 import java.util.ArrayList;
@@ -22,13 +37,14 @@ final class SpringContext implements DIContext {
     /**
      *
      */
-    private final BeanDefinitionRegistry registry;
+    private final @Nonnull BeanDefinitionRegistry registry;
 
     public SpringContext(@Nonnull final BeanDefinitionRegistry registry) {
         this.registry = Assert.checkNotNull(registry, "registry");
     }
 
-    public void add(final Binding<?> binding) {
+    @Override
+    public void add(final @Nonnull Binding<?> binding) {
         Assert.checkNotNull(binding, "binding");
         final BeanDefinitionBuilder registrationBean = BeanDefinitionBuilder.rootBeanDefinition(binding
                 .getInstanceClass());
@@ -42,15 +58,16 @@ final class SpringContext implements DIContext {
         final String beanName = getBeanDefinitionName(binding);
         final BeanDefinition beanDefinition = registrationBean.getBeanDefinition();
         registry.registerBeanDefinition(beanName, beanDefinition);
-        for (Class<?> ifce : binding.getInterfaces()) {
-            registry.registerAlias(beanName, ifce.getName());
-        }
+        // for (Class<?> ifce : binding.getInterfaces()) {
+        // registry.registerAlias(beanName, ifce.getName());
+        // }
     }
 
-    private void setConstructorParameters(final Binding binding, final BeanDefinitionBuilder registrationBean) {
+    private void setConstructorParameters(@Nonnull final Binding<?> binding,
+            @Nonnull final BeanDefinitionBuilder registrationBean) {
         for (Class<?> parameter : binding.getConstructorParameters()) {
             if (isConcreteClass(parameter)) {
-                registrationBean.addConstructorArg(BeanDefinitionBuilder.rootBeanDefinition(parameter)
+                registrationBean.addConstructorArgValue(BeanDefinitionBuilder.rootBeanDefinition(parameter)
                         .getBeanDefinition());
             } else {
                 registrationBean.addConstructorArgReference(parameter.getName());
@@ -58,16 +75,23 @@ final class SpringContext implements DIContext {
         }
     }
 
-    private void setAutoWiringStrategy(final BeanDefinitionBuilder registrationBean) {
+    private void setAutoWiringStrategy(@Nonnull final BeanDefinitionBuilder registrationBean) {
         registrationBean.setAutowireMode(AutowireCapableBeanFactory.AUTOWIRE_CONSTRUCTOR);
     }
 
-    private boolean isConcreteClass(final Class param) {
+    private boolean isConcreteClass(final Class<?> param) {
         return !param.isInterface();
     }
 
-    private String getBeanDefinitionName(final Binding<?> binding) {
-        return binding.getName() != null ? binding.getName() : binding.getInstanceClass().getName();
+    private @Nonnull String getBeanDefinitionName(final @Nonnull Binding<?> binding) {
+        String name = binding.getKey().getName();
+        if (name != null) {
+        } else if (binding.getTargetKey() != null) {
+            name = binding.getTargetKey().getType().getName();
+        } else {
+            name = binding.getKey().getType().getName();
+        }
+        return name;
     }
 
     private static @Nonnull Iterable<String> getInterfacesAsString(@Nonnull final Iterable<Class<?>> interfaces) {

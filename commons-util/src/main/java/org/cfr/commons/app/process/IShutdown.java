@@ -18,7 +18,8 @@ package org.cfr.commons.app.process;
 /**
  * Used to shut something down.
  *
- * @since v1.0
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
 public interface IShutdown {
 

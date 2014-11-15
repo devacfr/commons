@@ -19,6 +19,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.easymock.Capture;
 import org.easymock.EasyMock;
 import org.easymock.IArgumentMatcher;
@@ -27,38 +31,57 @@ import org.easymock.IMockBuilder;
 import org.easymock.internal.LastControl;
 import org.easymock.internal.MocksControl;
 import org.easymock.internal.matchers.Captures;
-import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.junit.runners.BlockJUnit4ClassRunner;
 
 /**
  * This class allow to migrate form JUnit 3.x syntax to JUnit 4.</p> it is also Mock facility.
  *
- * @author devacfr
- *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
-@RunWith(BlockJUnit4ClassRunner.class)
-public abstract class EasyMockTestCase extends Assert {
+public abstract class EasyMockTestCase extends TestCase {
 
     /** Tracks all EasyMock objects created for a test. */
     private final List<Object> mocks = new ArrayList<Object>();
 
+    /**
+     * Allows to clean mock context before each test methods called (default is {@code true}).
+     */
     private final boolean resetBefore;
 
+    /**
+     * Creates new instance with default configuration. Mock context cleaned before each test methods called.
+     */
     public EasyMockTestCase() {
         this.resetBefore = true;
     }
 
-    public EasyMockTestCase(boolean resetBefore) {
+    /**
+     * Creates new instance.
+     *
+     * @param resetBefore
+     *            Allows to clean mock context before each test methods called.
+     */
+    public EasyMockTestCase(@Nonnull final boolean resetBefore) {
         this.resetBefore = resetBefore;
     }
 
+    /**
+     * Gets the file system path representation of this test class.
+     *
+     * @return Returns {@code String} representing the file system location path of this test class.
+     * @deprecated use instead {@link #getPackagePath()} method
+     */
+    @Deprecated
+    @Nonnull
     public final String getPackageName() {
-        return this.getClass().getPackage().getName().replace('.', '/');
+        return this.getPackagePath();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     @Before
     public void setUp() throws Exception {
         if (this.resetBefore) {
@@ -66,11 +89,6 @@ public abstract class EasyMockTestCase extends Assert {
             reset();
             mocks.clear();
         }
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
     }
 
     /**
@@ -82,11 +100,19 @@ public abstract class EasyMockTestCase extends Assert {
      * @param state
      *            <code>true</code> switches order checking on, <code>false</code> switches it off.
      */
-    public static void checkOrder(final Object mock, final boolean state) {
+    public static void checkOrder(@Nonnull final Object mock, @Nonnull final boolean state) {
         getControl(mock).checkOrder(state);
     }
 
-    private static MocksControl getControl(final Object mock) {
+    /**
+     * Gets the {@link MocksControl} associated to mock object
+     *
+     * @param mock
+     *            the mock object.
+     * @return Returns {@link MocksControl} associated to mock object
+     */
+    @Nonnull
+    private static MocksControl getControl(@Nonnull final Object mock) {
         return MocksControl.getControl(mock);
     }
 
@@ -95,20 +121,46 @@ public abstract class EasyMockTestCase extends Assert {
      * documentation.
      *
      * @param matcher
+     *            a argument matcher.
      */
-    public static void reportMatcher(final IArgumentMatcher matcher) {
+    public static void reportMatcher(@Nonnull final IArgumentMatcher matcher) {
         LastControl.reportMatcher(matcher);
     }
 
-    public static Object[] getCurrentArguments() {
+    /**
+     * Gets the arguments of the current mock method call, if inside an {@code IAnswer} callback - be careful here,
+     * reordering parameters of method changes the semantics of your tests.
+     *
+     * @return Returns the arguments of the current mock method call.
+     */
+    @CheckReturnValue
+    public static @Nonnull Object[] getCurrentArguments() {
         return EasyMock.getCurrentArguments();
     }
 
-    protected <T> IExpectationSetters<T> expect(T value) {
+    /**
+     * Returns the expectation setter for the last expected invocation in the current thread.
+     *
+     * @param value
+     *            the parameter is used to transport the type to the ExpectationSetter. It allows writing the expected
+     *            call as argument, i.e. expect(mock.getName()).andReturn("John Doe").
+     * @param <T>
+     *            type returned by the expected method
+     * @return Returns the expectation setter.
+     */
+    protected @Nonnull <T> IExpectationSetters<T> expect(@Nonnull final T value) {
         return EasyMock.expect(value);
     }
 
-    protected <T> IExpectationSetters<T> expectLastCall() {
+    /**
+     * Returns the expectation setter for the last expected invocation in the current thread. This method is used for
+     * expected invocations on void methods.
+     *
+     * @return the expectation setter.
+     * @param <T>
+     *            type returned by the expected method.
+     */
+    protected @Nonnull <T> IExpectationSetters<T> expectLastCall() {
         return EasyMock.expectLastCall();
     }
 
@@ -127,7 +179,7 @@ public abstract class EasyMockTestCase extends Assert {
      *            type of the method argument to match
      * @return <code>null</code>.
      */
-    public <T> T anyObject() {
+    public @Nullable <T> T anyObject() {
         return EasyMock.<T> anyObject();
     }
 
@@ -135,13 +187,13 @@ public abstract class EasyMockTestCase extends Assert {
      * Expects any Object argument. For details, see the EasyMock documentation. To work well with generics, this
      * matcher can be used in three different ways. See {@link #anyObject()}.
      *
+     * @param cl
+     *            the class of the argument to match
      * @param <T>
      *            type of the method argument to match
-     * @param clazz
-     *            the class of the argument to match
      * @return <code>null</code>.
      */
-    public <T> T anyObject(Class<T> cl) {
+    public @Nullable <T> T anyObject(@Nonnull final Class<T> cl) {
         return EasyMock.anyObject(cl);
     }
 
@@ -150,9 +202,11 @@ public abstract class EasyMockTestCase extends Assert {
      *
      * @param clazz
      *            Class to be mocked.
+     * @param <T>
+     *            type of the method argument to match
      * @return A mock instance of the given type.
      **/
-    protected <T> T mock(Class<T> clazz) {
+    protected @Nullable <T> T mock(@Nonnull final Class<T> clazz) {
         return mock(clazz, false);
     }
 
@@ -164,9 +218,11 @@ public abstract class EasyMockTestCase extends Assert {
      *            Class to be mocked.
      * @param strict
      *            whether or not to make a strict mock
+     * @param <T>
+     *            type of the method argument to match
      * @return A mock instance of the given type.
      **/
-    protected <T> T mock(Class<T> clazz, boolean strict) {
+    protected @Nonnull <T> T mock(@Nonnull final Class<T> clazz, @Nonnull final boolean strict) {
         T m = strict ? EasyMock.createMock(clazz) : EasyMock.createNiceMock(clazz);
         mocks.add(m);
         return m;
@@ -177,9 +233,13 @@ public abstract class EasyMockTestCase extends Assert {
      *
      * @param clazz
      *            Class to be mocked.
+     * @param methods
+     *            methods to be mocked in the testing class.
+     * @param <T>
+     *            type of the method argument to match
      * @return A mock instance of the given type.
      **/
-    protected <T> T mock(Class<T> clazz, Method... methods) {
+    protected @Nonnull <T> T mock(@Nonnull final Class<T> clazz, @Nonnull final Method... methods) {
         return mock(clazz, methods, false);
     }
 
@@ -188,9 +248,16 @@ public abstract class EasyMockTestCase extends Assert {
      *
      * @param clazz
      *            Class to be mocked.
+     * @param methods
+     *            methods to be mocked in the testing class.
+     * @param strict
+     *            whether or not to make a strict mock.
+     * @param <T>
+     *            type of the method argument to match
      * @return A mock instance of the given type.
      **/
-    protected <T> T mock(Class<T> clazz, Method[] methods, boolean strict) {
+    protected @Nonnull <T> T mock(@Nonnull final Class<T> clazz, @Nonnull final Method[] methods,
+                                  @Nonnull final boolean strict) {
         IMockBuilder<T> builder = EasyMock.createMockBuilder(clazz).addMockedMethods(methods);
         T m = strict ? builder.createMock() : builder.createNiceMock();
         mocks.add(m);
@@ -199,14 +266,21 @@ public abstract class EasyMockTestCase extends Assert {
     }
 
     /**
-     * /** Sets each mock to replay mode in the order they were created. Call this after setting all of the mock
+     * Sets each mock to replay mode in the order they were created. Call this after setting all of the mock
      * expectations for a test.
      */
     protected void replay() {
         EasyMock.replay(mocks.toArray());
     }
 
-    protected void replay(Object mock) {
+    /**
+     * Switches the given mock objects (more exactly: the controls of the mock objects) to replay mode. For details, see
+     * the EasyMock documentation.
+     *
+     * @param mock
+     *            the mock objects.
+     */
+    protected void replay(@Nonnull final Object mock) {
         EasyMock.replay(mock);
     }
 
@@ -218,7 +292,13 @@ public abstract class EasyMockTestCase extends Assert {
         EasyMock.verify(mocks.toArray());
     }
 
-    protected void verify(Object mock) {
+    /**
+     * Verifies the given mock objects (more exactly: the controls of the mock objects).
+     *
+     * @param mock
+     *            the mock objects.
+     */
+    protected void verify(@Nonnull final Object mock) {
         EasyMock.verify(mock);
     }
 
@@ -229,7 +309,14 @@ public abstract class EasyMockTestCase extends Assert {
         EasyMock.reset(mocks.toArray());
     }
 
-    protected void reset(Object mock) {
+    /**
+     * Resets the given mock objects (more exactly: the controls of the mock objects). For details, see the EasyMock
+     * documentation.
+     *
+     * @param mock
+     *            the mock objects.
+     */
+    protected void reset(@Nonnull final Object mock) {
         EasyMock.reset(mock);
     }
 
@@ -242,95 +329,10 @@ public abstract class EasyMockTestCase extends Assert {
      *            Where the parameter is captured
      * @return <code>null</code>
      */
-    public static <T> T capture(final Capture<T> captured) {
+    public static @Nullable <T> T capture(@Nonnull final Capture<T> captured) {
         reportMatcher(new Captures<T>(captured));
         return null;
     }
-
-    // TODO [devacfr] to remove
-    // /**
-    // * Expect any boolean but captures it for later use.
-    // *
-    // * @param captured
-    // * Where the parameter is captured
-    // * @return <code>false</code>
-    // */
-    // public static boolean capture(final Capture<Boolean> captured) {
-    // reportMatcher(new Captures<Boolean>(captured));
-    // return false;
-    // }
-    //
-    // /**
-    // * Expect any int but captures it for later use.
-    // *
-    // * @param captured
-    // * Where the parameter is captured
-    // * @return <code>0</code>
-    // */
-    // public static int capture(final Capture<Integer> captured) {
-    // reportMatcher(new Captures<Integer>(captured));
-    // return 0;
-    // }
-    //
-    // /**
-    // * Expect any long but captures it for later use.
-    // *
-    // * @param captured
-    // * Where the parameter is captured
-    // * @return <code>0</code>
-    // */
-    // public static long capture(final Capture<Long> captured) {
-    // reportMatcher(new Captures<Long>(captured));
-    // return 0;
-    // }
-    //
-    // /**
-    // * Expect any float but captures it for later use.
-    // *
-    // * @param captured
-    // * Where the parameter is captured
-    // * @return <code>0</code>
-    // */
-    // public static float capture(final Capture<Float> captured) {
-    // reportMatcher(new Captures<Float>(captured));
-    // return 0;
-    // }
-    //
-    // /**
-    // * Expect any double but captures it for later use.
-    // *
-    // * @param captured
-    // * Where the parameter is captured
-    // * @return <code>0</code>
-    // */
-    // public static double capture(final Capture<Double> captured) {
-    // reportMatcher(new Captures<Double>(captured));
-    // return 0;
-    // }
-    //
-    // /**
-    // * Expect any byte but captures it for later use.
-    // *
-    // * @param captured
-    // * Where the parameter is captured
-    // * @return <code>0</code>
-    // */
-    // public static byte capture(final Capture<Byte> captured) {
-    // reportMatcher(new Captures<Byte>(captured));
-    // return 0;
-    // }
-    //
-    // /**
-    // * Expect any char but captures it for later use.
-    // *
-    // * @param captured
-    // * Where the parameter is captured
-    // * @return <code>0</code>
-    // */
-    // public static char capture(final Capture<Character> captured) {
-    // reportMatcher(new Captures<Character>(captured));
-    // return 0;
-    // }
 
     /**
      * Expects an Object that is equal to the given value.
@@ -341,7 +343,8 @@ public abstract class EasyMockTestCase extends Assert {
      *            the given value.
      * @return <code>null</code>.
      */
-    public <T> T eq(final T value) {
+    @SuppressWarnings("PMD.ShortMethodName")
+    public @Nullable <T> T eq(@Nonnull final T value) {
         return EasyMock.eq(value);
     }
 }

@@ -15,38 +15,40 @@
  */
 package org.cfr.commons.util.jdbc.access.impl.mysql;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 import org.cfr.commons.util.jdbc.access.Database;
 import org.cfr.commons.util.jdbc.access.impl.BaseAdapter;
 
+/**
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public class MySqlAdapter extends BaseAdapter {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Database getDatabase() {
-        return Database.mysql;
+        return Database.MySql;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Collection<String> checkForeignKeyStatements() {
         return Arrays.asList("SET FOREIGN_KEY_CHECKS=1");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Collection<String> unCheckForeignKeyStatements() {
         return Arrays.asList("SET FOREIGN_KEY_CHECKS=0");
     }
 
-    @Override
-    public Collection<String> shudownStatements() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public void realeaseConnection() throws SQLException {
-
-    }
 }

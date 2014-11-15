@@ -15,6 +15,9 @@
  */
 package org.cfr.commons.app.plugin;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * Factory for mutable, non-threadsafe PluginSettings objects.
  *
@@ -23,8 +26,7 @@ package org.cfr.commons.app.plugin;
 public interface IPluginSettingsFactory {
 
     /**
-     * Gets all settings for a key, for which valid values are application-specific (Confluence maps this to space keys,
-     * JIRA to project keys, and FishEye to repository keys, for example). To store settings for other keys,
+     * Gets all settings for a key, for which valid values are application-specific. To store settings for other keys,
      * createGlobalSettings should be used, and the keys should be sensibly namespaced by the plugin.
      *
      * @param key
@@ -33,7 +35,8 @@ public interface IPluginSettingsFactory {
      *             if no "concept" for the key can be found
      * @return The settings
      */
-    IPluginSettings createSettingsForKey(String key);
+    @Nonnull
+    IPluginSettings createSettingsForKey(@Nullable String key);
 
     /**
      * Gets all global settings. This is useful to store settings against arbitrary keys. When storing settings against
@@ -42,5 +45,6 @@ public interface IPluginSettingsFactory {
      *
      * @return Global settings
      */
+    @Nonnull
     IPluginSettings createGlobalSettings();
 }

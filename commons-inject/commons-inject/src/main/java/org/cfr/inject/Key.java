@@ -20,6 +20,7 @@ import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Named;
 
 import org.cfr.commons.util.Assert;
 
@@ -51,7 +52,7 @@ public final class Key<T> {
 
     /**
      * Creates a key for a nameless binding of a given type.
-     * 
+     *
      * @param type
      * @return Returns a new key instance for a nameless binding of a given type.
      *
@@ -65,7 +66,7 @@ public final class Key<T> {
     /**
      * Creates a key for a named binding of a given type. 'bindingName' that is an empty String is treated the same way
      * as a null 'bindingName'. In both cases a nameless binding key is created.
-     * 
+     *
      * @param type
      * @return a new key for a named binding of a given type.
      *
@@ -109,6 +110,14 @@ public final class Key<T> {
 
     public final Annotation getAnnotation() {
         return annotation;
+    }
+
+    public String getName() {
+        final Annotation annotation = getAnnotation();
+        if (annotation instanceof Named) {
+            return ((Named) annotation).value();
+        }
+        return getAnnotationType().toString();
     }
 
     /**

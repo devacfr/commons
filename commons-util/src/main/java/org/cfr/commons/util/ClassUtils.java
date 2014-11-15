@@ -18,8 +18,15 @@ package org.cfr.commons.util;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public class ClassUtils {
 
+    /**
+     * Singleton restriction instantiation of the class
+     */
     private ClassUtils() {
     }
 
@@ -30,7 +37,7 @@ public class ClassUtils {
      * Call this method if you intend to use the thread context ClassLoader in a scenario where you absolutely need a
      * non-null ClassLoader reference: for example, for class path resource loading (but not necessarily for
      * <code>Class.forName</code>, which accepts a <code>null</code> ClassLoader reference as well).
-     * 
+     *
      * @return the default ClassLoader (never <code>null</code>)
      * @see java.lang.Thread#getContextClassLoader()
      */
@@ -50,7 +57,7 @@ public class ClassUtils {
 
     /**
      * Finds all super classes and interfaces for a given class
-     * 
+     *
      * @param cls
      *            The class to scan
      * @return The collected related classes found
@@ -63,7 +70,7 @@ public class ClassUtils {
 
     /**
      * Finds all super classes and interfaces for a given class
-     * 
+     *
      * @param cls
      *            The class to scan
      * @param types
@@ -86,4 +93,5 @@ public class ClassUtils {
             findAllTypes(cls.getInterfaces()[x], types);
         }
     }
+
 }

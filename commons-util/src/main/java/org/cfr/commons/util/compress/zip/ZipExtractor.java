@@ -18,24 +18,29 @@ package org.cfr.commons.util.compress.zip;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.cfr.commons.io.IResource;
+import org.cfr.commons.util.Assert;
 import org.cfr.commons.util.compress.AbstractArchiveExtractor;
-import org.springframework.core.io.Resource;
 
 /**
  * Helper class to extract ZIP archive.
- * 
+ *
  * @author acochard [Jul 30, 2009]
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
 public class ZipExtractor extends AbstractArchiveExtractor<ZipArchiveInputStream> {
 
-    public ZipExtractor(Resource archiveFile) throws FileNotFoundException {
-        super(archiveFile);
+    public ZipExtractor(@Nonnull final IResource archiveFile) throws FileNotFoundException {
+        super(Assert.checkNotNull(archiveFile, "archiveFile"));
     }
 
     @Override
-    protected ZipArchiveInputStream createArchiveInputStream(InputStream fileInputStream) {
-        return new ZipArchiveInputStream(fileInputStream);
+    protected @Nonnull ZipArchiveInputStream createArchiveInputStream(@Nonnull final InputStream fileInputStream) {
+        return new ZipArchiveInputStream(Assert.checkNotNull(fileInputStream, "fileInputStream"));
     }
 
 }

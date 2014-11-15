@@ -53,7 +53,7 @@ public class CollectionReorderer<T> {
 
     /**
      * Move the 'toMove' to the position after the 'target'. To insert to the head of the list set afterThis to null
-     * 
+     *
      * @param objects
      *            list of objects to look up and order in
      * @param toMove

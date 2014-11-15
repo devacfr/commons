@@ -21,15 +21,24 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.StringUtils;
 import org.cfr.commons.util.collection.CollectionUtil;
+
+import com.google.common.base.Strings;
 
 /**
  * Assertion utility class that assists in validating arguments. Useful for identifying programmer errors early and
  * clearly at runtime.
+ * 
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
-// TODO move to commons-utils
-public abstract class Assert {
+public class Assert {
+
+    /**
+     * Singleton restriction instantiation of the class
+     */
+    private Assert() {
+    }
 
     /**
      * Assert a boolean expression, throwing <code>IllegalArgumentException</code> if the test result is
@@ -107,7 +116,6 @@ public abstract class Assert {
     }
 
     /**
-     *
      * @param object
      * @param parameterName
      * @return
@@ -170,7 +178,7 @@ public abstract class Assert {
      * @see StringUtils#hasLength
      */
     public static String hasLength(final String text, final String message) {
-        if (StringUtils.isEmpty(text)) {
+        if (Strings.isNullOrEmpty(text)) {
             throw new IllegalArgumentException(message);
         }
         return text;
@@ -193,13 +201,12 @@ public abstract class Assert {
     }
 
     /**
-     *
      * @param text
      * @param parameterName
      * @return
      */
     public static String checkHasText(@Nullable final String text, @Nonnull final String parameterName) {
-        if (StringUtils.isBlank(text)) {
+        if (isBlank(text)) {
             throw new IllegalArgumentException(required(parameterName));
         }
         return text;
@@ -220,7 +227,7 @@ public abstract class Assert {
      * @see StringUtils#hasText
      */
     public static String hasText(final String text, final String message) {
-        if (StringUtils.isBlank(text)) {
+        if (isBlank(text)) {
             throw new IllegalArgumentException(message);
         }
         return text;
@@ -258,7 +265,7 @@ public abstract class Assert {
      *            the exception message to use if the assertion fails
      */
     public static void doesNotContain(final String textToSearch, final String substring, final String message) {
-        if (StringUtils.isNotEmpty(textToSearch) && StringUtils.isNotEmpty(substring)
+        if (!Strings.isNullOrEmpty(textToSearch) && !Strings.isNullOrEmpty(substring)
                 && textToSearch.indexOf(substring) != -1) {
             throw new IllegalArgumentException(message);
         }
@@ -568,6 +575,7 @@ public abstract class Assert {
     /**
      * Asserts that two objects are equal. If they are not an @{link IllegalArgumentException} is thrown.
      */
+    @SuppressWarnings("PMD.SuspiciousEqualsMethodName")
     public static <T> T equals(final String name, final T expected, final T got) throws IllegalArgumentException {
         if (!expected.equals(got)) {
             throw new IllegalArgumentException(name + ". Expected:" + expected + " but got: " + got);
@@ -575,12 +583,12 @@ public abstract class Assert {
         return got;
     }
 
-    static String required(final String parameterName) {
+    private static String required(final String parameterName) {
         return format("%s parameter is required", parameterName);
     }
 
     @Nonnull
-    static String format(@Nullable String template, @Nullable final Object... args) {
+    private static String format(@Nullable String template, @Nullable final Object... args) {
         template = String.valueOf(template); // null -> "null"
 
         // start substituting the arguments into the '%s' placeholders
@@ -610,6 +618,37 @@ public abstract class Assert {
         }
 
         return builder.toString();
+    }
+
+    /**
+     * <p>
+     * Checks if a String is whitespace, empty ("") or null.
+     * </p>
+     *
+     * <pre>
+     * StringUtils.isBlank(null)      = true
+     * StringUtils.isBlank("")        = true
+     * StringUtils.isBlank(" ")       = true
+     * StringUtils.isBlank("bob")     = false
+     * StringUtils.isBlank("  bob  ") = false
+     * </pre>
+     *
+     * @param str
+     *            the String to check, may be null
+     * @return <code>true</code> if the String is null, empty or whitespace
+     * @since 2.0
+     */
+    private static boolean isBlank(final String str) {
+        int strLen;
+        if (str == null || (strLen = str.length()) == 0) {
+            return true;
+        }
+        for (int i = 0; i < strLen; i++) {
+            if ((Character.isWhitespace(str.charAt(i)) == false)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

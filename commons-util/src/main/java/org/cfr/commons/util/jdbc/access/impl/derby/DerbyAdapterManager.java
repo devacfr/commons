@@ -18,20 +18,30 @@ package org.cfr.commons.util.jdbc.access.impl.derby;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.cfr.commons.util.Assert;
 import org.cfr.commons.util.jdbc.access.IDbAdapter;
-import org.cfr.commons.util.jdbc.access.impl.BaseAdapterManager;
+import org.cfr.commons.util.jdbc.access.impl.AbstractAdapterManager;
 
-public class DerbyAdapterManager extends BaseAdapterManager {
+/**
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
+public class DerbyAdapterManager extends AbstractAdapterManager {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public IDbAdapter createAdapter(DatabaseMetaData md) throws SQLException {
-        String dbName = md.getDatabaseProductName();
+    public @Nullable IDbAdapter createAdapter(@Nonnull final DatabaseMetaData metadata) throws SQLException {
+        String dbName = Assert.checkNotNull(metadata, "metadata").getDatabaseProductName();
         if (dbName == null || !dbName.toUpperCase().contains("DERBY")) {
             return null;
         }
 
-        DerbyAdapter adapter = new DerbyAdapter();
-        return adapter;
+        return new DerbyAdapter();
     }
 
 }

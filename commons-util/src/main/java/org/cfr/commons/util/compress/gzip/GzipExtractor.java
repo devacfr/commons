@@ -22,25 +22,30 @@ import java.io.IOException;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.cfr.commons.io.IResource;
 import org.cfr.commons.util.Assert;
 import org.cfr.commons.util.compress.IArchiveExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
 
 /**
  * Helper class to extract GZIP archive.
  *
  * @author acochard
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
 public class GzipExtractor implements IArchiveExtractor {
 
+    /**
+     *
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(GzipExtractor.class);
 
     /**
      * Archive file.
      */
-    private final Resource archiveFile;
+    private final IResource archiveFile;
 
     /**
      * Creates a new extractor for the given file.
@@ -48,7 +53,7 @@ public class GzipExtractor implements IArchiveExtractor {
      * @param archiveFile
      *            the gzip archive file.
      */
-    public GzipExtractor(Resource archiveFile) {
+    public GzipExtractor(final IResource archiveFile) {
         this.archiveFile = Assert.notNull(archiveFile);
     }
 
@@ -56,7 +61,7 @@ public class GzipExtractor implements IArchiveExtractor {
      * {@inheritDoc}
      */
     @Override
-    public void deflate(File destination) throws IOException {
+    public void deflate(final File destination) throws IOException {
         if (destination.isDirectory()) {
             throw new IllegalArgumentException("Destination is a directory: " + destination.getCanonicalPath());
         }
@@ -76,12 +81,12 @@ public class GzipExtractor implements IArchiveExtractor {
     }
 
     @Override
-    public void deflate(File destination, String outputFilePattern) throws IOException {
+    public void deflate(final File destination, final String outputFilePattern) throws IOException {
         deflate(destination);
     }
 
     @Override
-    public void deflate(File destination, String outputFilePattern, boolean flat) throws IOException {
+    public void deflate(final File destination, final String outputFilePattern, final boolean flat) throws IOException {
         deflate(destination);
     }
 }

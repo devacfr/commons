@@ -18,20 +18,30 @@ package org.cfr.commons.util.jdbc.access.impl.hsqldb;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.cfr.commons.util.Assert;
 import org.cfr.commons.util.jdbc.access.IDbAdapter;
-import org.cfr.commons.util.jdbc.access.impl.BaseAdapterManager;
+import org.cfr.commons.util.jdbc.access.impl.AbstractAdapterManager;
 
-public class HsqlDbAdapterManager extends BaseAdapterManager {
+/**
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
+public class HsqlDbAdapterManager extends AbstractAdapterManager {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public IDbAdapter createAdapter(DatabaseMetaData md) throws SQLException {
-        String dbName = md.getDatabaseProductName();
+    public @Nullable IDbAdapter createAdapter(@Nonnull final DatabaseMetaData metadata) throws SQLException {
+        String dbName = Assert.checkNotNull(metadata, "metadata").getDatabaseProductName();
         if (dbName == null || !dbName.toUpperCase().contains("HSQL")) {
             return null;
         }
 
-        HsqlDbAdapter adapter = new HsqlDbAdapter();
-        return adapter;
+        return new HsqlDbAdapter();
     }
 
 }

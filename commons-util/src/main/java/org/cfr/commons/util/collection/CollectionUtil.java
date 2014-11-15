@@ -31,17 +31,16 @@ public class CollectionUtil {
     /**
      * Gets <code>true</code> if the supplied Collection is <code>null</code> or empty. Otherwise, return
      * <code>false</code>.
-     * 
+     *
      * @param collection
      *            the Collection to check
      * @return whether the given Collection is empty
      */
-    public static boolean isEmpty(Collection<?> collection) {
+    public static boolean isEmpty(final Collection<?> collection) {
         return (collection == null || collection.isEmpty());
     }
 
     /**
-     * 
      * @param iterable
      * @return
      */
@@ -56,7 +55,6 @@ public class CollectionUtil {
     }
 
     /**
-     * 
      * @param array
      * @return
      */
@@ -70,7 +68,6 @@ public class CollectionUtil {
     }
 
     /**
-     * 
      * @param iterator
      * @param sink
      */
@@ -81,7 +78,6 @@ public class CollectionUtil {
     }
 
     /**
-     * 
      * @param iterable
      * @param sink
      */
@@ -92,7 +88,6 @@ public class CollectionUtil {
     }
 
     /**
-     * 
      * @param iterable
      * @return
      */
@@ -101,7 +96,6 @@ public class CollectionUtil {
     }
 
     /**
-     * 
      * @param iterator
      * @return
      */
@@ -133,7 +127,6 @@ public class CollectionUtil {
     }
 
     /**
-     * 
      * @param iterator
      * @param transformer
      * @return
@@ -143,7 +136,6 @@ public class CollectionUtil {
     }
 
     /**
-     * 
      * @param iterable
      * @param transformer
      * @return
@@ -156,7 +148,6 @@ public class CollectionUtil {
     }
 
     /**
-     * 
      * @param iterator
      * @param transformer
      * @return
@@ -169,14 +160,14 @@ public class CollectionUtil {
      * Answers true if a predicate is true for at least one element of a collection.
      * <p>
      * A <code>null</code> collection or predicate returns false.
-     * 
+     *
      * @param collection
      *            the collection to get the input from, may be null
      * @param predicate
      *            the predicate to use, may be null
      * @return true if at least one element of the collection matches the predicate
      */
-    public static <T> boolean exists(Iterable<T> collection, Predicate<? super T> predicate) {
+    public static <T> boolean exists(final Iterable<T> collection, final Predicate<? super T> predicate) {
         if (collection != null && predicate != null) {
             for (Iterator<T> it = collection.iterator(); it.hasNext();) {
                 if (predicate.apply(it.next())) {
@@ -190,14 +181,14 @@ public class CollectionUtil {
     /**
      * Filter the iterable by applying a Predicate to each element. If the predicate returns false, remove the element.
      * If the input iterable or predicate is null, there is no change made.
-     * 
+     *
      * @param iterable
      *            the iterable to get the input from, may be null
      * @param predicate
      *            the predicate to use as a filter, may be null
      **/
 
-    public static <E> void clean(Iterable<E> iterable, Predicate<? super E> predicate) {
+    public static <E> void clean(final Iterable<E> iterable, final Predicate<? super E> predicate) {
         if (iterable != null && predicate != null) {
             for (Iterator<E> it = iterable.iterator(); it.hasNext();) {
                 if (predicate.apply(it.next()) == false) {
@@ -210,7 +201,7 @@ public class CollectionUtil {
     /**
      * Create filtered iterator by applying a Predicate to each element. If the input iterable or predicate is null,
      * there is no change made.
-     * 
+     *
      * @param collection
      *            the collection to get the input from, may be null
      * @param predicate
@@ -222,7 +213,7 @@ public class CollectionUtil {
 
     /**
      * Create a filtered {@link Iterator}.
-     * 
+     *
      * @param <T>
      * @return
      */

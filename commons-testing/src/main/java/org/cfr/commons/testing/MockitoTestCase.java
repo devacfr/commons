@@ -15,11 +15,9 @@
  */
 package org.cfr.commons.testing;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.junit.runners.BlockJUnit4ClassRunner;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
 import org.mockito.InOrder;
@@ -37,66 +35,75 @@ import org.mockito.verification.VerificationWithTimeout;
 
 /**
  * This class allow to migrate form JUnit 3.x syntax to JUnit 4.</p> it is also Mock facility.
- * 
- * @author cfriedri
  *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
-@RunWith(BlockJUnit4ClassRunner.class)
-public abstract class MockitoTestCase extends Assert {
+public abstract class MockitoTestCase extends TestCase {
 
+    /**
+     * Creates new instance.
+     */
     public MockitoTestCase() {
 
     }
 
-    public final String getPackageName() {
+    /**
+     * Gets the file system path representation of this test class.
+     *
+     * @return Returns {@code String} representing the file system location path of this test class.
+     * @deprecated use instead {@link #getPackagePath()} method
+     */
+    @Deprecated
+    public @Nonnull final String getPackageName() {
         return this.getClass().getPackage().getName().replace('.', '/');
-    }
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
     }
 
     /**
      * any object or null
      * <p>
-     * Shorter alias to {@link Matchers#anyObject()}
-     * <p>
+     * Shorter alias to {@link Matchers#anyObject()}.
+     * </p>
      * See examples in javadoc for {@link Matchers} class
-     * 
+     *
+     * @param <T>
+     *            type returned by the expected method
      * @return <code>null</code>.
      */
-    protected static <T> T any() {
+    protected static @Nullable <T> T any() {
         return Matchers.<T> any();
     }
 
     /**
      * any object or null
      * <p>
-     * Shorter alias to {@link Matchers#anyObject()}
-     * <p>
+     * Shorter alias to {@link Matchers#anyObject()}.
+     * </p>
      * See examples in javadoc for {@link Matchers} class
-     * 
+     *
+     * @param cl
+     *            type returned.
+     * @param <T>
+     *            type returned by the expected method
      * @return <code>null</code>.
      */
-    protected static <T> T any(Class<T> cl) {
+    protected static @Nullable <T> T any(@Nonnull final Class<T> cl) {
         return Matchers.any(cl);
     }
 
     /**
      * Creates mock object of given class or interface.
      * <p>
-     * See examples in javadoc for {@link Mockito} class
-     * 
+     * See examples in javadoc for {@link Mockito} class.
+     * </p>
+     *
      * @param classToMock
      *            class or interface to mock
+     * @param <T>
+     *            type returned by the expected method
      * @return mock object
      */
-    protected <T> T mock(Class<T> classToMock) {
+    protected @Nonnull <T> T mock(@Nonnull final Class<T> classToMock) {
         return Mockito.mock(classToMock);
     }
 
@@ -105,20 +112,22 @@ public abstract class MockitoTestCase extends Assert {
      * <p>
      * Beware that naming mocks is not a solution for complex code which uses too many mocks or collaborators. <b>If you
      * have too many mocks then refactor the code</b> so that it's easy to test/debug without necessity of naming mocks.
+     * </p>
      * <p>
      * <b>If you use &#064;Mock annotation then you've got naming mocks for free!</b> &#064;Mock uses field name as mock
      * name. {@link Mock Read more.}
-     * <p>
-     * 
+     * </p>
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param classToMock
      *            class or interface to mock
      * @param name
      *            of the mock
+     * @param <T>
+     *            type returned by the expected method
      * @return mock object
      */
-    protected <T> T mock(Class<T> classToMock, String name) {
+    protected @Nonnull <T> T mock(@Nonnull final Class<T> classToMock, @Nullable final String name) {
         return Mockito.mock(classToMock, name);
     }
 
@@ -127,24 +136,30 @@ public abstract class MockitoTestCase extends Assert {
      * you don't need it to write decent tests. However it can be helpful when working with legacy systems.
      * <p>
      * It is the default answer so it will be used <b>only when you don't</b> stub the method call.
+     * </p>
      *
      * <pre>
+     *
+     *
+     *
+     * 
      * Foo mock = mock(Foo.class, RETURNS_SMART_NULLS);
+     * 
      * Foo mockTwo = mock(Foo.class, new YourOwnAnswer());
      * </pre>
-     * 
      * <p>
      * See examples in javadoc for {@link Mockito} class
      * </p>
-     * 
+     *
      * @param classToMock
      *            class or interface to mock
      * @param defaultAnswer
      *            default answer for unstubbed methods
-     *
+     * @param <T>
+     *            type returned by the expected method
      * @return mock object
      */
-    protected <T> T mock(Class<T> classToMock, Answer<?> defaultAnswer) {
+    protected @Nonnull <T> T mock(@Nonnull final Class<T> classToMock, @Nonnull final Answer<?> defaultAnswer) {
         return Mockito.mock(classToMock, defaultAnswer);
     }
 
@@ -153,28 +168,31 @@ public abstract class MockitoTestCase extends Assert {
      * <p>
      * The number of configuration points for a mock grows so we need a fluent way to introduce new configuration
      * without adding more and more overloaded Mockito.mock() methods. Hence {@link MockSettings}.
-     * 
+     * </p>
+     *
      * <pre>
      *   Listener mock = mock(Listener.class, withSettings()
      *     .name("firstListner").defaultBehavior(RETURNS_SMART_NULLS));
      *   );
      * </pre>
-     * 
+     *
      * <b>Use it carefully and occasionally</b>. What might be reason your test needs non-standard mocks? Is the code
      * under test so complicated that it requires non-standard mocks? Wouldn't you prefer to refactor the code under
      * test so it is testable in a simple way?
      * <p>
      * See also {@link Mockito#withSettings()}
-     * <p>
+     * </p>
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param classToMock
      *            class or interface to mock
      * @param mockSettings
      *            additional mock settings
+     * @param <T>
+     *            type returned by the expected method
      * @return mock object
      */
-    protected <T> T mock(Class<T> classToMock, MockSettings mockSettings) {
+    protected @Nonnull <T> T mock(@Nonnull final Class<T> classToMock, @Nonnull final MockSettings mockSettings) {
         return Mockito.mock(classToMock, mockSettings);
     }
 
@@ -193,7 +211,7 @@ public abstract class MockitoTestCase extends Assert {
      * test-driven & well-designed code.
      * <p>
      * Example:
-     * 
+     *
      * <pre>
      * List list = new LinkedList();
      * List spy = spy(list);
@@ -215,11 +233,10 @@ public abstract class MockitoTestCase extends Assert {
      * verify(spy).add(&quot;one&quot;);
      * verify(spy).add(&quot;two&quot;);
      * </pre>
-     * 
-     * <h4>Important gotcha on spying real objects!</h4>
-     * 
-     * 1. Sometimes it's impossible to use {@link Mockito#when(Object)} for stubbing spies. Example:
-     * 
+     *
+     * <h4>Important gotcha on spying real objects!</h4> 1. Sometimes it's impossible to use
+     * {@link Mockito#when(Object)} for stubbing spies. Example:
+     *
      * <pre>
      * List list = new LinkedList();
      * List spy = spy(list);
@@ -230,20 +247,21 @@ public abstract class MockitoTestCase extends Assert {
      * // You have to use doReturn() for stubbing
      * doReturn(&quot;foo&quot;).when(spy).get(0);
      * </pre>
-     * 
+     *
      * 2. Watch out for final methods. Mockito doesn't mock final methods so the bottom line is: when you spy on real
      * objects + you try to stub a final method = trouble. What will happen is the real method will be called *on mock*
      * but *not on the real instance* you passed to the spy() method. Typically you may get a NullPointerException
      * because mock instances don't have fields initiated.
-     * 
      * <p>
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param object
      *            to spy on
+     * @param <T>
+     *            type returned by the expected method
      * @return a spy of the real object
      */
-    protected <T> T spy(T object) {
+    protected @Nonnull <T> T spy(@Nonnull final T object) {
         return Mockito.spy(object);
     }
 
@@ -267,7 +285,7 @@ public abstract class MockitoTestCase extends Assert {
      * </pre>
      * <p>
      * Some users find stub() confusing therefore {@link Mockito#when(Object)} is recommended over stub()
-     * 
+     *
      * <pre>
      * // Instead of:
      * stub(mock.count()).toReturn(10);
@@ -275,7 +293,7 @@ public abstract class MockitoTestCase extends Assert {
      * // You can do:
      * when(mock.count()).thenReturn(10);
      * </pre>
-     * 
+     *
      * For stubbing void methods with throwables see: {@link Mockito#doThrow(Throwable)}
      * <p>
      * Stubbing can be overridden: for example common stubbing can go to fixture setup but the test methods can override
@@ -289,12 +307,14 @@ public abstract class MockitoTestCase extends Assert {
      * stubbed foo.bar(). If your code cares what foo.bar() returns then something else breaks(often before even
      * verify() gets executed). If your code doesn't care what get(0) returns then it should not be stubbed. Not
      * convinced? See <a href="http://monkeyisland.pl/2008/04/26/asking-and-telling">here</a>.
-     * 
+     *
      * @param methodCall
      *            method call
+     * @param <T>
+     *            type returned by the expected method
      * @return DeprecatedOngoingStubbing object to set stubbed value/exception
      */
-    protected <T> DeprecatedOngoingStubbing<T> stub(T methodCall) {
+    protected @Nonnull <T> DeprecatedOngoingStubbing<T> stub(@Nonnull final T methodCall) {
         return Mockito.stub(methodCall);
     }
 
@@ -307,7 +327,7 @@ public abstract class MockitoTestCase extends Assert {
      * <b>when() is a successor of deprecated {@link Mockito#stub(Object)}</b>
      * <p>
      * Examples:
-     * 
+     *
      * <pre>
      * <b>when</b>(mock.someMethod()).<b>thenReturn</b>(10);
      * 
@@ -322,7 +342,7 @@ public abstract class MockitoTestCase extends Assert {
      * when(mock.someMethod("some arg"))
      *  .thenThrow(new RuntimeException())
      *  .thenReturn("foo");
-     *  
+     * 
      * //Alternative, shorter version for consecutive stubbing:
      * when(mock.someMethod("some arg"))
      *  .thenReturn("one", "two");
@@ -334,9 +354,9 @@ public abstract class MockitoTestCase extends Assert {
      * //shorter version for consecutive method calls throwing exceptions:
      * when(mock.someMethod("some arg"))
      *  .thenThrow(new RuntimeException(), new NullPointerException();
-     * 
+     *
      * </pre>
-     * 
+     *
      * For stubbing void methods with throwables see: {@link Mockito#doThrow(Throwable)}
      * <p>
      * Stubbing can be overridden: for example common stubbing can go to fixture setup but the test methods can override
@@ -350,14 +370,17 @@ public abstract class MockitoTestCase extends Assert {
      * stubbed foo.bar(). If your code cares what foo.bar() returns then something else breaks(often before even
      * verify() gets executed). If your code doesn't care what get(0) returns then it should not be stubbed. Not
      * convinced? See <a href="http://monkeyisland.pl/2008/04/26/asking-and-telling">here</a>.
-     * 
      * <p>
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param methodCall
      *            method to be stubbed
+     * @param <T>
+     *            type returned by the expected method
+     * @return OngoingStubbing object used to stub fluently. <strong>Do not</strong> create a reference to this returned
+     *         object.
      */
-    protected <T> OngoingStubbing<T> when(T methodCall) {
+    protected @Nonnull <T> OngoingStubbing<T> when(@Nonnull final T methodCall) {
         return Mockito.when(methodCall);
     }
 
@@ -365,13 +388,13 @@ public abstract class MockitoTestCase extends Assert {
      * Verifies certain behavior <b>happened once</b>
      * <p>
      * Alias to <code>verify(mock, times(1))</code> E.g:
-     * 
+     *
      * <pre>
      * verify(mock).someMethod(&quot;some arg&quot;);
      * </pre>
-     * 
+     *
      * Above is equivalent to:
-     * 
+     *
      * <pre>
      * verify(mock, times(1)).someMethod(&quot;some arg&quot;);
      * </pre>
@@ -383,21 +406,22 @@ public abstract class MockitoTestCase extends Assert {
      * stubbed foo.bar(). If your code cares what foo.bar() returns then something else breaks(often before even
      * verify() gets executed). If your code doesn't care what get(0) returns then it should not be stubbed. Not
      * convinced? See <a href="http://monkeyisland.pl/2008/04/26/asking-and-telling">here</a>.
-     * 
      * <p>
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param mock
      *            to be verified
+     * @param <T>
+     *            type returned by the expected method
      * @return mock object itself
      */
-    protected <T> T verify(T mock) {
+    protected @Nonnull <T> T verify(@Nonnull final T mock) {
         return Mockito.verify(mock);
     }
 
     /**
      * Verifies certain behavior happened at least once / exact number of times / never. E.g:
-     * 
+     *
      * <pre>
      *   verify(mock, times(5)).someMethod("was called five times");
      * 
@@ -417,10 +441,11 @@ public abstract class MockitoTestCase extends Assert {
      *            to be verified
      * @param mode
      *            times(x), atLeastOnce() or never()
-     *
+     * @param <T>
+     *            type returned by the expected method
      * @return mock object itself
      */
-    protected <T> T verify(T mock, VerificationMode mode) {
+    protected @Nonnull <T> T verify(@Nonnull final T mock, @Nonnull final VerificationMode mode) {
         return Mockito.verify(mock, mode);
     }
 
@@ -439,7 +464,7 @@ public abstract class MockitoTestCase extends Assert {
      * <p>
      * <b>Don't harm yourself.</b> reset() in the middle of the test method is a code smell (you're probably testing too
      * much).
-     * 
+     *
      * <pre>
      * List mock = mock(List.class);
      * when(mock.size()).thenReturn(10);
@@ -449,11 +474,13 @@ public abstract class MockitoTestCase extends Assert {
      * // at this point the mock forgot any interactions &amp; stubbing
      * </pre>
      *
-     * @param <T>
      * @param mocks
      *            to be reset
+     * @param <T>
+     *            type returned by the expected method
      */
-    protected <T> void reset(T... mocks) {
+    @SuppressWarnings("unchecked")
+    protected <T> void reset(@Nonnull final T... mocks) {
         Mockito.reset(mocks);
     }
 
@@ -475,10 +502,9 @@ public abstract class MockitoTestCase extends Assert {
      * This method will also detect unverified invocations that occurred before the test method, for example: in
      * setUp(), &#064;Before method or in constructor. Consider writing nice code that makes interactions only in test
      * methods.
-     * 
      * <p>
      * Example:
-     * 
+     *
      * <pre>
      * // interactions
      * mock.doSomething();
@@ -489,36 +515,36 @@ public abstract class MockitoTestCase extends Assert {
      * 
      * // following will fail because 'doSomethingUnexpected()' is unexpected
      * verifyNoMoreInteractions(mock);
-     * 
+     *
      * </pre>
-     * 
+     *
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param mocks
      *            to be verified
      */
-    protected void verifyNoMoreInteractions(Object... mocks) {
+    protected void verifyNoMoreInteractions(@Nonnull final Object... mocks) {
         Mockito.verifyNoMoreInteractions(mocks);
     }
 
     /**
      * Verifies that no interactions happened on given mocks.
-     * 
+     *
      * <pre>
      * verifyZeroInteractions(mockOne, mockTwo);
      * </pre>
-     * 
+     *
      * This method will also detect invocations that occurred before the test method, for example: in setUp(),
      * &#064;Before method or in constructor. Consider writing nice code that makes interactions only in test methods.
      * <p>
      * See also {@link Mockito#never()} - it is more explicit and communicates the intent well.
      * <p>
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param mocks
      *            to be verified
      */
-    protected void verifyZeroInteractions(Object... mocks) {
+    protected void verifyZeroInteractions(@Nonnull final Object... mocks) {
         Mockito.verifyZeroInteractions(mocks);
     }
 
@@ -529,16 +555,16 @@ public abstract class MockitoTestCase extends Assert {
      * void methods inside brackets...
      * <p>
      * Example:
-     * 
+     *
      * <pre>
      * doThrow(new RuntimeException()).when(mock).someVoidMethod();
      * </pre>
-     * 
+     *
      * @param toBeThrown
      *            to be thrown when the stubbed method is called
      * @return stubber - to select a method for stubbing
      */
-    protected Stubber doThrow(Throwable toBeThrown) {
+    protected Stubber doThrow(@Nonnull final Throwable toBeThrown) {
         return Mockito.doThrow(toBeThrown);
     }
 
@@ -559,7 +585,7 @@ public abstract class MockitoTestCase extends Assert {
      * correctly constructed object because you're responsible for constructing the object passed to spy() method.
      * <p>
      * Example:
-     * 
+     *
      * <pre>
      * Foo mock = mock(Foo.class);
      * doCallRealMethod().when(mock).someVoidMethod();
@@ -572,7 +598,7 @@ public abstract class MockitoTestCase extends Assert {
      *
      * @return stubber - to select a method for stubbing
      */
-    protected Stubber doCallRealMethod() {
+    protected @Nonnull Stubber doCallRealMethod() {
         return Mockito.doCallRealMethod();
     }
 
@@ -583,9 +609,10 @@ public abstract class MockitoTestCase extends Assert {
      * void methods inside brackets...
      * <p>
      * Example:
-     * 
+     *
      * <pre>
      * doAnswer(new Answer() {
+     * 
      *     public Object answer(InvocationOnMock invocation) {
      *         Object[] args = invocation.getArguments();
      *         Mock mock = invocation.getMock();
@@ -595,12 +622,12 @@ public abstract class MockitoTestCase extends Assert {
      * </pre>
      * <p>
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param answer
      *            to answer when the stubbed method is called
      * @return stubber - to select a method for stubbing
      */
-    protected Stubber doAnswer(Answer<?> answer) {
+    protected @Nonnull Stubber doAnswer(@Nonnull final Answer<?> answer) {
         return Mockito.doAnswer(answer);
     }
 
@@ -609,7 +636,7 @@ public abstract class MockitoTestCase extends Assert {
      * default!</b> However, there are rare situations when doNothing() comes handy:
      * <p>
      * 1. Stubbing consecutive calls on a void method:
-     * 
+     *
      * <pre>
      * doNothing().doThrow(new RuntimeException()).when(mock).someVoidMethod();
      * 
@@ -619,9 +646,9 @@ public abstract class MockitoTestCase extends Assert {
      * // throws RuntimeException the next time:
      * mock.someVoidMethod();
      * </pre>
-     * 
+     *
      * 2. When you spy real objects and you want the void method to do nothing:
-     * 
+     *
      * <pre>
      * List list = new LinkedList();
      * List spy = spy(list);
@@ -636,10 +663,10 @@ public abstract class MockitoTestCase extends Assert {
      * </pre>
      * <p>
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @return stubber - to select a method for stubbing
      */
-    protected Stubber doNothing() {
+    protected @Nonnull Stubber doNothing() {
         return Mockito.doNothing();
     }
 
@@ -651,9 +678,8 @@ public abstract class MockitoTestCase extends Assert {
      * <p>
      * Here are those rare occasions when doReturn() comes handy:
      * <p>
-     * 
      * 1. When spying real objects and calling real methods on a spy brings side effects
-     * 
+     *
      * <pre>
      * List list = new LinkedList();
      * List spy = spy(list);
@@ -664,9 +690,9 @@ public abstract class MockitoTestCase extends Assert {
      * // You have to use doReturn() for stubbing:
      * doReturn(&quot;foo&quot;).when(spy).get(0);
      * </pre>
-     * 
+     *
      * 2. Overriding a previous exception-stubbing:
-     * 
+     *
      * <pre>
      * when(mock.foo()).thenThrow(new RuntimeException());
      * 
@@ -676,31 +702,31 @@ public abstract class MockitoTestCase extends Assert {
      * // You have to use doReturn() for stubbing:
      * doReturn(&quot;bar&quot;).when(mock).foo();
      * </pre>
-     * 
+     *
      * Above scenarios shows a tradeoff of Mockito's ellegant syntax. Note that the scenarios are very rare, though.
      * Spying should be sporadic and overriding exception-stubbing is very rare. Not to mention that in general
      * overridding stubbing is a potential code smell that points out too much stubbing.
      * <p>
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param toBeReturned
      *            to be returned when the stubbed method is called
      * @return stubber - to select a method for stubbing
      */
-    protected Stubber doReturn(Object toBeReturned) {
+    protected @Nonnull Stubber doReturn(@Nullable final Object toBeReturned) {
         return Mockito.doReturn(toBeReturned);
     }
 
     /**
      * Creates InOrder object that allows verifying mocks in order.
-     * 
+     *
      * <pre>
      * InOrder inOrder = inOrder(firstMock, secondMock);
      * 
      * inOrder.verify(firstMock).add(&quot;was called first&quot;);
      * inOrder.verify(secondMock).add(&quot;was called second&quot;);
      * </pre>
-     * 
+     *
      * Verification in order is flexible - <b>you don't have to verify all interactions</b> one-by-one but only those
      * that you are interested in testing in order.
      * <p>
@@ -713,31 +739,29 @@ public abstract class MockitoTestCase extends Assert {
      * {@link InOrder#verifyNoMoreInteractions()}
      * <p>
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param mocks
      *            to be verified in order
-     * 
      * @return InOrder object to be used to verify in order
      */
-    protected InOrder inOrder(Object... mocks) {
+    protected @Nonnull InOrder inOrder(@Nonnull final Object... mocks) {
         return Mockito.inOrder(mocks);
     }
 
     /**
      * Allows verifying exact number of invocations. E.g:
-     * 
+     *
      * <pre>
      * verify(mock, times(2)).someMethod(&quot;some arg&quot;);
      * </pre>
-     * 
+     *
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param wantedNumberOfInvocations
      *            wanted number of invocations
-     * 
      * @return verification mode
      */
-    protected VerificationMode times(int wantedNumberOfInvocations) {
+    protected @Nonnull VerificationMode times(@Nonnull final int wantedNumberOfInvocations) {
         return Mockito.times(wantedNumberOfInvocations);
     }
 
@@ -745,94 +769,90 @@ public abstract class MockitoTestCase extends Assert {
      * Alias to times(0), see {@link Mockito#times(int)}
      * <p>
      * Verifies that interaction did not happen. E.g:
-     * 
+     *
      * <pre>
      * verify(mock, never()).someMethod();
      * </pre>
-     * 
      * <p>
      * If you want to verify there were NO interactions with the mock check out
      * {@link Mockito#verifyZeroInteractions(Object...)} or {@link Mockito#verifyNoMoreInteractions(Object...)}
      * <p>
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @return verification mode
      */
-    protected VerificationMode never() {
+    protected @Nonnull VerificationMode never() {
         return Mockito.never();
     }
 
     /**
      * Allows at-least-once verification. E.g:
-     * 
+     *
      * <pre>
      * verify(mock, atLeastOnce()).someMethod(&quot;some arg&quot;);
      * </pre>
-     * 
+     *
      * Alias to atLeast(1)
      * <p>
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @return verification mode
      */
-    protected VerificationMode atLeastOnce() {
+    protected @Nonnull VerificationMode atLeastOnce() {
         return Mockito.atLeastOnce();
     }
 
     /**
      * Allows at-least-x verification. E.g:
-     * 
+     *
      * <pre>
      * verify(mock, atLeast(3)).someMethod(&quot;some arg&quot;);
      * </pre>
-     * 
+     *
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param minNumberOfInvocations
      *            minimum number of invocations
-     * 
      * @return verification mode
      */
-    protected VerificationMode atLeast(int minNumberOfInvocations) {
+    protected @Nonnull VerificationMode atLeast(final int minNumberOfInvocations) {
         return Mockito.atLeast(minNumberOfInvocations);
     }
 
     /**
      * Allows at-most-x verification. E.g:
-     * 
+     *
      * <pre>
      * verify(mock, atMost(3)).someMethod(&quot;some arg&quot;);
      * </pre>
-     * 
+     *
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param maxNumberOfInvocations
      *            max number of invocations
-     * 
      * @return verification mode
      */
-    protected VerificationMode atMost(int maxNumberOfInvocations) {
+    protected @Nonnull VerificationMode atMost(final int maxNumberOfInvocations) {
         return Mockito.atMost(maxNumberOfInvocations);
     }
 
     /**
      * Allows checking if given method was the only one invoked. E.g:
-     * 
+     *
      * <pre>
      * verify(mock, only()).someMethod();
      * // above is a shorthand for following 2 lines of code:
      * verify(mock).someMethod();
      * verifyNoMoreInvocations(mock);
      * </pre>
-     * 
      * <p>
      * See also {@link Mockito#verifyNoMoreInteractions(Object...)}
      * <p>
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @return verification mode
      */
-    protected VerificationMode only() {
+    protected @Nonnull VerificationMode only() {
         return Mockito.only();
     }
 
@@ -842,7 +862,7 @@ public abstract class MockitoTestCase extends Assert {
      * It feels this feature should be used rarely - figure out a better way of testing your multi-threaded system
      * <p>
      * Not yet implemented to work with InOrder verification.
-     * 
+     *
      * <pre>
      * // passes when someMethod() is called within given time span
      * verify(mock, timeout(100)).someMethod();
@@ -859,15 +879,14 @@ public abstract class MockitoTestCase extends Assert {
      * // useful only if you have your own custom verification modes.
      * verify(mock, new Timeout(100, yourOwnVerificationMode)).someMethod();
      * </pre>
-     * 
+     *
      * See examples in javadoc for {@link Mockito} class
-     * 
+     *
      * @param millis
      *            - time span in millis
-     * 
      * @return verification mode
      */
-    protected VerificationWithTimeout timeout(int millis) {
+    protected @Nonnull VerificationWithTimeout timeout(final int millis) {
         return Mockito.timeout(millis);
     }
 
@@ -883,7 +902,7 @@ public abstract class MockitoTestCase extends Assert {
      * on.
      * <p>
      * Examples of incorrect use:
-     * 
+     *
      * <pre>
      * // Oups, someone forgot thenReturn() part:
      * when(mock.get());
@@ -894,7 +913,7 @@ public abstract class MockitoTestCase extends Assert {
      * // Oups, someone has used EasyMock for too long and forgot to specify the method to verify:
      * verify(mock);
      * </pre>
-     * 
+     *
      * Mockito throws exceptions if you misuse it so that you know if your tests are written correctly. The gotcha is
      * that Mockito does the validation <b>next time</b> you use the framework (e.g. next time you verify, stub, call
      * mock etc.). But even though the exception might be thrown in the next test, the exception <b>message contains a
@@ -930,26 +949,30 @@ public abstract class MockitoTestCase extends Assert {
      * test.
      * <p>
      * Examples of mock settings:
-     * 
+     *
      * <pre>
+     *
+     * 
      * // Creates mock with different default answer &amp; name
      * Foo mock = mock(Foo.class, withSettings().defaultAnswer(RETURNS_SMART_NULLS).name(&quot;mockie&quot;));
      * 
      * // Creates mock with different default answer, descriptive name and extra interfaces
      * Foo mock = mock(Foo.class, withSettings() //
-     *         .defaultAnswer(RETURNS_SMART_NULLS).name(&quot;mockie&quot;).extraInterfaces(Bar.class));
+     * .defaultAnswer(RETURNS_SMART_NULLS)
+     *         .name(&quot;mockie&quot;)
+     *         .extraInterfaces(Bar.class));
      * </pre>
-     * 
+     *
      * {@link MockSettings} has been introduced for two reasons. Firstly, to make it easy to add another mock settings
      * when the demand comes. Secondly, to enable combining different mock settings without introducing zillions of
      * overloaded mock() methods.
      * <p>
      * See javadoc for {@link MockSettings} to learn about possible mock settings.
      * <p>
-     * 
+     *
      * @return mock settings instance with defaults.
      */
-    protected MockSettings withSettings() {
+    protected @Nonnull MockSettings withSettings() {
         return Mockito.withSettings();
     }
 

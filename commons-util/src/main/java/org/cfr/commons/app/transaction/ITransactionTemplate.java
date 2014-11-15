@@ -15,11 +15,14 @@
  */
 package org.cfr.commons.app.transaction;
 
+import javax.annotation.Nonnull;
+
 /**
- * This allows applications greater control over the transaction in which operations may be executed. This really
- * mimicks {@link org.springframework.transaction.support.TransactionTemplate}, however since JIRA doesn't know about
- * Spring and doesn't support transactions we need to have our own implementation of this interface here.
+ * This allows applications greater control over the transaction in which operations may be executed.
  *
+ * @param <T>
+ *            type returned by {@link #execute(ITransactionCallback)} method.
+ * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
 public interface ITransactionTemplate<T> {
@@ -32,5 +35,5 @@ public interface ITransactionTemplate<T> {
      *            The callback
      * @return The object returned from the callback
      */
-    T execute(ITransactionCallback<T> action);
+    T execute(@Nonnull ITransactionCallback<T> action);
 }

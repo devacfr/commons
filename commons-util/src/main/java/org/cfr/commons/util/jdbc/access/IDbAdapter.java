@@ -18,15 +18,46 @@ package org.cfr.commons.util.jdbc.access;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import javax.annotation.Nonnull;
+
+/**
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public interface IDbAdapter {
 
+    /**
+     * Get the type of database of this adapter.
+     *
+     * @return Returns the {@link Database type} of database.
+     */
+    @Nonnull
     Database getDatabase();
 
+    /**
+     * @return Returns list containing statement to execute to remove check constraints.
+     */
+    @Nonnull
     Collection<String> unCheckForeignKeyStatements();
 
+    /**
+     * @return Returns list containing statement to execute to add check constraints.
+     */
+    @Nonnull
     Collection<String> checkForeignKeyStatements();
 
+    /**
+     * @return Returns list containing statement to execute to shutdown database.
+     */
+    @Nonnull
     Collection<String> shudownStatements();
 
-    void realeaseConnection() throws SQLException;
+    /**
+     * Performs a checkpoint and releases resources for embedded databases typically.
+     *
+     * @throws SQLException
+     *             if a database access error occurs
+     */
+    @Nonnull
+    void shudownDatabase() throws SQLException;
 }

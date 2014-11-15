@@ -31,16 +31,18 @@ import org.slf4j.LoggerFactory;
  * Helper class to create GZIP archive.
  *
  * @author acochard
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
 public class GzipCreator implements IArchiveCreator {
 
     /**
-     * 
+     *
      */
     private static final int BUFFER_LENGTH = 1024;
 
     /**
-     * 
+     *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(GzipCreator.class);
 
@@ -55,7 +57,7 @@ public class GzipCreator implements IArchiveCreator {
      * @param archiveFile
      *            the gzip archive file.
      */
-    public GzipCreator(File archiveFile) {
+    public GzipCreator(final File archiveFile) {
         this.archiveFile = archiveFile;
     }
 
@@ -71,7 +73,7 @@ public class GzipCreator implements IArchiveCreator {
      * {@inheritDoc}
      */
     @Override
-    public File inflate(File... directories) throws IOException {
+    public File inflate(final File... directories) throws IOException {
         throw new UnsupportedOperationException();
     }
 
@@ -79,7 +81,8 @@ public class GzipCreator implements IArchiveCreator {
      * {@inheritDoc}
      */
     @Override
-    public File inflate(File file) throws IOException {
+    @SuppressWarnings("PMD.AssignmentInOperand")
+    public File inflate(final File file) throws IOException {
         BufferedInputStream fileInput = new BufferedInputStream(new FileInputStream(file));
         GZIPOutputStream fileOutput = new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(archiveFile)));
 

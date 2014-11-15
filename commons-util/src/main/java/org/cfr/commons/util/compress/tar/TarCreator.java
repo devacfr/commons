@@ -24,24 +24,31 @@ import org.cfr.commons.util.compress.AbstractArchiveCreator;
 
 /**
  * Helper class to create TAR archive.
- * 
+ *
  * @author acochard [Jul 30, 2009]
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
 public class TarCreator extends AbstractArchiveCreator<TarArchiveOutputStream, TarArchiveEntry> {
 
-    public TarCreator(File archiveFile) {
+    /**
+     * Create a new TarCreator Instance
+     * 
+     * @param archiveFile
+     */
+    public TarCreator(final File archiveFile) {
         super(archiveFile);
     }
 
     @Override
-    protected TarArchiveEntry createArchiveEntry(String name, File file) {
+    protected TarArchiveEntry createArchiveEntry(final String name, final File file) {
         TarArchiveEntry entry = new TarArchiveEntry(name);
         entry.setSize(file.length());
         return entry;
     }
 
     @Override
-    protected TarArchiveOutputStream createArchiveOutputStream(BufferedOutputStream stream) {
+    protected TarArchiveOutputStream createArchiveOutputStream(final BufferedOutputStream stream) {
         return new TarArchiveOutputStream(stream);
     }
 }

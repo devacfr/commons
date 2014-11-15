@@ -15,37 +15,32 @@
  */
 package org.cfr.commons.util.jdbc.access.impl.hsqldb;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 import org.cfr.commons.util.jdbc.access.Database;
 import org.cfr.commons.util.jdbc.access.impl.BaseAdapter;
 
+/**
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public class HsqlDbAdapter extends BaseAdapter {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Database getDatabase() {
-        return Database.hsqldb;
+        return Database.HSQLDB;
     }
 
-    @Override
-    public Collection<String> checkForeignKeyStatements() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public Collection<String> unCheckForeignKeyStatements() {
-        return Collections.emptyList();
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Collection<String> shudownStatements() {
         return Arrays.asList("SHUTDOWN COMPACT");
     }
 
-    @Override
-    public void realeaseConnection() throws SQLException {
-    }
 }

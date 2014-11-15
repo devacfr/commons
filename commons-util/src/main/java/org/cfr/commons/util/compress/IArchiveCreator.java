@@ -20,8 +20,10 @@ import java.io.IOException;
 
 /**
  * Helper interface to create archive.
- * 
+ *
  * @author acochard
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
 public interface IArchiveCreator {
 
@@ -32,7 +34,7 @@ public interface IArchiveCreator {
 
     /**
      * Inflate all files within the given directories.
-     * 
+     *
      * @param directories
      *            the directories all files are zipped within
      * @return the zipped file.
@@ -43,7 +45,7 @@ public interface IArchiveCreator {
 
     /**
      * Inflate the specified file.
-     * 
+     *
      * @param file
      *            the file to inflate.
      * @return the inflated file.

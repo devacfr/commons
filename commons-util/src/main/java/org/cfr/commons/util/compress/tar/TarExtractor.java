@@ -19,22 +19,24 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.cfr.commons.io.IResource;
 import org.cfr.commons.util.compress.AbstractArchiveExtractor;
-import org.springframework.core.io.Resource;
 
 /**
  * Helper class to extract TAR archive.
- * 
+ *
  * @author acochard [Jul 30, 2009]
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
 public class TarExtractor extends AbstractArchiveExtractor<TarArchiveInputStream> {
 
-    public TarExtractor(Resource archiveFile) throws FileNotFoundException {
+    public TarExtractor(final IResource archiveFile) throws FileNotFoundException {
         super(archiveFile);
     }
 
     @Override
-    protected TarArchiveInputStream createArchiveInputStream(InputStream fileInputStream) {
+    protected TarArchiveInputStream createArchiveInputStream(final InputStream fileInputStream) {
         return new TarArchiveInputStream(fileInputStream);
     }
 }

@@ -1,71 +1,87 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.cfr.commons</groupId>
-        <artifactId>commons-inject-parent</artifactId>
-        <version>1.0.2-SNAPSHOT</version>
-    </parent>
-    <artifactId>commons-inject</artifactId>
-    <name>Common Dependency Injection API Module</name>
-    <description>Common Dependency Injection AP</description>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.cfr.commons</groupId>
+		<artifactId>commons-inject-parent</artifactId>
+		<version>1.0.2-SNAPSHOT</version>
+	</parent>
+	<artifactId>commons-inject</artifactId>
+	<name>Common Dependency Injection API Module</name>
+	<description>Common Dependency Injection AP</description>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.cfr.commons</groupId>
-            <artifactId>commons-util</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.atlassian.inject</groupId>
-            <artifactId>atlassian-inject</artifactId>
-            <exclusions>
-                <!-- Conflict with guava -->
-                <exclusion>
-                    <artifactId>google-collections</artifactId>
-                    <groupId>com.google.collections</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>org.cfr.commons</groupId>
+			<artifactId>commons-util</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.atlassian.inject</groupId>
+			<artifactId>atlassian-inject</artifactId>
+			<version>1.0.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>google-collections</artifactId>
+					<groupId>com.google.collections</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-        <!-- Testing Dependencies -->
-        <dependency>
-            <groupId>org.cfr.commons</groupId>
-            <artifactId>commons-testing</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+		<!-- Testing Dependencies -->
+		<dependency>
+			<groupId>org.cfr.commons</groupId>
+			<artifactId>commons-testing</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>atlassian-public</id>
+			<url>https://maven.atlassian.com/repository/public</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+		</repository>
+	</repositories>
 </project>

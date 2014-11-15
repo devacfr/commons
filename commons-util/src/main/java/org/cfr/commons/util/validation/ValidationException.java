@@ -15,36 +15,58 @@
  */
 package org.cfr.commons.util.validation;
 
-import org.springframework.dao.DataAccessException;
+import com.google.common.base.MoreObjects;
 
-public class ValidationException extends DataAccessException {
+/**
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
+public class ValidationException extends RuntimeException {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 2455617036982816433L;
 
+    /**
+     * result of a validation execution.
+     */
     private ValidationResult result;
 
-    public ValidationException(String message) {
+    /**
+     * @param message
+     */
+    public ValidationException(final String message) {
         super(message);
     }
 
-    public ValidationException(ValidationResult result) {
+    /**
+     * @param result
+     */
+    public ValidationException(final ValidationResult result) {
         this("Validation failures: " + result.toString(), result);
     }
 
-    public ValidationException(String message, ValidationResult result) {
+    /**
+     * @param message
+     * @param result
+     */
+    public ValidationException(final String message, final ValidationResult result) {
         super(message);
         this.result = result;
     }
 
+    /**
+     * Gets list of result of a validation execution.
+     *
+     * @return Returns list of result of a validation execution.
+     */
     public ValidationResult getValidationResult() {
         return result;
     }
 
     @Override
     public String toString() {
-        return super.toString() + System.getProperty("line.separator") + this.result;
+        return MoreObjects.toStringHelper(getClass()).add("result", this.result).toString();
     }
 }

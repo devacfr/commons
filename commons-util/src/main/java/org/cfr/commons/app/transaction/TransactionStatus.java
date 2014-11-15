@@ -15,11 +15,21 @@
  */
 package org.cfr.commons.app.transaction;
 
+/**
+ * Representation of the status of a transaction.
+ * <p>
+ * Transactional code can use this to retrieve status information, and to programmatically request a rollback (instead
+ * of throwing an exception that causes an implicit rollback).
+ * </p>
+ *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since
+ */
 public interface TransactionStatus {
 
     /**
-     * Return whether the present transaction is new (else participating in an existing transaction, or potentially not
-     * running in an actual transaction in the first place).
+     * @return Returns whether the present transaction is new (else participating in an existing transaction, or
+     *         potentially not running in an actual transaction in the first place).
      */
     boolean isNewTransaction();
 
@@ -30,8 +40,8 @@ public interface TransactionStatus {
     void setRollbackOnly();
 
     /**
-     * Return whether the transaction has been marked as rollback-only (either by the application or by the transaction
-     * infrastructure).
+     * @return Returns whether the transaction has been marked as rollback-only (either by the application or by the
+     *         transaction infrastructure).
      */
     boolean isRollbackOnly();
 
@@ -41,7 +51,8 @@ public interface TransactionStatus {
     void flush();
 
     /**
-     * Return whether this transaction is completed, that is, whether it has already been committed or rolled back.
+     * @return Returns whether this transaction is completed, that is, whether it has already been committed or rolled
+     *         back.
      */
     boolean isCompleted();
 

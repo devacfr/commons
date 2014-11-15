@@ -28,7 +28,7 @@ import java.util.Collection;
 public class CollectionEnclosedIterable<T> implements EnclosedIterable<T> {
 
     /**
-     * 
+     *
      */
     private final Collection<? extends T> collection;
 
@@ -39,7 +39,7 @@ public class CollectionEnclosedIterable<T> implements EnclosedIterable<T> {
     /**
      * Create an {@link EnclosedIterable} from the supplied Collection. Does not copy the collection so you should only
      * use this if you are about to lose the reference or the collection is immutable.
-     * 
+     *
      * @param <T>
      *            the collection type
      * @param collection
@@ -53,16 +53,19 @@ public class CollectionEnclosedIterable<T> implements EnclosedIterable<T> {
         return new CollectionEnclosedIterable<T>(new ArrayList<T>(collection));
     }
 
+    @Override
     public void foreach(final Consumer<T> sink) {
         for (final T element : collection) {
             sink.consume(element);
         }
     };
 
+    @Override
     public int size() {
         return collection.size();
     }
 
+    @Override
     public boolean isEmpty() {
         return collection.isEmpty();
     }

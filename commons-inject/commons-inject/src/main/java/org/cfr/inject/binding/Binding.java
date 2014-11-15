@@ -15,8 +15,6 @@
  */
 package org.cfr.inject.binding;
 
-import javax.inject.Provider;
-
 import org.cfr.inject.Binder;
 import org.cfr.inject.Key;
 
@@ -36,7 +34,34 @@ public interface Binding<T> {
      */
     Key<T> getKey();
 
-    Provider<T> getProvider();
+    /**
+     *
+     * @return
+     */
+    Key<? extends T> getTargetKey();
 
+    /**
+     *
+     * @return
+     */
+    boolean hasConstructorSpecified();
+
+    /**
+     *
+     * @return
+     */
+    Class<?>[] getConstructorParameters();
+
+    /**
+     *
+     * @return
+     */
+    Class<? extends T> getInstanceClass();
+
+    /**
+     *
+     * @param binder
+     */
     void applyTo(Binder binder);
+
 }

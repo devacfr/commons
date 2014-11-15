@@ -25,14 +25,12 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
+import com.google.common.base.Strings;
 
 /**
  * PathMatcher implementation for Ant-style path patterns. Examples are provided below.
- *
  * <p>
  * Part of this mapping code has been kindly borrowed from <a href="http://ant.apache.org">Apache Ant</a>.
- *
  * <p>
  * The mapping matches URLs using the following rules:<br>
  * <ul>
@@ -40,7 +38,6 @@ import org.apache.commons.lang.StringUtils;
  * <li>* matches zero or more characters</li>
  * <li>** matches zero or more 'directories' in a path</li>
  * </ul>
- *
  * <p>
  * Some examples:<br>
  * <ul>
@@ -59,8 +56,8 @@ import org.apache.commons.lang.StringUtils;
  * @author Arjen Poutsma
  * @since 16.07.2003
  */
-//CHECKSTYLE:OFF
-public class AntPathMatcher implements PathMatcher {
+@SuppressWarnings("CheckStyle")
+public class AntPathMatcher implements IPathMatcher {
 
     /** Default path separator: "/" */
     public static final String DEFAULT_PATH_SEPARATOR = "/";
@@ -100,10 +97,13 @@ public class AntPathMatcher implements PathMatcher {
     /**
      * Actually match the given {@code path} against the given {@code pattern}.
      *
-     * @param pattern the pattern to match against
-     * @param path the path String to test
-     * @param fullMatch whether a full pattern match is required (else a pattern match as far as the given base
-     * path goes is sufficient)
+     * @param pattern
+     *            the pattern to match against
+     * @param path
+     *            the path String to test
+     * @param fullMatch
+     *            whether a full pattern match is required (else a pattern match as far as the given base path goes is
+     *            sufficient)
      * @return {@code true} if the supplied {@code path} matched, {@code false} if it didn't
      */
     protected boolean doMatch(final String pattern, final String path, final boolean fullMatch,
@@ -389,11 +389,11 @@ public class AntPathMatcher implements PathMatcher {
      */
     @Override
     public String combine(final String pattern1, final String pattern2) {
-        if (!StringUtils.isNotEmpty(pattern1) && !StringUtils.isNotEmpty(pattern2)) {
+        if (Strings.isNullOrEmpty(pattern1) && Strings.isNullOrEmpty(pattern2)) {
             return "";
-        } else if (!StringUtils.isNotEmpty(pattern1)) {
+        } else if (Strings.isNullOrEmpty(pattern1)) {
             return pattern2;
-        } else if (!StringUtils.isNotEmpty(pattern2)) {
+        } else if (Strings.isNullOrEmpty(pattern2)) {
             return pattern1;
         } else if (match(pattern1, pattern2)) {
             return pattern2;
@@ -444,7 +444,6 @@ public class AntPathMatcher implements PathMatcher {
 
     /**
      * Given a full path, returns a {@link Comparator} suitable for sorting patterns in order of explicitness.
-     *
      * <p>
      * The returned {@code Comparator} will
      * {@linkplain java.util.Collections#sort(java.util.List, java.util.Comparator) sort} a list so that more specific
@@ -456,7 +455,6 @@ public class AntPathMatcher implements PathMatcher {
      * <li>{@code /hotels/*}</li>
      * </ol>
      * the returned comparator will sort this list so that the order will be as indicated.
-     *
      * <p>
      * The full path given as parameter is used to test for exact matches. So when the given path is {@code /hotels/2},
      * the pattern {@code /hotels/2} will be sorted before {@code /hotels/1}.

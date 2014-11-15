@@ -21,32 +21,46 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.cfr.commons.io.IResource;
 import org.cfr.commons.util.AntPathMatcher;
+import org.cfr.commons.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
+
+import com.google.common.base.Strings;
 
 /**
  * Abstract ArchiveExtractor to implement org.apache.commons.compress archivers.
  *
  * @author acochard [Jul 30, 2009]
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ * @param <I>
+ *            the Archive input streams used.
  */
 public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> implements IArchiveExtractor {
 
     /**
-     * 
+     *
      */
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private final static Logger LOGGER = LoggerFactory.getLogger(AbstractArchiveExtractor.class);
+
+    /**
+     *
+     */
+    private final AntPathMatcher matcher = new AntPathMatcher();
 
     /**
      * Archive file.
      */
-    private final Resource archiveFile;
+    private final IResource archiveFile;
 
     /**
      * Creates a new extractor for the given file.
@@ -56,8 +70,8 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
      * @throws FileNotFoundException
      *             if the file does not exist.
      */
-    public AbstractArchiveExtractor(Resource archiveFile) throws FileNotFoundException {
-        Assert.notNull(archiveFile);
+    public AbstractArchiveExtractor(@Nonnull final IResource archiveFile) throws FileNotFoundException {
+        Assert.checkNotNull(archiveFile, "archiveFile");
         if (!archiveFile.exists()) {
             throw new FileNotFoundException("File not found " + archiveFile.getFilename());
         }
@@ -66,13 +80,20 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
 
     }
 
-    protected abstract I createArchiveInputStream(InputStream fileInputStream);
+    /**
+     * Create new specific inputstream.
+     *
+     * @param fileInputStream
+     *            the inputstream to use.
+     * @return Returns new specific inputstream.
+     */
+    protected abstract I createArchiveInputStream(@Nonnull InputStream fileInputStream);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void deflate(File destination) throws IOException {
+    public void deflate(@Nonnull final File destination) throws IOException {
         deflate(destination, null);
     }
 
@@ -80,7 +101,7 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
      * {@inheritDoc}
      */
     @Override
-    public void deflate(File destination, String outputFilePattern) throws IOException {
+    public void deflate(final File destination, final String outputFilePattern) throws IOException {
         deflate(destination, outputFilePattern, false);
     }
 
@@ -88,8 +109,9 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
      * {@inheritDoc}
      */
     @Override
-    public void deflate(File destination, String outputFilePattern, boolean flat) throws IOException {
-        Assert.notNull(destination);
+    public void deflate(@Nonnull final File destination, @Nullable final String outputFilePattern, final boolean flat)
+            throws IOException {
+        Assert.checkNotNull(destination, "destination");
         if (!destination.exists() || !destination.isDirectory()) {
             throw new IllegalArgumentException("Invalid destination: " + destination.getCanonicalPath());
         }
@@ -100,8 +122,8 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
         try {
             archiveInputStream = createArchiveInputStream(archiveFile.getInputStream());
 
-            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry = archiveInputStream
-                    .getNextEntry()) {
+            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry =
+                    archiveInputStream.getNextEntry()) {
 
                 String entryName = entry.getName();
 
@@ -113,7 +135,7 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
                 }
 
                 // Output file pattern check
-                if (StringUtils.isNotEmpty(outputFilePattern)
+                if (!Strings.isNullOrEmpty(outputFilePattern)
                         && !matcher.match(outputFilePattern, new File(entryName).getName())) {
                     continue;
                 }
@@ -145,25 +167,27 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
     }
 
     /**
-     * Returns the first outputstream according to the <code>outputFilePattern</code> parameter.
-     * 
+     * Deflates the first entry in archive that matches with the {@code outputFilePattern} parameter Ant pattern.
+     *
      * @param outputFilePattern
-     * @return
+     *            Ant pattern used.
+     * @return Returns the first outputstream according to the <code>outputFilePattern</code> parameter.
      * @throws IOException
+     *             if IO errors occurs
      */
-    public InputStream deflate(String outputFilePattern) throws IOException {
-        AntPathMatcher matcher = new AntPathMatcher();
+    @CheckReturnValue
+    public @Nullable InputStream deflate(@Nonnull final String outputFilePattern) throws IOException {
         I archiveInputStream = null;
         try {
             archiveInputStream = createArchiveInputStream(archiveFile.getInputStream());
 
-            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry = archiveInputStream
-                    .getNextEntry()) {
+            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry =
+                    archiveInputStream.getNextEntry()) {
 
                 String entryName = entry.getName();
 
                 // Output file pattern check
-                if (StringUtils.isNotEmpty(outputFilePattern)
+                if (!Strings.isNullOrEmpty(outputFilePattern)
                         && !matcher.match(outputFilePattern, new File(entryName).getName())) {
                     continue;
                 }
@@ -175,21 +199,25 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
         return null;
     }
 
-    public boolean entryExist(String outputFilePattern) throws IOException {
-        Assert.hasText(outputFilePattern);
-        AntPathMatcher matcher = new AntPathMatcher();
+    /**
+     * @param outputFilePattern
+     * @return
+     * @throws IOException
+     */
+    public boolean entryExist(@Nonnull final String outputFilePattern) throws IOException {
+        Assert.checkHasText(outputFilePattern, "outputFilePattern");
         I archiveInputStream = null;
 
         try {
             archiveInputStream = createArchiveInputStream(archiveFile.getInputStream());
 
-            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry = archiveInputStream
-                    .getNextEntry()) {
+            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry =
+                    archiveInputStream.getNextEntry()) {
 
                 String entryName = entry.getName();
 
                 // Output file pattern check
-                if (StringUtils.isNotEmpty(outputFilePattern)
+                if (!Strings.isNullOrEmpty(outputFilePattern)
                         && !matcher.match(outputFilePattern, new File(entryName).getName())) {
                     continue;
                 }

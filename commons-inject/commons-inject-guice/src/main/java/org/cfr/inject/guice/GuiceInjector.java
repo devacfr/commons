@@ -98,7 +98,7 @@ public class GuiceInjector implements Injector {
 
                     @Override
                     public org.cfr.inject.Scope apply(@Nonnull final com.google.inject.Scope scope) {
-                        return DI.normalize(scope);
+                        return DI.injectify(scope);
                     }
                 });
     }

@@ -28,7 +28,6 @@ import org.cfr.inject.Key;
 import org.cfr.inject.Module;
 
 import com.google.common.base.Function;
-import com.google.inject.Binder;
 import com.google.inject.Guice;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
@@ -75,10 +74,22 @@ public final class DI {
                 })));
     }
 
+    /**
+     *
+     * @param stage
+     * @param modules
+     * @return
+     */
     public static Injector createInjector(final Stage stage, final Module... modules) {
         return createInjector(stage, Arrays.asList(modules));
     }
 
+    /**
+     *
+     * @param stage
+     * @param modules
+     * @return
+     */
     public static Injector createInjector(final Stage stage, final Iterable<Module> modules) {
         return new GuiceInjector(Guice.createInjector(stage,
                 CollectionUtil.transform(modules, new Function<Module, com.google.inject.Module>() {
@@ -107,7 +118,12 @@ public final class DI {
         };
     }
 
-    public static @Nonnull org.cfr.inject.Scope normalize(@Nonnull final Scope scope) {
+    /**
+     *
+     * @param scope
+     * @return
+     */
+    public static @Nonnull org.cfr.inject.Scope injectify(@Nonnull final Scope scope) {
         Assert.notNull(scope);
         return new org.cfr.inject.Scope() {
 
@@ -157,13 +173,6 @@ public final class DI {
      * @return
      */
     public static com.google.inject.Module guicify(final Module model) {
-        return new com.google.inject.Module() {
-
-            @Override
-            public void configure(final Binder binder) {
-                model.configure(new GuiceBinder(binder));
-            }
-
-        };
+        return new GuiceModule(model);
     }
 }

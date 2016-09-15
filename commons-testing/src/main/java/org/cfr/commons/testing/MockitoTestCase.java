@@ -34,7 +34,9 @@ import org.mockito.verification.VerificationMode;
 import org.mockito.verification.VerificationWithTimeout;
 
 /**
- * This class allow to migrate form JUnit 3.x syntax to JUnit 4.</p> it is also Mock facility.
+ * This class allow to migrate form JUnit 3.x syntax to JUnit 4.
+ * </p>
+ * it is also Mock facility.
  *
  * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
@@ -46,17 +48,6 @@ public abstract class MockitoTestCase extends TestCase {
      */
     public MockitoTestCase() {
 
-    }
-
-    /**
-     * Gets the file system path representation of this test class.
-     *
-     * @return Returns {@code String} representing the file system location path of this test class.
-     * @deprecated use instead {@link #getPackagePath()} method
-     */
-    @Deprecated
-    public @Nonnull final String getPackageName() {
-        return this.getClass().getPackage().getName().replace('.', '/');
     }
 
     /**
@@ -140,9 +131,6 @@ public abstract class MockitoTestCase extends TestCase {
      *
      * <pre>
      *
-     *
-     *
-     * 
      * Foo mock = mock(Foo.class, RETURNS_SMART_NULLS);
      * 
      * Foo mockTwo = mock(Foo.class, new YourOwnAnswer());
@@ -459,8 +447,8 @@ public abstract class MockitoTestCase extends TestCase {
      * There are several threads about it on mockito mailing list.
      * <p>
      * The only reason we added reset() method is to make it possible to work with container-injected mocks. See issue
-     * 55 (<a href="http://code.google.com/p/mockito/issues/detail?id=55">here</a>) or FAQ (<a
-     * href="http://code.google.com/p/mockito/wiki/FAQ">here</a>).
+     * 55 (<a href="http://code.google.com/p/mockito/issues/detail?id=55">here</a>) or FAQ (
+     * <a href="http://code.google.com/p/mockito/wiki/FAQ">here</a>).
      * <p>
      * <b>Don't harm yourself.</b> reset() in the middle of the test method is a code smell (you're probably testing too
      * much).
@@ -891,11 +879,11 @@ public abstract class MockitoTestCase extends TestCase {
     }
 
     /**
-     * First of all, in case of any trouble, I encourage you to read the Mockito FAQ: <a
-     * href="http://code.google.com/p/mockito/wiki/FAQ">http://code.google.com/p/mockito/wiki/FAQ</a>
+     * First of all, in case of any trouble, I encourage you to read the Mockito FAQ:
+     * <a href="http://code.google.com/p/mockito/wiki/FAQ">http://code.google.com/p/mockito/wiki/FAQ</a>
      * <p>
-     * In case of questions you may also post to mockito mailing list: <a
-     * href="http://groups.google.com/group/mockito">http://groups.google.com/group/mockito</a>
+     * In case of questions you may also post to mockito mailing list:
+     * <a href="http://groups.google.com/group/mockito">http://groups.google.com/group/mockito</a>
      * <p>
      * validateMockitoUsage() <b>explicitly validates</b> the framework state to detect invalid use of Mockito. However,
      * this feature is optional <b>because Mockito validates the usage all the time...</b> but there is a gotcha so read
@@ -952,15 +940,12 @@ public abstract class MockitoTestCase extends TestCase {
      *
      * <pre>
      *
-     * 
      * // Creates mock with different default answer &amp; name
      * Foo mock = mock(Foo.class, withSettings().defaultAnswer(RETURNS_SMART_NULLS).name(&quot;mockie&quot;));
      * 
      * // Creates mock with different default answer, descriptive name and extra interfaces
      * Foo mock = mock(Foo.class, withSettings() //
-     * .defaultAnswer(RETURNS_SMART_NULLS)
-     *         .name(&quot;mockie&quot;)
-     *         .extraInterfaces(Bar.class));
+     *         .defaultAnswer(RETURNS_SMART_NULLS).name(&quot;mockie&quot;).extraInterfaces(Bar.class));
      * </pre>
      *
      * {@link MockSettings} has been introduced for two reasons. Firstly, to make it easy to add another mock settings

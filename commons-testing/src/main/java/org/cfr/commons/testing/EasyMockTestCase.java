@@ -34,7 +34,9 @@ import org.easymock.internal.matchers.Captures;
 import org.junit.Before;
 
 /**
- * This class allow to migrate form JUnit 3.x syntax to JUnit 4.</p> it is also Mock facility.
+ * This class allow to migrate form JUnit 3.x syntax to JUnit 4.
+ * </p>
+ * it is also Mock facility.
  *
  * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
@@ -64,18 +66,6 @@ public abstract class EasyMockTestCase extends TestCase {
      */
     public EasyMockTestCase(@Nonnull final boolean resetBefore) {
         this.resetBefore = resetBefore;
-    }
-
-    /**
-     * Gets the file system path representation of this test class.
-     *
-     * @return Returns {@code String} representing the file system location path of this test class.
-     * @deprecated use instead {@link #getPackagePath()} method
-     */
-    @Deprecated
-    @Nonnull
-    public final String getPackageName() {
-        return this.getPackagePath();
     }
 
     /**
@@ -169,10 +159,8 @@ public abstract class EasyMockTestCase extends TestCase {
      * {@link #anyObject(Class)}) can be used in these three ways:
      * <ul>
      * <li><code>(T)EasyMock.anyObject() // explicit cast</code></li>
-     * <li>
-     * <code>EasyMock.&lt;T&gt; anyObject() // fixing the returned generic</code></li>
-     * <li>
-     * <code>EasyMock.anyObject(T.class) // pass the returned type in parameter</code></li>
+     * <li><code>EasyMock.&lt;T&gt; anyObject() // fixing the returned generic</code></li>
+     * <li><code>EasyMock.anyObject(T.class) // pass the returned type in parameter</code></li>
      * </ul>
      *
      * @param <T>
@@ -257,7 +245,7 @@ public abstract class EasyMockTestCase extends TestCase {
      * @return A mock instance of the given type.
      **/
     protected @Nonnull <T> T mock(@Nonnull final Class<T> clazz, @Nonnull final Method[] methods,
-                                  @Nonnull final boolean strict) {
+            @Nonnull final boolean strict) {
         IMockBuilder<T> builder = EasyMock.createMockBuilder(clazz).addMockedMethods(methods);
         T m = strict ? builder.createMock() : builder.createNiceMock();
         mocks.add(m);

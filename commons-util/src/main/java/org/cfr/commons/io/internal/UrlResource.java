@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -31,6 +32,8 @@ import org.cfr.commons.io.IResource;
 import org.cfr.commons.util.Assert;
 import org.cfr.commons.util.Paths;
 import org.cfr.commons.util.ResourceUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * {@link Resource} implementation for {@code java.net.URL} locators. Obviously supports resolution as URL, and also as
@@ -41,6 +44,9 @@ import org.cfr.commons.util.ResourceUtils;
  * @see java.net.URL
  */
 public class UrlResource extends AbstractFileResolvingResource {
+
+    /** */
+    private static final Logger LOGGER = LoggerFactory.getLogger(UrlResource.class);
 
     /**
      * Original URL, used for actual access.
@@ -244,8 +250,14 @@ public class UrlResource extends AbstractFileResolvingResource {
      * </p>
      */
     @Override
-    public boolean equals(@Nullable final Object obj) {
-        return (obj == this || (obj instanceof UrlResource && this.cleanedUrl.equals(((UrlResource) obj).cleanedUrl)));
+    public boolean equals(final Object obj) {
+        try {
+            return obj == this || obj instanceof UrlResource
+                    && this.cleanedUrl.toURI().equals(((UrlResource) obj).cleanedUrl.toURI());
+        } catch (URISyntaxException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 
     /**
@@ -256,7 +268,12 @@ public class UrlResource extends AbstractFileResolvingResource {
      */
     @Override
     public int hashCode() {
-        return this.cleanedUrl.hashCode();
+        try {
+            return this.cleanedUrl.toURI().hashCode();
+        } catch (URISyntaxException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 
 }

@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 devacfr<christophefriederich@mac.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.cfr.commons.event.spring;
 
 import java.lang.annotation.Annotation;
@@ -10,6 +25,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
+
+import javax.annotation.Nullable;
 
 import org.cfr.commons.event.api.IEventPublisherAware;
 import org.cfr.commons.event.api.ISupportedListenerHandler;
@@ -51,18 +68,18 @@ import com.google.common.collect.ImmutableList;
  * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
-public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, InitializingBean,
-        BeanDefinitionRegistryPostProcessor {
-
-    /**
-     * Specific {@link com.atlassian.event.config.ListenerHandlersConfiguration}.
-     */
-    private OverrideListenerHandlerConfiguration listenerHandlers = new OverrideListenerHandlerConfiguration();
+public class EventPublisherFactoryBean
+        implements FactoryBean<EventPublisher>, InitializingBean, BeanDefinitionRegistryPostProcessor {
 
     /**
      * log instance.
      */
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(EventPublisherFactoryBean.class);
+
+    /**
+     * Specific {@link com.atlassian.event.config.ListenerHandlersConfiguration}.
+     */
+    private DefaultListenerHandlerConfiguration listenerHandlers = new DefaultListenerHandlerConfiguration();
 
     /**
      * {@link EventPublisher} instance exposed by {@link FactoryBean} interface.
@@ -94,6 +111,23 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
     private ExecutorService executorService;
 
     /**
+     * Create new default instance of {@link EventPublisherFactoryBean}
+     */
+    public EventPublisherFactoryBean() {
+        this(null);
+    }
+
+    /**
+     * Create new instance of {@link EventPublisherFactoryBean}.
+     * 
+     * @param executorService
+     *            the executor service to use.
+     */
+    public EventPublisherFactoryBean(@Nullable ExecutorService executorService) {
+        this.executorService = executorService;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -108,7 +142,7 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
                 executorFactory = new UnboundedEventExecutorFactory(threadPoolConfiguration);
             }
         } else {
-            executorFactory = new SpringEventExecutorFactory(this.executorService);
+            executorFactory = new DefaultEventExecutorFactory(this.executorService);
         }
         EventDispatcher eventDispatcher = new AsynchronousAbleEventDispatcher(executorFactory);
         if (!isBlockingDispatch()) {
@@ -219,11 +253,10 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
         this.executorService = executorService;
     }
 
-    public Logger getLogger() {
-        return logger;
-    }
-
     /**
+     * <p>
+     * NOT USED
+     * </p>
      * {@inheritDoc}
      */
     @Override
@@ -289,11 +322,17 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
             }
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Object postProcessBeforeInitialization(final Object bean, final String beanName) {
             return bean;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Object postProcessAfterInitialization(final Object bean, final String beanName) {
             if (isHandler(bean)) {
@@ -303,11 +342,9 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
                     // singleton bean (top-level or inner): register on the fly
                     eventPublisher.register(bean);
                 } else if (flag == null) {
-                    if (logger.isWarnEnabled() && !beanFactory.containsBean(beanName)) {
+                    if (LOGGER.isWarnEnabled() && !beanFactory.containsBean(beanName)) {
                         // inner bean with other scope - can't reliably process events
-                        logger.warn("Inner bean '"
-                                + beanName
-                                + "' implements ApplicationListener interface "
+                        LOGGER.warn("Inner bean '" + beanName + "' implements ApplicationListener interface "
                                 + "but is not reachable for event multicasting by its containing ApplicationContext "
                                 + "because it does not have singleton scope. Only top-level listener beans are allowed "
                                 + "to be of non-singleton scope.");
@@ -333,7 +370,7 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
                         return true;
                     }
                 } catch (RuntimeException ex) {
-                    logger.warn(ex.getMessage());
+                    LOGGER.warn(ex.getMessage());
                 }
 
             }
@@ -401,10 +438,9 @@ public class EventPublisherFactoryBean implements FactoryBean<EventPublisher>, I
          *            Object to invoke
          */
         private void invokeAwareInterfaces(final Object bean) {
-            if (bean instanceof Aware) {
-                if (bean instanceof IEventPublisherAware) {
-                    ((IEventPublisherAware) bean).setEventPublisher(eventPublisher);
-                }
+            if (bean instanceof Aware && bean instanceof IEventPublisherAware) {
+                ((IEventPublisherAware) bean).setEventPublisher(eventPublisher);
+
             }
         }
 

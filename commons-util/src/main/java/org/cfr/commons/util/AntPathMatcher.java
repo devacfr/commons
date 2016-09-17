@@ -15,6 +15,7 @@
  */
 package org.cfr.commons.util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -56,7 +57,7 @@ import com.google.common.base.Strings;
  * @author Arjen Poutsma
  * @since 16.07.2003
  */
-@SuppressWarnings("CheckStyle")
+// CHECKSTYLE:OFF
 public class AntPathMatcher implements IPathMatcher {
 
     /** Default path separator: "/" */
@@ -106,8 +107,10 @@ public class AntPathMatcher implements IPathMatcher {
      *            sufficient)
      * @return {@code true} if the supplied {@code path} matched, {@code false} if it didn't
      */
-    protected boolean doMatch(final String pattern, final String path, final boolean fullMatch,
-                              final Map<String, String> uriTemplateVariables) {
+    protected boolean doMatch(final String pattern,
+        final String path,
+        final boolean fullMatch,
+        final Map<String, String> uriTemplateVariables) {
         if (path.startsWith(this.pathSeparator) != pattern.startsWith(this.pathSeparator)) {
             return false;
         }
@@ -240,8 +243,9 @@ public class AntPathMatcher implements IPathMatcher {
      *            string which must be matched against the pattern. Must not be {@code null}.
      * @return {@code true} if the string matches against the pattern, or {@code false} otherwise.
      */
-    private boolean
-            matchStrings(final String pattern, final String str, final Map<String, String> uriTemplateVariables) {
+    private boolean matchStrings(final String pattern,
+        final String str,
+        final Map<String, String> uriTemplateVariables) {
         AntPathStringMatcher matcher = new AntPathStringMatcher(pattern, str, uriTemplateVariables);
         return matcher.matchStrings();
     }
@@ -297,7 +301,7 @@ public class AntPathMatcher implements IPathMatcher {
 
     @Override
     public Map<String, String> extractUriTemplateVariables(final String pattern, final String path) {
-        Map<String, String> variables = new LinkedHashMap<String, String>();
+        Map<String, String> variables = new LinkedHashMap<>();
         boolean result = doMatch(pattern, path, true, variables);
         Assert.state(result, "Pattern \"" + pattern + "\" is not a match for \"" + path + "\"");
         return variables;
@@ -445,10 +449,9 @@ public class AntPathMatcher implements IPathMatcher {
     /**
      * Given a full path, returns a {@link Comparator} suitable for sorting patterns in order of explicitness.
      * <p>
-     * The returned {@code Comparator} will
-     * {@linkplain java.util.Collections#sort(java.util.List, java.util.Comparator) sort} a list so that more specific
-     * patterns (without uri templates or wild cards) come before generic patterns. So given a list with the following
-     * patterns:
+     * The returned {@code Comparator} will {@linkplain java.util.Collections#sort(java.util.List, java.util.Comparator)
+     * sort} a list so that more specific patterns (without uri templates or wild cards) come before generic patterns.
+     * So given a list with the following patterns:
      * <ol>
      * <li>{@code /hotels/new}</li>
      * <li>{@code /hotels/ hotel}</li>
@@ -468,8 +471,14 @@ public class AntPathMatcher implements IPathMatcher {
         return new AntPatternComparator(path);
     }
 
-    private static class AntPatternComparator implements Comparator<String> {
+    private static class AntPatternComparator implements Comparator<String>, Serializable {
 
+        /**
+         *
+         */
+        private static final long serialVersionUID = -6963559466990275972L;
+
+        /** */
         private final String path;
 
         private AntPatternComparator(final String path) {
@@ -588,14 +597,16 @@ public class AntPathMatcher implements IPathMatcher {
      * @see java.lang.String#trim()
      * @see #delimitedListToStringArray
      */
-    public static String[] tokenizeToStringArray(final String str, final String delimiters, final boolean trimTokens,
-                                                 final boolean ignoreEmptyTokens) {
+    public static String[] tokenizeToStringArray(final String str,
+        final String delimiters,
+        final boolean trimTokens,
+        final boolean ignoreEmptyTokens) {
 
         if (str == null) {
             return null;
         }
         StringTokenizer st = new StringTokenizer(str, delimiters);
-        List<String> tokens = new ArrayList<String>();
+        List<String> tokens = new ArrayList<>();
         while (st.hasMoreTokens()) {
             String token = st.nextToken();
             if (trimTokens) {
@@ -644,5 +655,5 @@ public class AntPathMatcher implements IPathMatcher {
         return count;
     }
 
-    //CHECKSTYLE:ON
 }
+// CHECKSTYLE:ON

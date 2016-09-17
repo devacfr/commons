@@ -31,10 +31,17 @@ import org.cfr.commons.util.compress.AbstractArchiveExtractor;
  */
 public class TarExtractor extends AbstractArchiveExtractor<TarArchiveInputStream> {
 
+    /**
+     * @param archiveFile
+     * @throws FileNotFoundException
+     */
     public TarExtractor(final IResource archiveFile) throws FileNotFoundException {
         super(archiveFile);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected TarArchiveInputStream createArchiveInputStream(final InputStream fileInputStream) {
         return new TarArchiveInputStream(fileInputStream);

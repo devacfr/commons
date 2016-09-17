@@ -19,6 +19,11 @@ import com.google.common.base.Supplier;
 
 /**
  * Consume the object a {@link Supplier} produces.
+ * 
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ * @param <T>
+ *            element type to consume.
  */
 public interface Consumer<T> {
 

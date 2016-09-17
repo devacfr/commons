@@ -69,8 +69,9 @@ public class BeanValidationFailure extends SimpleValidationFailure {
      * @param value
      * @return
      */
-    public static ValidationFailure validateNotEmpty(final Object bean, final String attribute,
-                                                     final Collection<?> value) {
+    public static ValidationFailure validateNotEmpty(final Object bean,
+        final String attribute,
+        final Collection<?> value) {
 
         if (value == null) {
             return new BeanValidationFailure(bean, attribute, validationMessage(attribute, " is required."));
@@ -167,7 +168,9 @@ public class BeanValidationFailure extends SimpleValidationFailure {
      * @param identifier
      * @return
      */
-    public static ValidationFailure validateJavaClassName(final Object bean, final String attribute, String identifier) {
+    public static ValidationFailure validateJavaClassName(final Object bean,
+        final String attribute,
+        String identifier) {
 
         ValidationFailure emptyFailure = validateNotEmpty(bean, attribute, identifier);
         if (emptyFailure != null) {
@@ -176,8 +179,8 @@ public class BeanValidationFailure extends SimpleValidationFailure {
 
         char c = identifier.charAt(0);
         if (!Character.isJavaIdentifierStart(c)) {
-            return new BeanValidationFailure(bean, attribute, validationMessage(attribute,
-                " starts with invalid character: " + c));
+            return new BeanValidationFailure(bean, attribute,
+                    validationMessage(attribute, " starts with invalid character: " + c));
         }
 
         // handle arrays
@@ -191,8 +194,8 @@ public class BeanValidationFailure extends SimpleValidationFailure {
 
             if (c == '.') {
                 if (wasDot || i + 1 == identifier.length()) {
-                    return new BeanValidationFailure(bean, attribute, validationMessage(attribute,
-                        " is not a valid Java Class Name: " + identifier));
+                    return new BeanValidationFailure(bean, attribute,
+                            validationMessage(attribute, " is not a valid Java Class Name: " + identifier));
                 }
 
                 wasDot = true;
@@ -200,8 +203,8 @@ public class BeanValidationFailure extends SimpleValidationFailure {
             }
 
             if (!Character.isJavaIdentifierPart(c)) {
-                return new BeanValidationFailure(bean, attribute, validationMessage(attribute,
-                    " contains invalid character: " + c));
+                return new BeanValidationFailure(bean, attribute,
+                        validationMessage(attribute, " contains invalid character: " + c));
             }
 
             wasDot = false;

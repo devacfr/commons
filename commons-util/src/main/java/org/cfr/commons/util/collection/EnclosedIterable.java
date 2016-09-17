@@ -26,7 +26,10 @@ import com.google.common.base.Function;
  * <p>
  * You can access all elements using the {@link #foreach(Consumer)} method.
  *
- * @since v3.13
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ * @param <T>
+ *            the type of element containing in this {@link EnclosedIterable}
  */
 public interface EnclosedIterable<T> extends Sized {
 
@@ -52,8 +55,11 @@ public interface EnclosedIterable<T> extends Sized {
     /**
      * Utility class for transforming a {@link EnclosedIterable} into a {@link List}. Generally you only want to do this
      * when the size of the iterable is small as it loads all the elements into memory.
+     *
+     * @param <T>
+     *            the type of element containing in this {@link ListResolver}
      */
-    public class ListResolver<T> implements Resolver<EnclosedIterable<T>, List<T>> {
+    class ListResolver<T> implements Resolver<EnclosedIterable<T>, List<T>> {
 
         /**
          * Get an {@link ArrayList} of the contents of the supplied {@link EnclosedIterable}
@@ -62,7 +68,7 @@ public interface EnclosedIterable<T> extends Sized {
          */
         @Override
         public List<T> apply(final EnclosedIterable<T> iterable) {
-            final List<T> result = new ArrayList<T>();
+            final List<T> result = new ArrayList<>();
             iterable.foreach(new Consumer<T>() {
 
                 @Override
@@ -74,7 +80,10 @@ public interface EnclosedIterable<T> extends Sized {
         }
     }
 
-    public class Functions {
+    /**
+     * @author devacfr<christophefriederich@mac.com>
+     */
+    class Functions {
 
         /**
          * Pass all the elements of the iterable to the supplied {@link Consumer}. Guarantees that the iterator used
@@ -84,6 +93,8 @@ public interface EnclosedIterable<T> extends Sized {
          *            containing elements of type T
          * @param sink
          *            that will consume the elements
+         * @param <T>
+         *            the type of element containing in the iterable.
          */
         public static <T> void apply(final EnclosedIterable<T> iterable, final Consumer<T> sink) {
             iterable.foreach(sink);
@@ -93,6 +104,8 @@ public interface EnclosedIterable<T> extends Sized {
          * Get an {@link ArrayList} of the contents of the supplied {@link EnclosedIterable}
          *
          * @return a mutable {@link ArrayList} containing all elements of the iterable.
+         * @param <T>
+         *            the type of element containing in the iterable.
          */
         public static <T> List<T> toList(final EnclosedIterable<T> iterable) {
             return toList(iterable, new Function<T, T>() {
@@ -109,9 +122,13 @@ public interface EnclosedIterable<T> extends Sized {
          * transform function into the new type O.
          *
          * @return a mutable {@link ArrayList} containing all elements of the iterable.
+         * @param <I>
+         *            the type of input object to transform from
+         * @param <O>
+         *            the type of output object that has been transform.
          */
         public static <I, O> List<O> toList(final EnclosedIterable<I> iterable, final Function<I, O> transformer) {
-            final List<O> result = new ArrayList<O>(iterable.size());
+            final List<O> result = new ArrayList<>(iterable.size());
             iterable.foreach(new Consumer<I>() {
 
                 @Override

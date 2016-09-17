@@ -38,9 +38,8 @@ public final class AdapterFactory {
     /**
      * List of supported database adapter.
      */
-    private static final ArrayList<AbstractAdapterManager> ADAPTER_MANAGERS = Lists.newArrayList(new MySqlAdapterManager(),
-        new DerbyAdapterManager(),
-        new HsqlDbAdapterManager());
+    private static final ArrayList<AbstractAdapterManager> ADAPTER_MANAGERS = Lists
+            .newArrayList(new MySqlAdapterManager(), new DerbyAdapterManager(), new HsqlDbAdapterManager());
 
     /**
      * Singleton restriction instantiation of the class
@@ -50,7 +49,7 @@ public final class AdapterFactory {
 
     /**
      * Gets the adapter corresponding to the {@code connection} parameter.
-     * 
+     *
      * @param connection
      *            the connection
      * @return Returns new adapter instance if database is recognized, otherwise {@code null}.

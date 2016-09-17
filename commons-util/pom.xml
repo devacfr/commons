@@ -14,12 +14,20 @@
   <properties>
     <!-- Enable report aggregation -->
     <aggregate>true</aggregate>
+    
+    <findbugs.annotations.version>3.0.1u2</findbugs.annotations.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>annotations</artifactId>
+      <version>${findbugs.annotations.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

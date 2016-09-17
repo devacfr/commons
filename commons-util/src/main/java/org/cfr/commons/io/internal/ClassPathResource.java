@@ -169,7 +169,7 @@ public class ClassPathResource extends AbstractFileResolvingResource {
         } else {
             url = this.classLoader.getResource(this.path);
         }
-        return (url != null);
+        return url != null;
     }
 
     /**
@@ -280,15 +280,15 @@ public class ClassPathResource extends AbstractFileResolvingResource {
      * </p>
      */
     @Override
-    public boolean equals(@Nullable final Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == this) {
             return true;
         }
         if (obj instanceof ClassPathResource) {
             ClassPathResource otherRes = (ClassPathResource) obj;
-            return (this.path.equals(otherRes.path) //
+            return this.path.equals(otherRes.path) //
                     && Objects.equal(this.classLoader, otherRes.classLoader) //
-            && Objects.equal(this.clazz, otherRes.clazz));
+                    && Objects.equal(this.clazz, otherRes.clazz);
         }
         return false;
     }

@@ -34,6 +34,7 @@ import javax.annotation.Nullable;
  * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
+// CHECKSTYLE:OFF
 public class ResourceUtils {
 
     /** Pseudo URL prefix for loading from the class path: "classpath:" */
@@ -133,8 +134,8 @@ public class ResourceUtils {
             try {
                 return new File(resourceLocation).toURI().toURL();
             } catch (MalformedURLException ex2) {
-                throw new FileNotFoundException("Resource location [" + resourceLocation
-                        + "] is neither a URL not a well-formed file path");
+                throw new FileNotFoundException(
+                        "Resource location [" + resourceLocation + "] is neither a URL not a well-formed file path");
             }
         }
     }
@@ -271,7 +272,7 @@ public class ResourceUtils {
      */
     public static boolean isFileURL(@Nonnull final URL url) {
         String protocol = Assert.checkNotNull(url, "url").getProtocol();
-        return (URL_PROTOCOL_FILE.equals(protocol) || protocol.startsWith(URL_PROTOCOL_VFS));
+        return URL_PROTOCOL_FILE.equals(protocol) || protocol.startsWith(URL_PROTOCOL_VFS);
     }
 
     /**
@@ -289,9 +290,9 @@ public class ResourceUtils {
      */
     public static boolean isJarURL(@Nonnull final URL url) {
         String protocol = Assert.checkNotNull(url, "url").getProtocol();
-        return (URL_PROTOCOL_JAR.equals(protocol) || URL_PROTOCOL_ZIP.equals(protocol)
-                || URL_PROTOCOL_WSJAR.equals(protocol) || (URL_PROTOCOL_CODE_SOURCE.equals(protocol) && url.getPath()
-                .contains(JAR_URL_SEPARATOR)));
+        return URL_PROTOCOL_JAR.equals(protocol) || URL_PROTOCOL_ZIP.equals(protocol)
+                || URL_PROTOCOL_WSJAR.equals(protocol)
+                || URL_PROTOCOL_CODE_SOURCE.equals(protocol) && url.getPath().contains(JAR_URL_SEPARATOR);
     }
 
     /**
@@ -367,3 +368,4 @@ public class ResourceUtils {
     }
 
 }
+// CHECKSTYLE:ON

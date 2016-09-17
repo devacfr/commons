@@ -45,6 +45,8 @@ import com.google.common.collect.Sets;
  * <p>
  * The default methods {@link #asList()} and {@link #asSet()} and {@link #asSortedSet()} create immutable collections.
  *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  * @param <T>
  *            contained in the created collections.
  */
@@ -64,96 +66,181 @@ public final class CollectionBuilder<T> {
         elements.addAll(initialElements);
     }
 
+    /**
+     * Appends the specified element to this list .
+     *
+     * @param element
+     *            element to add
+     * @return Returns fluent instance.
+     */
     public CollectionBuilder<T> add(final T element) {
         elements.add(element);
         return this;
     }
 
+    /**
+     * Create new fluent collection builder.
+     *
+     * @return Returns new instance of {@link CollectionBuilder}.
+     * @param <T>
+     *            contained in the created collections.
+     */
     public static <T> CollectionBuilder<T> newBuilder() {
-        return new CollectionBuilder<T>(Collections.<T> emptyList());
+        return new CollectionBuilder<>(Collections.<T> emptyList());
     }
 
+    /**
+     * @param elements
+     * @return
+     * @param <T>
+     *            contained in the created collections.
+     */
     @SafeVarargs
     public static <T> CollectionBuilder<T> newBuilder(final T... elements) {
-        return new CollectionBuilder<T>(Arrays.asList(elements));
+        return new CollectionBuilder<>(Arrays.asList(elements));
     }
 
+    /**
+     * @param elements
+     * @return
+     * @param <T>
+     *            contained in the created collections.
+     */
     public static <T> CollectionBuilder<T> newBuilder(final List<T> elements) {
-        return new CollectionBuilder<T>(elements);
+        return new CollectionBuilder<>(elements);
     }
 
+    /**
+     * @param elements
+     * @return
+     * @param <T>
+     *            contained in the created collections.
+     */
     @SafeVarargs
     public static <T> List<T> list(final T... elements) {
         return unmodifiableList(Arrays.asList(elements));
     }
 
+    /**
+     * @return
+     * @param <T>
+     *            contained in the created collections.
+     */
     @SuppressWarnings("unchecked")
     public static <T> Comparator<T> natural() {
         return (Comparator<T>) NATURAL_ORDER;
     }
 
+    /**
+     * @param elements
+     * @return
+     */
     @SafeVarargs
     public final <E extends T> CollectionBuilder<T> addAll(final E... elements) {
         this.elements.addAll(Arrays.asList(notNull(elements, "elements")));
         return this;
     }
 
+    /**
+     * @param elements
+     * @return
+     */
     public CollectionBuilder<T> addAll(final Collection<? extends T> elements) {
         this.elements.addAll(notNull(elements, "elements"));
         return this;
     }
 
+    /**
+     * @param elements
+     * @return
+     */
     public CollectionBuilder<T> addAll(final Enumeration<? extends T> elements) {
         this.elements.addAll(toList(notNull(elements, "elements")));
         return this;
     }
 
+    /**
+     * @return
+     */
     public Collection<T> asCollection() {
         return asList();
     }
 
+    /**
+     * @return
+     */
     public Collection<T> asMutableCollection() {
         return asMutableList();
     }
 
+    /**
+     * @return
+     */
     public List<T> asArrayList() {
         return Lists.newArrayList(elements);
     }
 
+    /**
+     * @return
+     */
     public List<T> asLinkedList() {
         return Lists.newLinkedList(elements);
     }
 
+    /**
+     * @return
+     */
     public List<T> asList() {
-        return unmodifiableList(new ArrayList<T>(elements));
+        return unmodifiableList(new ArrayList<>(elements));
     }
 
+    /**
+     * @return
+     */
     public List<T> asMutableList() {
         return asArrayList();
     }
 
+    /**
+     * @return
+     */
     public Set<T> asHashSet() {
         return Sets.newHashSet(elements);
     }
 
+    /**
+     * @return
+     */
     public Set<T> asListOrderedSet() {
         return Sets.newLinkedHashSet(elements);
     }
 
+    /**
+     * @return
+     */
     public Set<T> asImmutableListOrderedSet() {
-        return unmodifiableSet(new LinkedHashSet<T>(elements));
+        return unmodifiableSet(new LinkedHashSet<>(elements));
     }
 
+    /**
+     * @return
+     */
     public Set<T> asSet() {
-        return unmodifiableSet(new HashSet<T>(elements));
+        return unmodifiableSet(new HashSet<>(elements));
     }
 
+    /**
+     * @return
+     */
     public Set<T> asMutableSet() {
         return asHashSet();
     }
 
+    /**
+     * @return
+     */
     public SortedSet<T> asTreeSet() {
-        return new TreeSet<T>(elements);
+        return new TreeSet<>(elements);
     }
 
     /**
@@ -165,19 +252,29 @@ public final class CollectionBuilder<T> {
      *             if the elements do not implement {@link Comparable}.
      */
     public SortedSet<T> asSortedSet() {
-        return unmodifiableSortedSet(new TreeSet<T>(elements));
+        return unmodifiableSortedSet(new TreeSet<>(elements));
     }
 
+    /**
+     * @param comparator
+     * @return
+     */
     public SortedSet<T> asSortedSet(final Comparator<? super T> comparator) {
-        final SortedSet<T> result = new TreeSet<T>(comparator);
+        final SortedSet<T> result = new TreeSet<>(comparator);
         result.addAll(elements);
         return unmodifiableSortedSet(result);
     }
 
+    /**
+     * @return
+     */
     public SortedSet<T> asMutableSortedSet() {
         return asTreeSet();
     }
 
+    /**
+     * @return
+     */
     public EnclosedIterable<T> asEnclosedIterable() {
         return CollectionEnclosedIterable.copy(elements);
     }

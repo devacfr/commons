@@ -15,7 +15,7 @@
     <!-- Enable report aggregation -->
     <aggregate>true</aggregate>
 
-    <atlassian-events.version>2.3.3</atlassian-events.version>
+    <atlassian-events.version>2.3.5</atlassian-events.version>
 
   </properties>
 

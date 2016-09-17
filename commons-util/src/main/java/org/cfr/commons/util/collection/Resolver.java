@@ -24,7 +24,12 @@ import com.google.common.base.Function;
  * entirely. No guarantees are implied by this interface. Specifically, input and output objects may or may not be
  * nullable, runtime exceptions may or may not be thrown and the method may or may not block.
  *
+ * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
+ * @param <I>
+ *            the type of input object to resolve from
+ * @param <O>
+ *            the type of output object that has been resolved.
  */
 public interface Resolver<I, O> extends Function<I, O> {
 

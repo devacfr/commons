@@ -21,7 +21,7 @@ package org.cfr.commons.app.process;
  * After the plugin system is initialised and components added to the dependency injection framework, then components
  * implementing this interface will have their {@link #start()} method called. Note that only plugin modules of type
  * Component will be considered as "Startable".
- * 
+ *
  * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
@@ -34,5 +34,5 @@ public interface IStartable {
      * @throws Exception
      *             Allows implementations to throw an Exception.
      */
-    public void start() throws Exception;
+    void start() throws Exception;
 }

@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.cfr</groupId>
     <artifactId>maven-config</artifactId>
-    <version>7-SNAPSHOT</version>
+    <version>8</version>
   </parent>
   <groupId>org.cfr.commons</groupId>
   <artifactId>commons</artifactId>
@@ -18,7 +18,7 @@
     <!-- Enable report aggregation -->
     <aggregate>true</aggregate>
     <!-- Set compiler source and target versions -->
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.target>1.8</maven.compiler.target>
 
     <issue.url>https://github.com/devacfr/commons/issues</issue.url>
     <distribution.releaseRepositoryUrl>https://api.bintray.com/maven/devacfr/maven/commons</distribution.releaseRepositoryUrl>
@@ -34,7 +34,6 @@
     <module>commons-testing</module>
     <module>commons-util</module>
     <module>commons-event</module>
-    <module>commons-inject</module>
   </modules>
   <developers>
     <developer>

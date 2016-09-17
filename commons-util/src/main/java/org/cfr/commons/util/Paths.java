@@ -34,14 +34,19 @@ import org.cfr.commons.util.collection.CollectionUtil;
  */
 public class Paths {
 
+    /** */
     private static final String FOLDER_SEPARATOR = "/";
 
+    /** */
     private static final String WINDOWS_FOLDER_SEPARATOR = "\\";
 
+    /** */
     private static final String TOP_PATH = "..";
 
+    /** */
     private static final String CURRENT_PATH = ".";
 
+    /** */
     private static final char EXTENSION_SEPARATOR = '.';
 
     /**
@@ -145,6 +150,7 @@ public class Paths {
      *            the original path
      * @return the normalized path
      */
+    @SuppressWarnings("PMD.EmptyIfStmt")
     public static @Nullable String cleanPath(@Nullable final String path) {
         if (path == null) {
             return null;
@@ -167,7 +173,7 @@ public class Paths {
         }
 
         String[] pathArray = delimitedListToStringArray(pathToUse, FOLDER_SEPARATOR);
-        List<String> pathElements = new LinkedList<String>();
+        List<String> pathElements = new LinkedList<>();
         int tops = 0;
 
         for (int i = pathArray.length - 1; i >= 0; i--) {
@@ -218,7 +224,7 @@ public class Paths {
         if (delimiter == null) {
             return new String[] { str };
         }
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         if ("".equals(delimiter)) {
             for (int i = 0; i < str.length(); i++) {
                 result.add(str.substring(i, i + 1));
@@ -308,7 +314,7 @@ public class Paths {
      * @see #hasText(String)
      */
     private static boolean hasLength(final CharSequence str) {
-        return (str != null && str.length() > 0);
+        return str != null && str.length() > 0;
     }
 
     /**

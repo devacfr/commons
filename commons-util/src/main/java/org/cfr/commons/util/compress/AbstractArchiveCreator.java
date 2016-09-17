@@ -36,9 +36,13 @@ import org.cfr.commons.util.Assert;
  * @author acochard [Jul 30, 2009]
  * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
+ * @param <O>
+ *            the type of {@link ArchiveOutputStream}.
+ * @param <E>
+ *            the type of archive entry.
  */
-public abstract class AbstractArchiveCreator<O extends ArchiveOutputStream, E extends ArchiveEntry> implements
-        IArchiveCreator {
+public abstract class AbstractArchiveCreator<O extends ArchiveOutputStream, E extends ArchiveEntry>
+        implements IArchiveCreator {
 
     /**
      *
@@ -79,7 +83,11 @@ public abstract class AbstractArchiveCreator<O extends ArchiveOutputStream, E ex
             throws IOException {
         byte[] data = new byte[BUFFER_SIZE];
 
-        for (File file : directory.listFiles()) {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            return;
+        }
+        for (File file : files) {
             String relativeName = getRelativePath(baseName, file);
             E entry = createArchiveEntry(relativeName, file);
 
@@ -133,7 +141,7 @@ public abstract class AbstractArchiveCreator<O extends ArchiveOutputStream, E ex
         return archiveFile;
     }
 
-/**
+    /**
      * Returns the relative path.
      *
      * @param baseName
@@ -141,10 +149,8 @@ public abstract class AbstractArchiveCreator<O extends ArchiveOutputStream, E ex
      * @param file
      *            the file (never {@code null}).
      * @return the path of the given file relative to the base name.
-     *
      * @throws IOException
      *             if an io exception occures.
-     *
      * @throws IllegalArgumentException
      *             Throws {@code baseName} or {@code file} are {@code null}.
      */

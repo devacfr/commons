@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.cfr.commons.testing.EasyMockTestCase;
-import org.cfr.commons.util.collection.CollectionUtil;
-import org.cfr.commons.util.collection.Consumer;
-import org.cfr.commons.util.collection.FilteredIterator;
 import org.junit.Test;
 
 import com.google.common.base.Function;
@@ -28,7 +25,7 @@ public class CollectionUtilTest extends EasyMockTestCase {
             private int inc = 0;
 
             @Override
-            public void consume(Foo element) {
+            public void consume(final Foo element) {
                 inc++;
                 element.name = (element.name == null ? NONAME + inc : element.name + inc);
             }
@@ -49,7 +46,7 @@ public class CollectionUtilTest extends EasyMockTestCase {
             private int inc = 0;
 
             @Override
-            public void consume(Foo element) {
+            public void consume(final Foo element) {
                 inc++;
                 element.name = (element.name == null ? NONAME + inc : element.name + inc);
             }
@@ -85,12 +82,21 @@ public class CollectionUtilTest extends EasyMockTestCase {
         Function<Foo, String> extractName = new Function<Foo, String>() {
 
             @Override
-            public String apply(Foo input) {
+            public String apply(final Foo input) {
                 return input.name;
             }
         };
         List<Foo> list = createList();
-        List<String> expected = Arrays.asList(NONAME, NONAME, NONAME, "jule", NONAME, "ana", NONAME, NONAME, NONAME, NONAME);
+        List<String> expected = Arrays.asList(NONAME,
+            NONAME,
+            NONAME,
+            "jule",
+            NONAME,
+            "ana",
+            NONAME,
+            NONAME,
+            NONAME,
+            NONAME);
         List<String> result = CollectionUtil.transform(list.iterator(), extractName);
         assertEquals(expected, result);
     }
@@ -100,12 +106,21 @@ public class CollectionUtilTest extends EasyMockTestCase {
         Function<Foo, String> extractName = new Function<Foo, String>() {
 
             @Override
-            public String apply(Foo input) {
+            public String apply(final Foo input) {
                 return input.name;
             }
         };
         List<Foo> list = createList();
-        List<String> expected = Arrays.asList(NONAME, NONAME, NONAME, "jule", NONAME, "ana", NONAME, NONAME, NONAME, NONAME);
+        List<String> expected = Arrays.asList(NONAME,
+            NONAME,
+            NONAME,
+            "jule",
+            NONAME,
+            "ana",
+            NONAME,
+            NONAME,
+            NONAME,
+            NONAME);
         List<String> result = CollectionUtil.transform(list, extractName);
         assertEquals(expected, result);
     }
@@ -126,7 +141,7 @@ public class CollectionUtilTest extends EasyMockTestCase {
         Predicate<Foo> nonameFilter = new Predicate<Foo>() {
 
             @Override
-            public boolean apply(Foo input) {
+            public boolean apply(final Foo input) {
                 return NONAME.equals(input.name);
             }
         };
@@ -140,7 +155,7 @@ public class CollectionUtilTest extends EasyMockTestCase {
         Predicate<Foo> juleFilter = new Predicate<Foo>() {
 
             @Override
-            public boolean apply(Foo input) {
+            public boolean apply(final Foo input) {
                 return "jule".equals(input.name);
             }
         };
@@ -157,7 +172,7 @@ public class CollectionUtilTest extends EasyMockTestCase {
         // select next element
         Foo foo = result.next();
         assertNotNull(foo);
-        //remove next element
+        // remove next element
         try {
             result.remove();
         } catch (UnsupportedOperationException ex) {
@@ -176,7 +191,7 @@ public class CollectionUtilTest extends EasyMockTestCase {
         Predicate<Foo> nonameFilter = new Predicate<Foo>() {
 
             @Override
-            public boolean apply(Foo input) {
+            public boolean apply(final Foo input) {
                 return NONAME.equals(input.name);
             }
         };
@@ -191,7 +206,7 @@ public class CollectionUtilTest extends EasyMockTestCase {
         Comparator<Foo> comparatorName = new Comparator<Foo>() {
 
             @Override
-            public int compare(Foo o1, Foo o2) {
+            public int compare(final Foo o1, final Foo o2) {
                 return o1.name.compareTo(o2.name);
             }
 
@@ -207,11 +222,29 @@ public class CollectionUtilTest extends EasyMockTestCase {
     }
 
     private List<Foo> createList() {
-        return Arrays.asList(new Foo(), new Foo(), new Foo(), new Foo("jule"), new Foo(), new Foo("ana"), new Foo(), new Foo(), new Foo(), new Foo());
+        return Arrays.asList(new Foo(),
+            new Foo(),
+            new Foo(),
+            new Foo("jule"),
+            new Foo(),
+            new Foo("ana"),
+            new Foo(),
+            new Foo(),
+            new Foo(),
+            new Foo());
     }
 
     private List<Foo> createSortedList() {
-        return Arrays.asList(new Foo("ana"), new Foo("jule"), new Foo(), new Foo(), new Foo(), new Foo(), new Foo(), new Foo(), new Foo(), new Foo());
+        return Arrays.asList(new Foo("ana"),
+            new Foo("jule"),
+            new Foo(),
+            new Foo(),
+            new Foo(),
+            new Foo(),
+            new Foo(),
+            new Foo(),
+            new Foo(),
+            new Foo());
     }
 
     public static class Foo {
@@ -222,13 +255,24 @@ public class CollectionUtilTest extends EasyMockTestCase {
             this.name = NONAME;
         }
 
-        public Foo(String name) {
+        public Foo(final String name) {
             this.name = name;
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (obj == this) {
+                return true;
+            }
             return name.equals(((Foo) obj).name);
+        }
+
+        @Override
+        public int hashCode() {
+            return name.hashCode();
         }
 
         @Override

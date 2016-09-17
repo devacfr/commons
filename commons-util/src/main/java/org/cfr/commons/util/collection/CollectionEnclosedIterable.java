@@ -23,7 +23,10 @@ import java.util.Collection;
 /**
  * Simple collection based {@link EnclosedIterable}.
  *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  * @param <T>
+ *            the type of element containing in this {@link CollectionEnclosedIterable}
  */
 public class CollectionEnclosedIterable<T> implements EnclosedIterable<T> {
 
@@ -40,17 +43,23 @@ public class CollectionEnclosedIterable<T> implements EnclosedIterable<T> {
      * Create an {@link EnclosedIterable} from the supplied Collection. Does not copy the collection so you should only
      * use this if you are about to lose the reference or the collection is immutable.
      *
-     * @param <T>
-     *            the collection type
      * @param collection
      * @return
+     * @param <T>
+     *            the type of element containing in this {@link CollectionEnclosedIterable}
      */
     public static <T> EnclosedIterable<T> from(final Collection<? extends T> collection) {
-        return new CollectionEnclosedIterable<T>(collection);
+        return new CollectionEnclosedIterable<>(collection);
     }
 
+    /**
+     * @param collection
+     * @return
+     * @param <T>
+     *            the type of element containing in this {@link CollectionEnclosedIterable}
+     */
     public static <T> EnclosedIterable<T> copy(final Collection<? extends T> collection) {
-        return new CollectionEnclosedIterable<T>(new ArrayList<T>(collection));
+        return new CollectionEnclosedIterable<>(new ArrayList<>(collection));
     }
 
     @Override

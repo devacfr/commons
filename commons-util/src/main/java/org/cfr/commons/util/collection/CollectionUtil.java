@@ -26,6 +26,10 @@ import java.util.List;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
+/**
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public class CollectionUtil {
 
     /**
@@ -37,7 +41,7 @@ public class CollectionUtil {
      * @return whether the given Collection is empty
      */
     public static boolean isEmpty(final Collection<?> collection) {
-        return (collection == null || collection.isEmpty());
+        return collection == null || collection.isEmpty();
     }
 
     /**
@@ -59,10 +63,8 @@ public class CollectionUtil {
      * @return
      */
     public static <T> T first(final T[] array) {
-        if (array != null) {
-            if (array.length > 0) {
-                return array[0];
-            }
+        if (array != null && array.length > 0) {
+            return array[0];
         }
         return null;
     }
@@ -100,7 +102,7 @@ public class CollectionUtil {
      * @return
      */
     public static <T> List<T> toList(final Iterator<T> iterator) {
-        final List<T> result = new ArrayList<T>();
+        final List<T> result = new ArrayList<>();
         foreach(iterator, new Consumer<T>() {
 
             @Override
@@ -153,7 +155,7 @@ public class CollectionUtil {
      * @return
      */
     public static <T, R> Iterator<R> transformIterator(final Iterator<T> iterator, final Function<T, R> transformer) {
-        return new TransformingIterator<T, R>(iterator, transformer);
+        return new TransformingIterator<>(iterator, transformer);
     }
 
     /**
@@ -169,8 +171,8 @@ public class CollectionUtil {
      */
     public static <T> boolean exists(final Iterable<T> collection, final Predicate<? super T> predicate) {
         if (collection != null && predicate != null) {
-            for (Iterator<T> it = collection.iterator(); it.hasNext();) {
-                if (predicate.apply(it.next())) {
+            for (T t : collection) {
+                if (predicate.apply(t)) {
                     return true;
                 }
             }
@@ -202,13 +204,13 @@ public class CollectionUtil {
      * Create filtered iterator by applying a Predicate to each element. If the input iterable or predicate is null,
      * there is no change made.
      *
-     * @param collection
-     *            the collection to get the input from, may be null
+     * @param iterator
+     *            the iterator to get the input from, may be null
      * @param predicate
      *            the predicate to use as a filter, may be null
      */
     public static <T> Iterator<T> filter(final Iterator<T> iterator, final Predicate<T> predicate) {
-        return new FilteredIterator<T>(iterator, predicate);
+        return new FilteredIterator<>(iterator, predicate);
     }
 
     /**
@@ -218,13 +220,15 @@ public class CollectionUtil {
      * @return
      */
     public static <T> Iterable<T> filter(final Iterable<T> iterable, final Predicate<T> predicate) {
-        return new FilteredIterable<T>(iterable, predicate);
+        return new FilteredIterable<>(iterable, predicate);
     }
 
     static class FilteredIterable<T> implements Iterable<T> {
 
+        /** */
         private final Iterable<T> delegate;
 
+        /** */
         private final Predicate<T> predicate;
 
         FilteredIterable(final Iterable<T> delegate, final Predicate<T> predicate) {
@@ -234,7 +238,7 @@ public class CollectionUtil {
 
         @Override
         public Iterator<T> iterator() {
-            return new FilteredIterator<T>(delegate.iterator(), predicate);
+            return new FilteredIterator<>(delegate.iterator(), predicate);
         }
 
         @Override
@@ -243,8 +247,17 @@ public class CollectionUtil {
         }
     }
 
+    /**
+     * @param collection
+     *            a collection of element to sort.
+     * @param comparator
+     *            the comparator to determine the order of the list.
+     * @return Returns new list sorted according to {@code comparator}.
+     * @param <T>
+     *            type of element containing in collection and to compare.
+     */
     public static <T> List<T> sort(final Collection<T> collection, final Comparator<T> comparator) {
-        final List<T> sorted = new ArrayList<T>(collection);
+        final List<T> sorted = new ArrayList<>(collection);
         if (sorted.size() > 1) {
             Collections.sort(sorted, comparator);
         }

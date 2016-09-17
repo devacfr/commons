@@ -131,7 +131,7 @@ public abstract class AbstractFileResolvingResource extends AbstractResource {
             if (ResourceUtils.isFileURL(url)) {
                 // Proceed with file system resolution...
                 File file = getFile();
-                return (file.canRead() && !file.isDirectory());
+                return file.canRead() && !file.isDirectory();
             } else {
                 return true;
             }

@@ -4,13 +4,16 @@ import org.cfr.commons.event.TestEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.atlassian.event.api.EventPublisher;
 
-@ContextConfiguration(locations = { "classpath:org/cfr/commons/event/spring/beans-definitions-tests.xml" })
+@Configuration
+@ContextConfiguration(classes = { SpringIntegrationEventPublisherTest.class })
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class SpringIntegrationEventPublisherTest extends AbstractSpringContextTests {
 
@@ -22,6 +25,26 @@ public class SpringIntegrationEventPublisherTest extends AbstractSpringContextTe
 
     @Autowired
     private EventPublisherAwared eventPublisherAwared;
+
+    @Bean
+    public EventPublisherFactoryBean eventPublisher() {
+        return new EventPublisherFactoryBean();
+    }
+
+    @Bean
+    public PostProcessorListener postProcessorListener() {
+        return new PostProcessorListener();
+    }
+
+    @Bean
+    public PostProcessorListenerThatThrowsException postProcessorListenerThatThrowsException() {
+        return new PostProcessorListenerThatThrowsException();
+    }
+
+    @Bean
+    public EventPublisherAwared eventPublisherAwared() {
+        return new EventPublisherAwared();
+    }
 
     @Override
     @Before

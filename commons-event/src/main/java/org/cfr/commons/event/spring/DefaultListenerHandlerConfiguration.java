@@ -19,6 +19,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.cfr.commons.event.api.ISupportedListenerHandler;
 import org.cfr.commons.util.Assert;
 
@@ -30,26 +33,39 @@ import com.atlassian.event.spi.ListenerInvoker;
 import com.google.common.collect.Lists;
 
 /**
+ * Provides list of default {@link ListenerHandler} used in {@link EventPublisherFactoryBean}.
  * 
  * @author devacfr
  * @since 1.0
  */
-public class OverrideListenerHandlerConfiguration implements ListenerHandlersConfiguration {
+public class DefaultListenerHandlerConfiguration implements ListenerHandlersConfiguration {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<ListenerHandler> getListenerHandlers() {
-        return Lists.<ListenerHandler> newArrayList(new DecoratorAnnotatedMethodsListenerHandler());
+        return asListOf(ListenerHandler.class, getSupportedListenerHandler());
     }
 
     /**
+     * Gets the list of supported {@link ListenerHandler}
      * 
-     * @return
+     * @return Returns new {@link List} of {@link ISupportedListenerHandler}.
      */
     public List<ISupportedListenerHandler> getSupportedListenerHandler() {
         return Lists.<ISupportedListenerHandler> newArrayList(new DecoratorAnnotatedMethodsListenerHandler());
     }
 
+    @SuppressWarnings({ "unchecked" })
+    private static <S, ST extends S> List<S> asListOf(@Nonnull final Class<S> superType,
+            @Nullable final List<ST> list) {
+        Assert.checkNotNull(superType, "superType");
+        return (List<S>) list;
+    }
+
     /**
+     * Decorator of {@link AnnotatedMethodsListenerHandler} to give access to {@link #supportsHandler(Object)} method.
      * 
      * @author devacfr<christophefriederich@mac.com>
      *
@@ -74,8 +90,10 @@ public class OverrideListenerHandlerConfiguration implements ListenerHandlersCon
         }
 
         /**
+         * Create a new instance of {@link DecoratorAnnotatedMethodsListenerHandler}.
          * 
          * @param listenerHandler
+         *            the listener handler to decorate
          */
         public DecoratorAnnotatedMethodsListenerHandler(final AnnotatedMethodsListenerHandler listenerHandler) {
             this.listenerHandler = Assert.notNull(listenerHandler);

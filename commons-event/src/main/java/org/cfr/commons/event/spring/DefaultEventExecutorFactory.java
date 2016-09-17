@@ -21,12 +21,13 @@ import java.util.concurrent.ExecutorService;
 import com.atlassian.event.spi.EventExecutorFactory;
 
 /**
+ * Spring Default implementation of {@link EventExecutorFactory} allowing using injected {@link ExecutorService}
  * 
  * @author devacfr
  * @since 1.0
  *
  */
-public class SpringEventExecutorFactory implements EventExecutorFactory {
+public class DefaultEventExecutorFactory implements EventExecutorFactory {
 
     /**
      * 
@@ -34,10 +35,12 @@ public class SpringEventExecutorFactory implements EventExecutorFactory {
     private final ExecutorService executorService;
 
     /**
+     * Create new instance of {@link DefaultEventExecutorFactory}.
      * 
      * @param executorService
+     *            the executor service to use.
      */
-    public SpringEventExecutorFactory(final ExecutorService executorService) {
+    public DefaultEventExecutorFactory(final ExecutorService executorService) {
         this.executorService = executorService;
     }
 

@@ -212,8 +212,7 @@ public abstract class AbstractResource implements IResource {
     /**
      * {@inheritDoc}
      * <p>
-     * This implementation returns the description of this resource.
-     * </p
+     * This implementation returns the description of this resource. </p
      *
      * @see #getDescription()
      */
@@ -232,8 +231,8 @@ public abstract class AbstractResource implements IResource {
      */
     @Override
     public boolean equals(final Object obj) {
-        return (obj == this || (obj instanceof IResource && //
-        ((IResource) obj).getDescription().equals(getDescription())));
+        return obj == this || obj instanceof IResource && //
+                ((IResource) obj).getDescription().equals(getDescription());
     }
 
     /**

@@ -21,6 +21,8 @@ import java.util.Iterator;
 /**
  * Adaptor for turning an {@link Enumeration} into an {@link Iterator}.
  *
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  * @param <E>
  *            the type of element produced.
  */
@@ -35,20 +37,33 @@ public class EnumerationIterator<E> implements Iterator<E> {
         this.enumeration = enumeration;
     }
 
+    /**
+     * @param enumeration
+     * @return
+     */
     public static <E> Iterator<E> fromEnumeration(final Enumeration<? extends E> enumeration) {
-        return new EnumerationIterator<E>(enumeration);
+        return new EnumerationIterator<>(enumeration);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean hasNext() {
         return enumeration.hasMoreElements();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public E next() {
         return enumeration.nextElement();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void remove() {
         throw new UnsupportedOperationException();

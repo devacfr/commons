@@ -122,15 +122,17 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
         try {
             archiveInputStream = createArchiveInputStream(archiveFile.getInputStream());
 
-            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry =
-                    archiveInputStream.getNextEntry()) {
+            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry = archiveInputStream
+                    .getNextEntry()) {
 
                 String entryName = entry.getName();
 
                 // Is a directory
                 if (entry.isDirectory() && !flat) {
                     File newDir = new File(destination, entryName);
-                    newDir.mkdirs();
+                    if (!newDir.mkdirs()) {
+                        LOGGER.debug("Directory already exists");
+                    }
                     continue;
                 }
 
@@ -152,7 +154,9 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
                 }
 
                 // Make the directory structure
-                newFile.getParentFile().mkdirs();
+                if (!newFile.getParentFile().mkdirs()) {
+                    LOGGER.debug("Directory already exists");
+                }
                 FileOutputStream fileOutputStream = null;
                 try {
                     fileOutputStream = new FileOutputStream(newFile);
@@ -181,17 +185,17 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
         try {
             archiveInputStream = createArchiveInputStream(archiveFile.getInputStream());
 
-            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry =
-                    archiveInputStream.getNextEntry()) {
+            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry = archiveInputStream
+                    .getNextEntry()) {
 
                 String entryName = entry.getName();
 
                 // Output file pattern check
-                if (!Strings.isNullOrEmpty(outputFilePattern)
-                        && !matcher.match(outputFilePattern, new File(entryName).getName())) {
-                    continue;
+                if (Strings.isNullOrEmpty(outputFilePattern)
+                        || matcher.match(outputFilePattern, new File(entryName).getName())) {
+                    return IOUtils.toBufferedInputStream(archiveInputStream);
                 }
-                return IOUtils.toBufferedInputStream(archiveInputStream);
+
             }
         } finally {
             IOUtils.closeQuietly(archiveInputStream);
@@ -211,18 +215,16 @@ public abstract class AbstractArchiveExtractor<I extends ArchiveInputStream> imp
         try {
             archiveInputStream = createArchiveInputStream(archiveFile.getInputStream());
 
-            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry =
-                    archiveInputStream.getNextEntry()) {
+            for (ArchiveEntry entry = archiveInputStream.getNextEntry(); entry != null; entry = archiveInputStream
+                    .getNextEntry()) {
 
                 String entryName = entry.getName();
 
                 // Output file pattern check
-                if (!Strings.isNullOrEmpty(outputFilePattern)
-                        && !matcher.match(outputFilePattern, new File(entryName).getName())) {
-                    continue;
+                if (Strings.isNullOrEmpty(outputFilePattern)
+                        || matcher.match(outputFilePattern, new File(entryName).getName())) {
+                    return true;
                 }
-
-                return true;
             }
         } finally {
             IOUtils.closeQuietly(archiveInputStream);

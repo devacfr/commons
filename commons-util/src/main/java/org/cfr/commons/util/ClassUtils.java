@@ -41,6 +41,7 @@ public class ClassUtils {
      * @return the default ClassLoader (never <code>null</code>)
      * @see java.lang.Thread#getContextClassLoader()
      */
+    @SuppressWarnings("PMD.EmptyCatchBlock")
     public static ClassLoader getDefaultClassLoader() {
         ClassLoader cl = null;
         try {
@@ -63,7 +64,7 @@ public class ClassUtils {
      * @return The collected related classes found
      */
     public static Set<Class<?>> findAllTypes(final Class<?> cls) {
-        final Set<Class<?>> types = new HashSet<Class<?>>();
+        final Set<Class<?>> types = new HashSet<>();
         findAllTypes(cls, types);
         return types;
     }

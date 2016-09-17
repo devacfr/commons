@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 /**
  * Package-protected helper class for {@link AntPathMatcher}. Tests whether or not a string matches against a pattern
  * using a regular expression.
- *
  * <p>
  * The pattern may contain special characters: '*' means zero or more characters; '?' means one and only one character;
  * '{' and '}' indicate a URI template pattern.
@@ -34,26 +33,32 @@ import java.util.regex.Pattern;
  */
 class AntPathStringMatcher {
 
+    /** */
     private static final Pattern GLOB_PATTERN = Pattern.compile("\\?|\\*|\\{([^/]+?)\\}");
 
+    /** */
     private static final String DEFAULT_VARIABLE_PATTERN = "(.*)";
 
+    /** */
     private final Pattern pattern;
 
-    private String str;
+    /** */
+    private final String str;
 
-    private final List<String> variableNames = new LinkedList<String>();
+    /** */
+    private final List<String> variableNames = new LinkedList<>();
 
+    /** */
     private final Map<String, String> uriTemplateVariables;
 
     /** Construct a new instance of the <code>AntPatchStringMatcher</code>. */
-    AntPathStringMatcher(String pattern, String str, Map<String, String> uriTemplateVariables) {
+    AntPathStringMatcher(final String pattern, final String str, final Map<String, String> uriTemplateVariables) {
         this.str = str;
         this.uriTemplateVariables = uriTemplateVariables;
         this.pattern = createPattern(pattern);
     }
 
-    private Pattern createPattern(String pattern) {
+    private Pattern createPattern(final String pattern) {
         StringBuilder patternBuilder = new StringBuilder();
         Matcher m = GLOB_PATTERN.matcher(pattern);
         int end = 0;
@@ -84,7 +89,7 @@ class AntPathStringMatcher {
         return Pattern.compile(patternBuilder.toString());
     }
 
-    private String quote(String s, int start, int end) {
+    private String quote(final String s, final int start, final int end) {
         if (start == end) {
             return "";
         }

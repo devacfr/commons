@@ -27,22 +27,22 @@ import java.io.Serializable;
 public interface ValidationFailure extends Serializable {
 
     /**
-     * Returns the object that has generated the failure. For example, if a {@code Person} must have a name and a
+     * Gets the object that has generated the failure. For example, if a {@code Person} must have a name and a
      * {@code ValidationFailure} is created when the user attempts to save it, the {@code Person} object would be the
      * failure source.
      *
-     * @return the failure's source or null in case a source cannot be defined.
+     * @return Returns the failure's source or null in case a source cannot be defined.
      */
-    public Object getSource();
+    Object getSource();
 
     /**
-     * Returns an user defined error object.
+     * @return Returns an user defined error object.
      */
-    public Object getError();
+    Object getError();
 
     /**
-     * Returns a String representation of the error object. This is used in log messages and exceptions.
+     * @return Returns a String representation of the error object. This is used in log messages and exceptions.
      */
-    public String getDescription();
+    String getDescription();
 
 }

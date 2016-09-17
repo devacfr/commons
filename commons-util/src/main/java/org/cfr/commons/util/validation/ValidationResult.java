@@ -33,10 +33,14 @@ public class ValidationResult implements Serializable {
      */
     private static final long serialVersionUID = 1579697072241636599L;
 
+    /** */
     private final List<ValidationFailure> failures;
 
+    /**
+     *
+     */
     public ValidationResult() {
-        failures = new ArrayList<ValidationFailure>();
+        failures = new ArrayList<>();
     }
 
     /**
@@ -55,21 +59,21 @@ public class ValidationResult implements Serializable {
     }
 
     /**
-     * Returns all failures added to this result, or empty list is result has no failures.
+     * @return Returns all failures added to this result, or empty list is result has no failures.
      */
     public List<ValidationFailure> getFailures() {
         return Collections.unmodifiableList(failures);
     }
 
     /**
-     * Returns all failures related to the <code>source</code> object, or an empty list if there are no such failures.
-     *
+     * @return Returns all failures related to the <code>source</code> object, or an empty list if there are no such
+     *         failures.
      * @param source
      *            it may be null.
      * @see ValidationFailure#getSource()
      */
     public List<ValidationFailure> getFailures(final Object source) {
-        ArrayList<ValidationFailure> matchingFailures = new ArrayList<ValidationFailure>(5);
+        ArrayList<ValidationFailure> matchingFailures = new ArrayList<>(5);
         for (ValidationFailure failure : failures) {
             if (nullSafeEquals(source, failure.getSource())) {
                 matchingFailures.add(failure);
@@ -80,7 +84,7 @@ public class ValidationResult implements Serializable {
     }
 
     /**
-     * Returns true if at least one failure has been added to this result. False otherwise.
+     * @return Returns {@code true} if at least one failure has been added to this result, {@code false} otherwise.
      */
     public boolean hasFailures() {
         return !failures.isEmpty();

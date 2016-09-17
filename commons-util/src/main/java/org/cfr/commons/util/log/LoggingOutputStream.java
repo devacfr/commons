@@ -18,9 +18,13 @@ package org.cfr.commons.util.log;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.annotation.Nonnull;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.cfr.commons.util.Assert;
+
+import com.google.common.base.Charsets;
 
 /**
  * An OutputStream that flushes out to a Logger.
@@ -36,8 +40,7 @@ import org.cfr.commons.util.Assert;
  * System.setOut(new PrintStream(new LoggingOutputStream(Category.getRoot(), Priority.INFO), true));
  * </pre>
  *
- * @author devacfr<christophefriederich@mac.com>
- * @since1.0
+ * @author devacfr<christophefriederich@mac.com> @since1.0
  */
 public class LoggingOutputStream extends OutputStream {
 
@@ -99,7 +102,8 @@ public class LoggingOutputStream extends OutputStream {
      * @param priority
      *            The Priority to use when writing to the Logger.
      */
-    public LoggingOutputStream(final Class<?> lastFrameworkClass, final Logger log, final Priority priority) {
+    public LoggingOutputStream(@Nonnull final Class<?> lastFrameworkClass, @Nonnull final Logger log,
+            @Nonnull final Priority priority) {
         buffer = new byte[2048];
         bufferLength = buffer.length;
         Assert.notNull(lastFrameworkClass, "lastFrameworkClass cannot be null");
@@ -128,18 +132,17 @@ public class LoggingOutputStream extends OutputStream {
      * destination.
      */
     @Override
-    @SuppressWarnings("CheckStyle")
+    @SuppressWarnings("checkstyle:booleanExpressionComplexity")
     public void flush() {
         if (count == 0) {
             return;
         }
-        // TODO [devacfr] add test before simplify condition
         if (count == LINE_SEPARATOR.length() && (char) buffer[0] == LINE_SEPARATOR.charAt(0)
                 && (count == 1 || count == 2 && (char) buffer[1] == LINE_SEPARATOR.charAt(1))) {
             reset();
             return;
         } else {
-            logger.log(lastFrameworkClassName, priority, new String(buffer, 0, count), null);
+            logger.log(lastFrameworkClassName, priority, new String(buffer, 0, count, Charsets.UTF_8), null);
             reset();
             return;
         }
@@ -159,6 +162,7 @@ public class LoggingOutputStream extends OutputStream {
      *
      * @return Returns the last class for log4j to ignore in a stack trace.
      */
+    @Nonnull
     public String getLastFrameworkClassName() {
         return lastFrameworkClassName;
     }
@@ -168,6 +172,7 @@ public class LoggingOutputStream extends OutputStream {
      *
      * @return Returns the logger to write to.
      */
+    @Nonnull
     public Logger getLogger() {
         return logger;
     }
@@ -177,6 +182,7 @@ public class LoggingOutputStream extends OutputStream {
      *
      * @return Returns the priority to use when writing to the Category.
      */
+    @Nonnull
     public Priority getPriority() {
         return priority;
     }

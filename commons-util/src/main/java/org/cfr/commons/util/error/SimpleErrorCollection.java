@@ -51,8 +51,8 @@ public class SimpleErrorCollection implements IErrorCollection {
      * Create new instance.
      */
     public SimpleErrorCollection() {
-        errors = new HashMap<String, String>(2);
-        errorMessages = new LinkedList<String>();
+        errors = new HashMap<>(2);
+        errorMessages = new LinkedList<>();
     }
 
     /**
@@ -146,7 +146,7 @@ public class SimpleErrorCollection implements IErrorCollection {
      */
     @Override
     public boolean hasAnyErrors() {
-        return (errors != null && !errors.isEmpty()) || (errorMessages != null && !errorMessages.isEmpty());
+        return errors != null && !errors.isEmpty() || errorMessages != null && !errorMessages.isEmpty();
     }
 
     /**
@@ -172,7 +172,7 @@ public class SimpleErrorCollection implements IErrorCollection {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(@Nullable final Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }

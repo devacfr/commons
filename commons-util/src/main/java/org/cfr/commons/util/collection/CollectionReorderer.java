@@ -19,29 +19,50 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ * @param <T>
+ */
 public class CollectionReorderer<T> {
 
+    /**
+     * @param objects
+     * @param toMove
+     */
     public void moveToStart(final List<T> objects, final T toMove) {
         assertContains(objects, toMove);
         objects.remove(toMove);
         objects.add(0, toMove);
     }
 
+    /**
+     * @param objects
+     * @param toMove
+     */
     public void moveToEnd(final List<T> objects, final T toMove) {
         assertContains(objects, toMove);
         objects.remove(toMove);
         objects.add(objects.size(), toMove);
     }
 
+    /**
+     * @param objects
+     * @param toMove
+     */
     public void decreasePosition(final List<T> objects, final T toMove) {
         assertContains(objects, toMove);
         final int initialPosition = objects.indexOf(toMove);
-        if ((initialPosition < 0) || (initialPosition == (objects.size() - 1))) {
+        if (initialPosition < 0 || initialPosition == objects.size() - 1) {
             return;
         }
         moveToPosition(objects, initialPosition, initialPosition + 1);
     }
 
+    /**
+     * @param objects
+     * @param toMove
+     */
     public void increasePosition(final List<T> objects, final T toMove) {
         assertContains(objects, toMove);
         final int initialPosition = objects.indexOf(toMove);
@@ -117,10 +138,10 @@ public class CollectionReorderer<T> {
         final int objectsSize = objects.size();
 
         // If target position is outside the collection
-        final boolean outsideTarget = (targetPosition < 0) || (targetPosition >= objectsSize);
+        final boolean outsideTarget = targetPosition < 0 || targetPosition >= objectsSize;
 
         // If initial position is outside the collection
-        final boolean outsideInitial = (initialPosition < 0) || (initialPosition >= objectsSize);
+        final boolean outsideInitial = initialPosition < 0 || initialPosition >= objectsSize;
 
         if (!outsideTarget && !outsideInitial) {
             objects.add(targetPosition, objects.remove(initialPosition));

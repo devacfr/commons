@@ -27,10 +27,16 @@ public class SimpleValidationFailure implements ValidationFailure {
      */
     private static final long serialVersionUID = 8464118115080226892L;
 
+    /** */
     private final Object source;
 
+    /** */
     private final Object error;
 
+    /**
+     * @param source
+     * @param error
+     */
     public SimpleValidationFailure(final Object source, final Object error) {
         this.source = source;
         this.error = error;
@@ -70,7 +76,7 @@ public class SimpleValidationFailure implements ValidationFailure {
         if (source == null) {
             buffer.append("[General]");
         } else {
-            String sourceLabel = (source instanceof String) ? source.toString() : source.getClass().getName();
+            String sourceLabel = source instanceof String ? source.toString() : source.getClass().getName();
             buffer.append(sourceLabel);
         }
         buffer.append(": ");

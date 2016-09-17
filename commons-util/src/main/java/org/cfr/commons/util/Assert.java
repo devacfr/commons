@@ -28,7 +28,7 @@ import com.google.common.base.Strings;
 /**
  * Assertion utility class that assists in validating arguments. Useful for identifying programmer errors early and
  * clearly at runtime.
- * 
+ *
  * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
  */
@@ -342,8 +342,8 @@ public class Assert {
      */
     public static <T> T[] noNullElements(final T[] array, final String message) {
         if (array != null) {
-            for (int i = 0; i < array.length; i++) {
-                if (array[i] == null) {
+            for (T element : array) {
+                if (element == null) {
                     throw new IllegalArgumentException(message);
                 }
             }
@@ -644,7 +644,7 @@ public class Assert {
             return true;
         }
         for (int i = 0; i < strLen; i++) {
-            if ((Character.isWhitespace(str.charAt(i)) == false)) {
+            if (Character.isWhitespace(str.charAt(i)) == false) {
                 return false;
             }
         }

@@ -26,12 +26,8 @@ import com.google.common.base.Predicate;
  * This iterator decorates the underlying iterator, only allowing through those elements that match the specified
  * {@link Predicate Predicate}.
  *
- * @since Commons Collections 1.0
- * @version $Revision: 366576 $ $Date: 2006-01-06 22:07:07 +0000 (Fri, 06 Jan 2006) $
- * @author James Strachan
- * @author Jan Sorensen
- * @author Ralph Wagner
- * @author Stephen Colebourne
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  */
 class FilteredIterator<T> implements Iterator<T> {
 
@@ -90,10 +86,8 @@ class FilteredIterator<T> implements Iterator<T> {
      */
     @Override
     public T next() {
-        if (!nextObjectSet) {
-            if (!setNextObject()) {
-                throw new NoSuchElementException();
-            }
+        if (!nextObjectSet && !setNextObject()) {
+            throw new NoSuchElementException();
         }
         nextObjectSet = false;
         return nextObject;

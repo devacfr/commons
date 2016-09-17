@@ -34,10 +34,17 @@ import org.cfr.commons.util.compress.AbstractArchiveExtractor;
  */
 public class ZipExtractor extends AbstractArchiveExtractor<ZipArchiveInputStream> {
 
+    /**
+     * @param archiveFile
+     * @throws FileNotFoundException
+     */
     public ZipExtractor(@Nonnull final IResource archiveFile) throws FileNotFoundException {
         super(Assert.checkNotNull(archiveFile, "archiveFile"));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected @Nonnull ZipArchiveInputStream createArchiveInputStream(@Nonnull final InputStream fileInputStream) {
         return new ZipArchiveInputStream(Assert.checkNotNull(fileInputStream, "fileInputStream"));

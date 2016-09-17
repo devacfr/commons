@@ -22,6 +22,10 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.annotation.Nonnull;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * This class is extremely useful for loading resources and classes in a fault tolerant manner that works across
  * different applications servers.
@@ -52,10 +56,12 @@ public final class ClassLoaderUtils {
      *            The name of the class to load
      * @param callingClass
      *            The Class object of the calling object
+     * @return Returns the {@link Class} object associated with the class or interface with the given string name.
      * @throws ClassNotFoundException
      *             If the class cannot be found anywhere.
      */
-    public static Class<?> loadClass(final String className, final Class<?> callingClass) throws ClassNotFoundException {
+    public static Class<?> loadClass(final String className, //
+        final Class<?> callingClass) throws ClassNotFoundException {
         return loadClass(className, callingClass.getClassLoader());
     }
 
@@ -74,6 +80,7 @@ public final class ClassLoaderUtils {
      *            The name of the class to load
      * @param callingClassLoader
      *            The ClassLoader the calling object which will be used to look up className
+     * @return Returns the {@link Class} object associated with the class or interface with the given string name.
      * @throws ClassNotFoundException
      *             If the class cannot be found anywhere.
      */
@@ -110,8 +117,12 @@ public final class ClassLoaderUtils {
      * @param callingClass
      *            The Class object of the calling object
      */
-    public static URL getResource(final String resourceName, final Class<?> callingClass) {
+    @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE",
+            justification = "getResource can return null")
+    public static URL getResource(@Nonnull final String resourceName, @Nonnull final Class<?> callingClass) {
         URL url = null;
+        Assert.checkNotNull(resourceName, "resourceName");
+        Assert.checkNotNull(callingClass, "callingClass");
 
         url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
 
@@ -132,7 +143,9 @@ public final class ClassLoaderUtils {
      * @param locale
      * @param callingClass
      */
-    public static ResourceBundle getBundle(final String resourceName, final Locale locale, final Class<?> callingClass) {
+    public static ResourceBundle getBundle(final String resourceName,
+        final Locale locale,
+        final Class<?> callingClass) {
         ResourceBundle bundle = null;
 
         bundle = ResourceBundle.getBundle(resourceName, locale, Thread.currentThread().getContextClassLoader());
@@ -162,6 +175,8 @@ public final class ClassLoaderUtils {
      * @param callingClass
      *            The Class object of the calling object
      */
+    @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE",
+            justification = "getResource can return null")
     public static Enumeration<URL> getResources(final String resourceName, final Class<?> callingClass)
             throws IOException {
         Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(resourceName);

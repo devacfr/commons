@@ -21,6 +21,8 @@ import java.sql.SQLException;
 import org.cfr.commons.util.jdbc.access.Database;
 import org.cfr.commons.util.jdbc.access.impl.BaseAdapter;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author devacfr<christophefriederich@mac.com>
  * @since 1.0
@@ -39,6 +41,7 @@ public class DerbyAdapter extends BaseAdapter {
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings("ODR_OPEN_DATABASE_RESOURCE")
     public void shudownDatabase() throws SQLException {
         DriverManager.getConnection("jdbc:derby:;shutdown=true");
     }

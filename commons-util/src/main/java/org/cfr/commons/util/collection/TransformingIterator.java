@@ -26,7 +26,9 @@ import com.google.common.base.Function;
  * {@link Function} that converts that I into a V.
  * <p>
  * This implementation is unmodifiable.
- *
+ * 
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
  * @param <I>
  *            the value in the underlying iterator
  * @param <E>
@@ -34,8 +36,10 @@ import com.google.common.base.Function;
  */
 class TransformingIterator<I, E> implements Iterator<E> {
 
+    /** */
     private final Iterator<? extends I> iterator;
 
+    /** */
     private final Function<I, E> decorator;
 
     TransformingIterator(final Iterator<? extends I> iterator, final Function<I, E> decorator) {

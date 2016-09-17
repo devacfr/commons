@@ -15,9 +15,19 @@
  */
 package org.cfr.commons.util.collection;
 
+/**
+ * @author devacfr<christophefriederich@mac.com>
+ * @since 1.0
+ */
 public interface Sized {
 
+    /**
+     * @return
+     */
     int size();
 
+    /**
+     * @return
+     */
     boolean isEmpty();
 }

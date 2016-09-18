@@ -65,4 +65,15 @@
     </profile>
   </profiles>
 
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>jcenter</id>
+      <name>JCenter Repository</name>
+      <url>http://jcenter.bintray.com</url>
+    </repository>
+  </repositories>
+
 </project>
